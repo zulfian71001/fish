@@ -1,0 +1,29 @@
+@extends('layouts.main')
+@section('container')
+
+<div class="flex min-h-screen bg-cover justify-center items-center" style="background-image: url('{{ asset('img/bg1.jpg')}}')">
+  <div class="text-center items-center justify-center bg-[#0d7fa8] bg-opacity-40 min-h-screen min-w-full border-2">
+    <div class="mt-32 mx-[220px] max-w-4xl text-white">
+      <h1 class="mb-10 text-7xl font-bold ">Sistem Distribusi Ikan Konsumsi di Daerah Lamongan</h1>
+      <p class="mb-5">Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem quasi. In deleniti eaque aut repudiandae et a id nisi.</p>
+      <button class="w-24 h-9 rounded-md bg-cyan-500">Get Started</button>
+    </div>
+  </div>
+
+  <form class="absolute bottom-16 w-[800px]">
+    <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+    <div class="relative">
+      <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+        <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+        </svg>
+      </div>
+      <input type="search" id="default-sea rch" class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-cyan-500 focus:border-cyan-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-cyan-500 dark:focus:border-cyan-500" placeholder="Search Mockups, Logos..." required>
+      <button type="submit" class="text-white absolute right-2.5 bottom-2.5 bg-cyan-700 hover:bg-cyan-800 focus:ring-4 focus:outline-none focus:ring-cyan-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800">Search</button>
+    </div>
+  </form>
+</div>
+
+
+@include('partials.footer')
+@endsection
