@@ -3,13 +3,12 @@
 
 <div class="flex min-h-screen bg-cover justify-center items-center" style="background-image: url('{{ asset('img/bg1.jpg')}}')">
   <div class="text-center items-center justify-center bg-[#0d7fa8] bg-opacity-40 min-h-screen min-w-full border-2">
-    <div class="mt-32 mx-[220px] max-w-4xl text-white">
+    <div class="mt-32 mx-[220px] text-white">
       <h1 class="mb-10 text-7xl font-bold ">Sistem Distribusi Ikan Konsumsi di Daerah Lamongan</h1>
       <p class="mb-5">Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem quasi. In deleniti eaque aut repudiandae et a id nisi.</p>
       <button class="w-24 h-9 rounded-md bg-cyan-500">Get Started</button>
     </div>
   </div>
-
   <form class="absolute bottom-16 w-[800px]">
     <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
     <div class="relative">
