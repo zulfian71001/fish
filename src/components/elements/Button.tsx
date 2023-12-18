@@ -1,18 +1,21 @@
+import { MouseEventHandler } from "react"
+
 type Props = {
     children: string
-    classname:string
-    link?:string
+    classname?:string
+    handleOnClick?:MouseEventHandler<HTMLButtonElement>
+    disabled?:boolean
 }
-import Link from "next/link"
+
 
 const Button = (props:Props) => {
-  const {children, classname, link} = props
+  const {children, classname, handleOnClick,disabled} = props
   return (
-    <Link className={`p-2 border-2 rounded-md ${classname}`} href={link || '#'}>
-    <button>
+   
+    <button className={`p-2 border-2 rounded-md ${classname}`} onClick={handleOnClick} disabled={disabled}>
       {children}
     </button>
-    </Link>
+
   )
 }
 
