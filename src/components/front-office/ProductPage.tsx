@@ -1,0 +1,10 @@
+"use client"
+const ProductPage = () => {
+  return (
+    <div>
+      
+    </div>
+  )
+}
+
+export default ProductPage
