@@ -1,6 +1,7 @@
+import { Id } from "@reduxjs/toolkit/dist/tsHelpers";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
 import { StaticImageData } from "next/image";
-import { SetStateAction, Dispatch, MouseEventHandler } from "react";
+import React, { SetStateAction, Dispatch, MouseEventHandler } from "react";
 
 export interface IPaginationProps {
   pageNumber: number;
@@ -88,7 +89,7 @@ export interface searchData {
   perPage: number;
   page: number;
   searchValue: string;
-  sellerId?:string
+  sellerId?: string;
 }
 
 export interface responseDataCategory {
@@ -193,6 +194,13 @@ export interface IHome {
   categories: [];
   products: [];
   product: {};
+  totalProducts: number;
+  perPage: number;
+  errorsMsg: string;
+  successMsg: string;
+  rating_review:[]
+  reviews:[]
+  totalReviews:number
 }
 
 export interface ICart {
@@ -214,15 +222,15 @@ export interface IOrder {
   errorsMsg: string;
   successMsg: string;
   myOrder: {};
-  orderId:string,
-  order:{}
+  orderId: string;
+  order: {};
 }
 
 export interface IPayment {
-  transactionToken:string,
+  transactionToken: string;
   errorsMsg: string;
   successMsg: string;
-  loading:boolean
+  loading: boolean;
 }
 
 export interface requestCart {
@@ -232,11 +240,62 @@ export interface requestCart {
 }
 
 export interface orderProps {
-  price:number
-  products:[]
-  shipping_fee:number
-  shippingInfo:any
-  userId:string
-  navigate:any
-  items:number
+  price: number;
+  products: [];
+  shipping_fee: number;
+  shippingInfo: any;
+  userId: string;
+  navigate: any;
+  items: number;
+}
+
+export interface PropsModal {
+  handleClick: (id: string) => void;
+  closeModal: () => void;
+  modal: boolean;
+  id?: string;
+}
+
+export interface GetOrdersParams {
+  customerId: string;
+  status: string;
+}
+export interface GetDashboardParams {
+  userId: string;
+}
+
+export interface IDashboardUser {
+  recentOrders: [];
+  errorsMsg: string;
+  successMsg: string;
+  totalOrders: number;
+  pendingOrder: number;
+  cancelledOrder: number;
+}
+
+export interface NumberDataDashboardUser {
+  totalOrders?: number;
+  pendingOrder?: number;
+  cancelledOrder?: number;
+}
+
+export interface RatingProps {
+  className?: string;
+  count: number;
+  value: number;
+  color?: string;
+  hoverColor?: string;
+  activeColor?: string;
+  size?: number;
+  edit?: boolean;
+  isHalf?: boolean;
+  onChange?: (value: number) => void;
+  emptyIcon?: React.ReactElement;
+  halfIcon?: React.ReactElement;
+  fullIcon?: React.ReactElement;
+}
+
+export interface reviewProps {
+  rating:number
+  input:string
 }

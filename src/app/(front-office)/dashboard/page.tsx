@@ -1,10 +1,12 @@
 
-const page = () => {
-  return (
-    <div>
-      dashboard
-    </div>
-  )
-}
+import DashboardUser from "@/components/front-office/DashboardUser";
 
-export default page
+const Page = () => {
+  return (
+    <>
+        <DashboardUser/>
+    </>
+  );
+};
+
+export default Page;

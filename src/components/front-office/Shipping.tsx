@@ -248,7 +248,7 @@ const Shipping = () => {
                   <div>
                     <p>Dikirim ke {dataShipping.name}</p>
                     <div className="flex gap-1">
-                      <p className="bg-cyan-300 text-cyan-700 font-medium mr-2 px-2.5 py-0.5 rounded">
+                      <p className="bg-cyan-100 text-cyan-700 font-medium mr-2 px-2 rounded-md">
                         Home
                       </p>
                       <p className=" text-black font-medium">

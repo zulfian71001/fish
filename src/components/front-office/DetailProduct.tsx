@@ -16,6 +16,7 @@ import { AppDispatch, useAppSelector } from "@/GlobalRedux/store";
 import { add_to_cart, messageClear } from "@/GlobalRedux/features/cartReducer";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import Reviews from "./Reviews";
 
 const DetailProduct = ({ productId }: { productId: string }) => {
   const router = useRouter()
@@ -23,6 +24,8 @@ const DetailProduct = ({ productId }: { productId: string }) => {
   const { product } = useAppSelector((state) => state.home);
   const { userInfo } = useAppSelector((state) => state.auth);
   const { errorsMsg, successMsg } = useAppSelector((state) => state.cart);
+  const [quantity, setQuantity] =  useState<number>(1);
+  const [image, setImage] = useState<string>("");
   useEffect(() => {
     dispatch(get_product(productId));
   }, [productId]);
@@ -37,8 +40,23 @@ const DetailProduct = ({ productId }: { productId: string }) => {
       dispatch(messageClear());
     }
   }, [errorsMsg, successMsg]);
-  const stock = 5;
-  const [image, setImage] = useState<string>("");
+
+
+  const inc = () =>{
+    const temp = quantity +1
+    if(temp >= product.stock){
+      toast.error('stok habis')
+    } else{
+      setQuantity(quantity+1)
+    }
+   }
+   const dec = () =>{
+    const temp = quantity - 1
+    if(temp !== 0){
+      setQuantity(quantity-1)
+      
+    }
+   }
   const add_cart = (id: string) => {
     if (!userInfo) {
       router.push("/login");
@@ -48,7 +66,7 @@ const DetailProduct = ({ productId }: { productId: string }) => {
           add_to_cart({
             userId: userInfo._id,
             productId: id,
-            quantity: 1,
+            quantity: quantity,
           })
         );
       }
@@ -58,6 +76,7 @@ const DetailProduct = ({ productId }: { productId: string }) => {
     }
    
   };
+
   return (
     <div className="w-full my-6">
       <div className="flex items-center gap-2 p-4 bg-cyan-100">
@@ -127,22 +146,22 @@ const DetailProduct = ({ productId }: { productId: string }) => {
           <p className="text-slate-700 text-xl">
             {product.desc}
           </p>
-          {stock ? (
+          {product.stock ? (
             <div className="flex items-center gap-6">
-              {/* <div className="flex items-center gap-4 bg-slate-300 text-black rounded-md ">
-                <button className="px-4 py-3">-</button>
-                <p className=" p-3">1</p>
-                <button className="px-4 py-3">+</button>
-              </div> */}
+              <div className="flex items-center gap-4 bg-slate-300 text-black rounded-md ">
+                <button className="px-4 py-3 hover:bg-slate-400" onClick={dec}>-</button>
+                <p className=" p-3">{quantity}</p>
+                <button className="px-4 py-3 hover:bg-slate-400" onClick={inc}>+</button>
+              </div>
               <button className="bg-cyan-500 text-white py-3 px-8 rounded-md hover:bg-cyan-600" onClick={()=>add_cart(productId)}>
-                Add to cart
+                Tambah Ke Keranjang
               </button>
             </div>
           ) : (
             ""
           )}
           <div className="flex gap-6 py-6 items-center">
-            <p className="font-bold text-2xl">Avaibality</p>
+            <p className="font-bold text-2xl">Ketersediaan</p>
             <p className={`text-${product.stock ? "cyan" : "red"}-600`}>
               {product.stock ? `stok ada ${product.stock} kg` : "stok habis"}
             </p>
@@ -156,12 +175,15 @@ const DetailProduct = ({ productId }: { productId: string }) => {
             ) : (
               ""
             )}
-            <button className="bg-slate-300 text-black py-3 px-8 rounded-md hover:bg-slate-400">
+            <button className="bg-slate-300 text-black py-3 px-8 rounded-md hover:bg-slate-400" onClick={()=>router.push(`/dashboard/chat/${product.sellerId}`)}>
               Chat seller
             </button>
           
           </div>
         </div>
+      </div>
+      <div className="">
+      <Reviews productId={product._id} productRating={product.ratings}/>
       </div>
     </div>
   );

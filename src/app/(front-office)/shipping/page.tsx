@@ -1,6 +1,8 @@
-import Footer from "@/components/front-office/Footer"
+import dynamic from "next/dynamic"
 import Navbar from "@/components/front-office/Navbar"
-import Shipping from "@/components/front-office/Shipping"
+const Shipping = dynamic(()=>import("@/components/front-office/Shipping"))
+const Footer = dynamic(()=>import("@/components/front-office/Footer"))
+
 
 
 const page = () => {

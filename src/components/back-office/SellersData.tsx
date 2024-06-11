@@ -159,7 +159,7 @@ const SellersData = () => {
           <Pagination
           pageNumber={currentPage}
           setPageNumber={setCurrentPage}
-          totalItems={50}
+          totalItems={totalSellers}
           perPage={perPage}
           showItems={3}
         />

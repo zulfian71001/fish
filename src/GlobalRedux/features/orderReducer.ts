@@ -1,5 +1,5 @@
 import api from "@/app/api/api";
-import { ICart, IOrder, orderProps, RejectedAction, requestCart } from "@/utils/types";
+import { GetOrdersParams, ICart, IOrder, orderProps, RejectedAction, requestCart } from "@/utils/types";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState: IOrder = {
@@ -27,6 +27,31 @@ export const place_order = createAsyncThunk(
   }
 );
 
+export const get_orders = createAsyncThunk(
+  "order/get_orders", async({customerId, status}:GetOrdersParams, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const { data } = await api.get(`/home/order/get-orders/${customerId}/${status}`);
+      console.log(data);
+      return fulfillWithValue(data);
+    } catch (error: RejectedAction | any) {
+      console.log(error.response.data.error);
+      return rejectWithValue(error.response.data.error);
+    }
+  }
+)
+
+export const get_order = createAsyncThunk(
+  "order/get_order", async(orderId:string , { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const { data } = await api.get(`/home/order/get-order/${orderId}`);
+      console.log(data);
+      return fulfillWithValue(data);
+    } catch (error: RejectedAction | any) {
+      console.log(error.response.data.error);
+      return rejectWithValue(error.response.data.error);
+    }
+  }
+)
 
 const orderSlice = createSlice({
   name: "order",
@@ -46,6 +71,12 @@ const orderSlice = createSlice({
       })
       .addCase(place_order.rejected, (state, action) => {
         state.errorsMsg = action.payload as string;
+      })    
+      .addCase(get_orders.fulfilled, (state, action) => {
+        state.myOrders = action.payload.orders;
+      })
+      .addCase(get_order.fulfilled, (state, action) => {
+        state.myOrder = action.payload.order;
       })
     //   .addCase(get_products_cart.fulfilled, (state, action) => {
     //     state.cart_products = action.payload.cart_products;

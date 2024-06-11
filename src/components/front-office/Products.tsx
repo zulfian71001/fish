@@ -4,8 +4,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch, useAppSelector } from "@/GlobalRedux/store";
 import { get_products } from "@/GlobalRedux/features/homeReducer";
-import { searchData, PropsProduct } from "@/utils/types";
-import { useRouter, redirect } from "next/navigation";
+import { useRouter} from "next/navigation";
 import { add_to_cart, messageClear } from "@/GlobalRedux/features/cartReducer";
 import toast from "react-hot-toast";
 
@@ -50,7 +49,7 @@ const Products = () => {
    
   };
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 my-10">
+    <div className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 gap-4 my-10">
       {products &&
         products.map((data: any, i: number) => (
           <Product

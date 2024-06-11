@@ -5,7 +5,7 @@ import gambar from "@/assets/images.jpeg";
 
 const ListChat = () => {
   return (
-    <div className="bg-white p-8 space-y-4 rounded-xl">
+    <div className="bg-white p-8 space-y-4 rounded-xl text-white">
       <div className="flex justify-between items-center">
         <Heading title="Chat terakhir" />
         <p>view all</p>

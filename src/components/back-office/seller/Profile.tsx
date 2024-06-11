@@ -79,12 +79,12 @@ const Profile = () => {
     <>
       <section className="h-full flex flex-col justify-between space-y-6 ">
         <div className="flex flex-col lg:flex-row items-center gap-6 ">
-          <div className=" flex w-full lg:w-1/3 bg-slate-800 rounded-xl p-8 items-center">
+          <div className=" flex w-full lg:w-1/3 bg-white rounded-xl p-8 items-center">
             {userInfo?.image ? (
               <div className="flex items-center justify-center w-full">
                 <label
                   htmlFor="dropzone-file"
-                  className="flex flex-col items-center justify-center w-full h-64 border-2 border-dashed rounded-lg cursor-pointer  bg-gray-700  border-gray-600 hover:border-gray-500 hover:bg-gray-600 relative"
+                  className="flex flex-col items-center justify-center w-full h-64 border-2 border-dashed rounded-lg cursor-pointer  bg-slate-50  border-gray-600 hover:border-gray-500 hover:bg-gray-600 relative"
                 >
                   <Image
                     src={userInfo.image}
@@ -105,7 +105,7 @@ const Profile = () => {
               <div className="flex items-center justify-center w-full">
                 <label
                   htmlFor="dropzone-file"
-                  className="flex flex-col items-center justify-center w-full h-64 border-2 border-dashed rounded-lg cursor-pointer  bg-gray-700  border-gray-600 hover:border-gray-500 hover:bg-gray-600"
+                  className="flex flex-col items-center justify-center w-full h-64 border-2 border-dashed rounded-lg cursor-pointer  bg-slate-50  border-gray-600 hover:border-gray-500 hover:bg-slate-100"
                 >
                   <div className="flex flex-col items-center justify-center pt-5 pb-6">
                     {loader ? (
@@ -165,9 +165,9 @@ const Profile = () => {
               </div>
             )}
           </div>
-          <div className="flex flex-col lg:flex-wrap w-full lg:w-2/3 gap-6 bg-slate-800 rounded-xl p-8">
-            <div className="relative rounded-xl p-4 pr-24 bg-slate-900 ">
-              <button className=" w-10 h-10 flex justify-center items-center rounded-sm bg-yellow-400 hover:bg-yellow-600 absolute top-2 right-2">
+          <div className="flex flex-col lg:flex-wrap w-full lg:w-2/3 gap-6 bg-white text-slate-700 rounded-xl p-8">
+            <div className="relative rounded-xl p-4 pr-24 bg-slate-100 ">
+              <button className=" w-10 h-10 flex justify-center items-center rounded-sm bg-yellow-300 hover:bg-yellow-400 text-white absolute top-2 right-2">
                 <SquarePen />
               </button>
               <div className="space-y-4 ">
@@ -271,8 +271,8 @@ const Profile = () => {
             </button>
               </form>
             ) : (
-              <div className="relative rounded-xl p-4 pr-24 bg-slate-900 ">
-                <button className=" w-10 h-10 flex justify-center items-center rounded-sm bg-yellow-400 hover:bg-yellow-600 absolute top-2 right-2">
+              <div className="relative rounded-xl p-4 pr-24 bg-slate-100 ">
+                <button className=" w-10 h-10 flex justify-center items-center rounded-sm bg-yellow-300 hover:bg-yellow-400 text-white absolute top-2 right-2">
                   <SquarePen />
                 </button>
                 <div className="space-y-4 ">
@@ -284,18 +284,18 @@ const Profile = () => {
               </div>
             )}
 
-            <form className="space-y-6 relative rounded-xl p-6 bg-slate-900" onSubmit={handleFormUpdatePassword}>
+            <form className="space-y-6 relative rounded-xl p-6 bg-slate-100" onSubmit={handleFormUpdatePassword}>
               <div>
                 <label
                   htmlFor="email"
-                  className="block mb-2 text-sm font-medium text-white"
+                  className="block mb-2 text-sm font-medium text-slate-700"
                 >
                   Email
                 </label>
                 <input
                   type="text"
                   name="email"
-                  className="border text-sm rounded-lg outline-none block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-cyan-500 focus:border-cyan-500"
+                  className="border  text-sm rounded-lg outline-none block w-full p-2.5 border-gray-600 placeholder-gray-400 text-slate-700 focus:border-cyan-500"
                   placeholder="ketikkan email anda"
                   onChange={handleChangeUpdatePassword}
                 />
@@ -303,14 +303,14 @@ const Profile = () => {
               <div>
                 <label
                   htmlFor="oldPassword"
-                  className="block mb-2 text-sm font-medium text-white"
+                  className="block mb-2 text-sm font-medium text-slate-700"
                 >
                   Password lama
                 </label>
                 <input
                   type="password"
                   name="oldPassword"
-                  className=" border  text-sm rounded-lg outline-none block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-cyan-500 focus:border-cyan-500"
+                  className=" border  text-sm rounded-lg outline-none block w-full p-2.5 border-gray-600 placeholder-gray-400 text-slate-700 focus:border-cyan-500"
                   placeholder="ketikkan password lama anda"
                   onChange={handleChangeUpdatePassword}
                 />
@@ -318,14 +318,14 @@ const Profile = () => {
               <div>
                 <label
                   htmlFor="newPassword"
-                  className="block mb-2 text-sm font-medium text-white"
+                  className="block mb-2 text-sm font-medium text-slate-700"
                 >
                   Password baru
                 </label>
                 <input
                   type="password"
                   name="newPassword"
-                  className=" border  text-sm rounded-lg outline-none block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-cyan-500 focus:border-cyan-500"
+                  className=" border  text-sm rounded-lg outline-none block w-full p-2.5 border-gray-600 placeholder-gray-400 text-slate-700 focus:border-cyan-500"
                   placeholder="ketikkan password baru anda"
                   onChange={handleChangeUpdatePassword}
                 />

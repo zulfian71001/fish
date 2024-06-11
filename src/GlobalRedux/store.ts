@@ -9,6 +9,7 @@ import sellerReducer from "./features/sellerReducer"
 import homeReducer from "./features/homeReducer"
 import cartReducer from "./features/cartReducer";
 import orderReducer from "./features/orderReducer";
+import dashboardUser from "./features/dashboardReducer"
 import paymentReducer from "./features/paymentReducer";
 
 const createNoopStorage = () => {
@@ -44,7 +45,8 @@ const rootReducer:any = combineReducers({
   home:homeReducer,
   cart:cartReducer,
   order:orderReducer,
-  payment:paymentReducer
+  payment:paymentReducer,
+  dashboardUser:dashboardUser
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

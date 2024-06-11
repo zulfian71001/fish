@@ -25,22 +25,22 @@ const sidebarContent = [
     url: "/admin/dashboard",
   },
   {
-    name: "Catagories",
+    name: "Semua Kategori",
     icon: <LayoutList />,
     url: "/admin/dashboard/categories",
   },
   {
-    name: "Sellers",
+    name: "Semua Seller",
     icon: <Users />,
     url: "/admin/dashboard/sellers",
   },
   {
-    name: "Status Sellers",
+    name: "Status Semua Seller",
     icon: <Users />,
     url: "/admin/dashboard/sellers-status",
   },
   {
-    name: "Orders",
+    name: "Semua Order",
     icon: <ShoppingBasket />,
     url: "/admin/dashboard/orders",
   },
@@ -105,7 +105,7 @@ const Sidebar = () => {
         <Link href="#" className="flex pl-6 mb-1 py-3 relative">
           <Image src={Logo} alt="logo" width={500} height={500} className="w-28"/>
         </Link>
-        <div className=" flex flex-col ">
+        <div className=" flex flex-col space-y-1 ">
           {sidebarContent.map((item, i) => (
             <Link
               href={item.url}

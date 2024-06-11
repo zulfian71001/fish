@@ -7,7 +7,7 @@ import Ratings from "./Ratings"
 const Product = (props: PropsProduct) => {
   const { images, name, price, rating, id, category, shopName, onClickHandle } = props;
   return (
-    <div className="w-60 h-96 border-2 border-slate-300 hover:shadow-2xl rounded-lg pb-8 transition-all duration-150 ease-in">
+    <div className="transition-all duration-300 h-[360px] md:w-[175px] md:h-96 border-2 border-slate-300 hover:shadow-2xl rounded-lg pb-8 ease-in">
       <div className="w-full h-2/3 relative">
         {Array.isArray(images) && (
           <Image

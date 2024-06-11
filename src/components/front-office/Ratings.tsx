@@ -8,7 +8,7 @@ const Ratings = ({ ratings }: { ratings: number }) => {
         <span className="text-yellow-300">
           <FaStar />
         </span>
-      ) : ratings <= 0.5 ? (
+      ) : ratings >= 0.5 ? (
         <span className="text-yellow-300">
           <FaStarHalf />
         </span>
@@ -21,7 +21,7 @@ const Ratings = ({ ratings }: { ratings: number }) => {
         <span className="text-yellow-300">
           <FaStar />
         </span>
-      ) : ratings <= 1.5 ? (
+      ) : ratings >= 1.5 ? (
         <span className="text-yellow-300 ">
           <FaStarHalf />
         </span>
@@ -34,7 +34,7 @@ const Ratings = ({ ratings }: { ratings: number }) => {
         <span className="text-yellow-300">
           <FaStar />
         </span>
-      ) : ratings <= 2.5 ? (
+      ) : ratings >= 2.5 ? (
         <span className="text-yellow-300">
           <FaStarHalf />
         </span>
@@ -47,7 +47,7 @@ const Ratings = ({ ratings }: { ratings: number }) => {
         <span className="text-yellow-300">
           <FaStar />
         </span>
-      ) : ratings <= 3.5 ? (
+      ) : ratings >= 3.5 ? (
         <span className="text-yellow-300">
           <FaStarHalf />
         </span>
@@ -60,7 +60,7 @@ const Ratings = ({ ratings }: { ratings: number }) => {
         <span className="text-yellow-300">
           <FaStar />
         </span>
-      ) : ratings <= 4.5 ? (
+      ) : ratings >= 4.5 ? (
         <span className="text-yellow-300">
           <FaStarHalf />
         </span>

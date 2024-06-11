@@ -7,7 +7,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
     <div className="flex">
       <Sidebar />
       <div className="w-full">
-        <main className=" bg-slate-950 text-white min-h-screen mt-10">
+        <main className=" bg-slate-200 text-cyan-500 min-h-screen mt-10">
           <HeaderDashboard />
           <Toaster/>
           {children}

@@ -7,10 +7,10 @@ const Banner = () => {
     <div className=" flex h-56 sm:h-64 xl:h-[600px] 2xl:h-[800px] my-6 object-center object-contain">
       <Carousel className="w-full h-full">
         {
-          [1,2,3,4,5].map((img:any, i:number) => (
+          [1,2,3].map((img:any, i:number) => (
             <Image
             key={i}
-            src={`/images/${img}.jpg`}
+            src={`/images/banner${img}.jpg`}
             alt="gambar"
             width={500}
             height={500}

@@ -11,7 +11,7 @@ import {
   add_product,
   messageClear,
 } from "@/GlobalRedux/features/productReducer";
-import { get_category } from "@/GlobalRedux/features/categoryReducer";
+import { get_categories } from "@/GlobalRedux/features/categoryReducer";
 import toast from "react-hot-toast";
 
 const AddProduct = () => {
@@ -89,7 +89,7 @@ useEffect(() => {
     page: currentPage,
     searchValue,
   };
-  dispatch(get_category(obj));
+  dispatch(get_categories(obj));
 }, [perPage, searchValue, currentPage, dispatch])
 
   useEffect(() => {
@@ -114,7 +114,7 @@ useEffect(() => {
 
   return (
     <>
-      <section className="p-8 rounded-xl space-y-4 bg-slate-800">
+      <section className="p-8 rounded-xl space-y-4 bg-white">
         <div className="flex items-center justify-between">
           <Heading title={"Tambah Produk"} />
           <button
@@ -136,7 +136,7 @@ useEffect(() => {
               <div>
                 <label
                   htmlFor="name"
-                  className="block mb-2 text-sm font-medium text-white"
+                  className="block mb-2 text-sm font-medium text-slate-700"
                 >
                   Nama produk
                 </label>
@@ -144,12 +144,12 @@ useEffect(() => {
                   type="text"
                   name="name"
                   onChange={handleChange}
-                  className=" border  text-sm rounded-lg outline-none block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-cyan-500 focus:border-cyan-500"
+                  className="border  text-sm rounded-lg outline-none block w-full p-2.5 border-gray-600 placeholder-gray-400 text-slate-700 focus:border-cyan-500"
                   placeholder="ketikkan nama produk"
                 />
               </div>
               <select
-                className="bg-slate-900 border-none outline-none h-12 lg:mt-6"
+                className="border text-sm rounded-lg border-gray-600 text-slate-700 focus:border-cyan-500 outline-none h-12 lg:mt-6 "
                 onChange={handleChange}
                 name="categoryName"
                 defaultValue=""
@@ -167,7 +167,7 @@ useEffect(() => {
               <div>
                 <label
                   htmlFor="stock"
-                  className="block mb-2 text-sm font-medium text-white"
+                  className="block mb-2 text-sm font-medium text-slate-700"
                 >
                   Stok
                 </label>
@@ -176,14 +176,14 @@ useEffect(() => {
                   min={0}
                   name="stock"
                   onChange={handleChange}
-                  className=" border  text-sm rounded-lg outline-none block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-cyan-500 focus:border-cyan-500"
+                  className=" border  text-sm rounded-lg outline-none block w-full p-2.5 border-gray-600 placeholder-gray-400 text-slate-700 focus:border-cyan-500"
                   placeholder="ketikkan nama stok"
                 />
               </div>
               <div>
                 <label
                   htmlFor="price"
-                  className="block mb-2 text-sm font-medium text-white"
+                  className="block mb-2 text-sm font-medium text-slate-700"
                 >
                   Harga
                 </label>
@@ -192,21 +192,21 @@ useEffect(() => {
                   min={0}
                   name="price"
                   onChange={handleChange}
-                  className=" border  text-sm rounded-lg outline-none block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-cyan-500 focus:border-cyan-500"
+                  className=" border  text-sm rounded-lg outline-none block w-full p-2.5 border-gray-600 placeholder-gray-400 text-slate-700 focus:border-cyan-500"
                   placeholder="ketikkan nama harga"
                 />
               </div>
               <div>
                 <label
                   htmlFor="desc"
-                  className="block mb-2 text-sm font-medium text-white"
+                  className="block mb-2 text-sm font-medium text-slate-700"
                 >
                   Deskripsi
                 </label>
                 <textarea
                   name="desc"
                   onChange={handleChange}
-                  className=" border  text-sm rounded-lg outline-none block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-cyan-500 focus:border-cyan-500"
+                  className=" border  text-sm rounded-lg outline-none block w-full p-2.5 border-gray-600 placeholder-gray-400 text-slate-700 focus:border-cyan-500"
                   placeholder="ketikkan nama deskripsi"
                 />
               </div>
@@ -233,7 +233,7 @@ useEffect(() => {
                   />
                   <span
                     onClick={() => removeImage(i)}
-                    className="p-2 z-10 cursor-pointer text-white bg-slate-700 hover:shadow hover:shadow-slate-400/50 absolute  top-1 left-1 rounded-full"
+                    className="p-2 z-10 cursor-pointer text-slate-700 bg-slate-700 hover:shadow hover:shadow-slate-400/50 absolute  top-1 left-1 rounded-full"
                   >
                     <X />
                   </span>
@@ -242,7 +242,7 @@ useEffect(() => {
               <div className="flex items-center justify-center w-full">
                 <label
                   htmlFor="dropzone-file"
-                  className="flex flex-col items-center justify-center w-full h-64 border-2 border-dashed rounded-lg cursor-pointer  bg-gray-700  border-gray-600 hover:border-gray-500 hover:bg-gray-600"
+                  className="flex flex-col items-center justify-center w-full h-64 border-2 border-dashed rounded-lg cursor-pointer  bg-white  border-slate-700 hover:border-cyan-500 hover:bg-slate-50"
                 >
                   <div className="flex flex-col items-center justify-center pt-5 pb-6">
                     <svg
@@ -264,7 +264,7 @@ useEffect(() => {
                       <span className="font-semibold">Click to upload</span> or
                       drag and drop
                     </p>
-                    <p className="text-xs  text-gray-400">
+                    <p className="ml-2 text-xs  text-gray-400">
                       SVG, PNG, JPG or GIF (MAX. 800x400px)
                     </p>
                   </div>

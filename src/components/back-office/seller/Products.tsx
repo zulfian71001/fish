@@ -29,9 +29,9 @@ const Products = () => {
   }, [perPage, searchValue, currentPage, dispatch]);
   return (
     <>
-      <section className="p-8 rounded-xl space-y-4 bg-slate-800">
+      <section className="p-8 rounded-xl space-y-4 bg-white">
         <div className="flex w-full items-center justify-between">
-          <select className="bg-slate-900 border-none">
+          <select className="bg-cyan-500 text-white border-none">
             <option value="5">5</option>
             <option value="10">10</option>
             <option value="15">15</option>
@@ -64,7 +64,7 @@ const Products = () => {
               <input
                 type="search"
                 id="default-search"
-                className="block w-full p-4 ps-10 text-sm text-white rounded-lg bg-transparent focus:ring-cyan-300 border-2 border-slate-500 "
+                className="block w-full p-4 ps-10 text-sm text-slate-700 rounded-lg bg-transparent focus:ring-cyan-300 border-2 border-slate-500 "
                 placeholder="Search "
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   setSearchValue(e.target.value)
@@ -75,7 +75,7 @@ const Products = () => {
         </div>
         <div className="relative overflow-x-auto">
           <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 rounded-md">
-            <thead className="text-xs uppercase bg-slate-950 text-slate-100  dark:bg-gray-700 dark:text-gray-400">
+            <thead className="text-xs uppercase bg-cyan-600 text-white  dark:bg-gray-700 dark:text-gray-400">
               <tr>
                 <th scope="col" className="px-6 py-3">
                   No
@@ -108,7 +108,7 @@ const Products = () => {
                 products.map((data: IDataMapProduct, i: number) => (
                   <tr
                     key={i}
-                    className="bg-slate-900 border-b dark:bg-gray-800 text-slate-100  dark:border-gray-700"
+                    className="bg-cyan-500 border-b dark:bg-gray-800 text-white  dark:border-gray-700"
                   >
                     <td className="px-6 py-4">{i + 1}</td>
                     <td className="px-6 py-4 relative">
@@ -133,14 +133,14 @@ const Products = () => {
                     <td className=" px-6 py-4 items-center ">
                       <div className="flex  items-center gap-4">
                         <button
-                          className=" w-10 h-10 flex justify-center items-center rounded-xl bg-yellow-400 hover:bg-yellow-600"
+                          className=" w-10 h-10 flex justify-center items-center rounded-xl bg-yellow-300 hover:bg-yellow-400"
                           onClick={()=>router.push(
                             `/seller/dashboard/products/edit-product/${data._id}`
                           )}
                         >
                           <SquarePen />
                         </button>
-                        <button className="w-10 h-10 flex justify-center items-center rounded-xl bg-red-600 hover:bg-red-800">
+                        <button className="w-10 h-10 flex justify-center items-center rounded-xl bg-red-500 hover:bg-red-600">
                           <Trash2 />
                         </button>
                       </div>

@@ -38,7 +38,7 @@ const sidebarContent = [
     url: "/seller/dashboard/products",
   },
   {
-    name: "Orders",
+    name: "Semua Order",
     icon: <ShoppingBasket />,
     url: "/seller/dashboard/orders",
   },
@@ -48,7 +48,7 @@ const sidebarContent = [
     url: "/seller/dashboard/payment",
   },
   {
-    name: "Chat Customers",
+    name: "Chat Semua Pembeli",
     icon: <MessageCircle />,
     url: "/seller/dashboard/customers-chat",
   },
@@ -76,25 +76,25 @@ const Sidebar = () => {
   return (
     <>
       <div
-        className={`hidden lg:block bg-slate-50 space-x-6 w-60 h-screen text-slate-700 fixed top-0 left-0`}
+        className={`hidden lg:block bg-cyan-500 w-60 h-screen text-white fixed top-0 left-0`}
       >
          <Link href="#" className="flex pl-6 mb-6 py-4 relative">
           <Image src={Logo} alt="logo" width={500} height={500} className="w-28"/>
         </Link>
-        <div className=" flex flex-col space-y-6 ">
+        <div className=" flex flex-col space-y-1 ">
           {sidebarContent.map((item, i) => (
             <Link
               href={item.url}
               key={i}
-              className={`flex gap-3 hover:text-cyan-300 ${
-                item.url === pathname ? "text-cyan-300" : ""
+              className={`flex gap-3 hover:bg-white/30 py-3 px-5 rounded-lg mx-1 ${
+                item.url === pathname ? "bg-white/30" : ""
               }`}
             >
               <div>{item.icon}</div>
               <p>{item.name}</p>
             </Link>
           ))}
-          <button className={`flex gap-3 hover:text-cyan-300 cursor-pointer `} onClick={handleLogout}>
+          <button className={`flex gap-3 hover:bg-white/30 py-3 px-5 rounded-lg mx-1  `} onClick={handleLogout}>
             <div>
               <LogOut />
             </div>
@@ -105,7 +105,7 @@ const Sidebar = () => {
       <div
         className={`transition-all duration-500 ease-in ${
           isOpen
-            ? "block bg-slate-700 space-x-6 w-60 h-screen text-white fixed top-0 left-0 z-30"
+            ? "block bg-cyan-500 w-60 h-screen text-white fixed top-0 left-0 z-30"
             : "hidden "
         }`}
       >
@@ -115,23 +115,23 @@ const Sidebar = () => {
         >
           <X />
         </button>
-        <Link href="#" className="flex pl-6 mb-6 py-4">
-          Logo
+        <Link href="#" className="flex pl-6 mb-1 py-3 relative">
+        <Image src={Logo} alt="logo" width={500} height={500} className="w-28"/>
         </Link>
-        <div className=" flex flex-col space-y-6 ">
+        <div className=" flex flex-col space-y-1">
           {sidebarContent.map((item, i) => (
             <Link
               href={item.url}
               key={i}
-              className={`flex gap-3 hover:text-cyan-300 ${
-                item.url === pathname ? "text-cyan-300" : ""
+              className={`flex gap-3 py-3 px-5 mx-1  rounded-lg hover:bg-white/30 ${
+                item.url === pathname ? "bg-white/30" : ""
               }`}
             >
               <div>{item.icon}</div>
               <p>{item.name}</p>
             </Link>
           ))}
-          <button className={`flex gap-3 hover:text-cyan-300 cursor-pointer `} onClick={handleLogout}>
+          <button className={`flex gap-3 py-3 px-5 mx-1 hover:bg-white/30 rounded-lg cursor-pointer`} onClick={handleLogout}>
             <div>
               <LogOut />
             </div>
@@ -140,10 +140,10 @@ const Sidebar = () => {
         </div>
       </div>
       <button
-        className={`lg:hidden h-[88px] w-20 z-20 flex justify-center items-center fixed top-0 left-0 bg-slate-700 text-white cursor-pointer hover:bg-slate-800`}
+        className={`lg:hidden h-[88px] w-20 z-20 flex justify-center items-center fixed top-0 left-0 bg-cyan-500 text-white cursor-pointer hover:bg-cyan-600`}
         onClick={() => setIsOpen(true)}
       >
-        <RxHamburgerMenu />
+        <RxHamburgerMenu className="font-bold text-lg"/>
       </button>
     </>
   );

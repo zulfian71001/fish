@@ -3,26 +3,26 @@ import React, { useEffect, useState } from "react";
 import { Trash2, SquarePen } from "lucide-react";
 import Pagination from "./Pagination";
 import Image from "next/image";
-import ikan from "@/assets/ikan.jpeg";
-import ikan2 from "@/assets/ikan2.jpeg";
-import ikan3 from "@/assets/ikan3.jpeg";
 import { useDispatch } from "react-redux";
 import { AppDispatch, useAppSelector } from "@/GlobalRedux/store";
-import { delete_category, get_categories } from "@/GlobalRedux/features/categoryReducer";
 import {
-  IDataCategory,
-  requestDataCategory,
-  searchData
-} from "@/utils/types";
-import { StaticImport } from "next/dist/shared/lib/get-img-props";
+  delete_category,
+  get_categories,
+} from "@/GlobalRedux/features/categoryReducer";
+import { IDataCategory, searchData } from "@/utils/types";
+import Modal from "@/components/front-office/Modal";
+import { useRouter } from "next/navigation";
 
 const ProductCategory = () => {
+  const router = useRouter()
   const dispatch = useDispatch<AppDispatch>();
-  const { categories, totalCategories } = useAppSelector((state) => state.category);
+  const { categories, totalCategories } = useAppSelector(
+    (state) => state.category
+  );
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [perPage, setPerPage] = useState<number>(5);
   const [searchValue, setSearchValue] = useState<string>("");
-  const [show, setShow] = useState<boolean>(false);
+  const [showModal, setShowModal] = useState<boolean>(false);
   useEffect(() => {
     const obj: searchData = {
       perPage: perPage,
@@ -32,9 +32,13 @@ const ProductCategory = () => {
     dispatch(get_categories(obj));
   }, [perPage, searchValue, currentPage, dispatch]);
 
-const deleteCategory = (id:string) =>{
-dispatch(delete_category(id))
-}
+  const deleteCategory = (id: string) => {
+    dispatch(delete_category(id));
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false); 
+  };
 
   return (
     <>
@@ -76,7 +80,7 @@ dispatch(delete_category(id))
               <input
                 type="search"
                 id="default-search"
-                className="block w-full p-4 ps-10 text-sm text-white rounded-lg bg-transparent focus:ring-cyan-300 border-2 border-slate-500 "
+                className="block w-full p-4 ps-10 text-sm text-white rounded-lg bg-transparent focus:ring-cyan-300 border-2 border-slate-400 "
                 placeholder="Search "
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   setSearchValue(e.target.value)
@@ -110,7 +114,7 @@ dispatch(delete_category(id))
                     className="bg-cyan-500 border-b dark:bg-gray-800 text-slate-100  dark:border-gray-700"
                     key={i}
                   >
-                    <td className="px-6 py-4">{i+1}</td>
+                    <td className="px-6 py-4">{i + 1}</td>
                     <td className="px-6 py-4 relative">
                       <Image
                         src={item.image}
@@ -122,14 +126,23 @@ dispatch(delete_category(id))
                     <td className="px-6 py-4">{item.name}</td>
                     <td className=" px-6 py-4 items-center ">
                       <div className="flex  items-center gap-4">
-                        <button className=" w-10 h-10 flex justify-center items-center rounded-xl bg-yellow-300 hover:bg-yellow-400">
+                        <button className=" w-10 h-10 flex justify-center items-center rounded-xl bg-yellow-300 hover:bg-yellow-400" onClick={()=>router.push(`/admin/dashboard/categories/edit-category/${item._id}`)}>
                           <SquarePen />
-                        </button>  
-                        <button className="w-10 h-10 flex justify-center items-center rounded-xl bg-red-500 hover:bg-red-600" onClick={()=>deleteCategory(item._id)} >
+                        </button>
+                        <button
+                          className="w-10 h-10 flex justify-center items-center rounded-xl bg-red-500 hover:bg-red-600"
+                          onClickCapture={() => setShowModal(true)}
+                        >
                           <Trash2 />
                         </button>
                       </div>
                     </td>
+                    <Modal
+                      id={item._id}
+                      handleClick={() => deleteCategory(item._id)}
+                      modal={showModal}
+                      closeModal={handleCloseModal}
+                    />
                   </tr>
                 ))}
             </tbody>
@@ -138,13 +151,13 @@ dispatch(delete_category(id))
         {totalCategories <= perPage ? (
           ""
         ) : (
-        <Pagination
-          pageNumber={currentPage}
-          setPageNumber={setCurrentPage}
-          totalItems={50}
-          perPage={perPage}
-          showItems={3}
-        />
+          <Pagination
+            pageNumber={currentPage}
+            setPageNumber={setCurrentPage}
+            totalItems={totalCategories}
+            perPage={perPage}
+            showItems={3}
+          />
         )}
       </section>
     </>

@@ -7,16 +7,21 @@ import { AppDispatch, useAppSelector } from "@/GlobalRedux/store";
 import { useEffect } from "react";
 import { delete_products_cart, get_products_cart, messageClear, quantity_dec, quantity_inc } from "@/GlobalRedux/features/cartReducer";
 import toast from "react-hot-toast";
+import Modal from "./Modal";
 
 const Carts = (props:CartsProps) => {
   const dispatch = useDispatch<AppDispatch>();
   const { userInfo } = useAppSelector((state) => state.auth);
   const {successMsg, errorsMsg} = useAppSelector((state) => state.cart);
   const [count, setCount] = useState<number>(0);
+  const [showModal, setShowModal] = useState<boolean>(false);
   const {name,products} = props
   const deleteProduct = (cartId:any) => {
     dispatch(delete_products_cart(cartId))
   }
+  const handleCloseModal = () => {
+    setShowModal(false); 
+  };
 
   useEffect(() => {
     if (errorsMsg) {
@@ -66,17 +71,15 @@ const Carts = (props:CartsProps) => {
               +
             </button>
           </div>
-          <button className="p-2 px-6 bg-red-700 rounded-md text-slate-50" onClick={()=>deleteProduct(data._id)}>
+          <button className="p-2 px-6 bg-red-700 rounded-md text-slate-50" onClick={()=>setShowModal(true)}>
             Delete
           </button>
         </div>
         </div>
-      
+        <Modal id={data._id} handleClick={()=>deleteProduct(data._id)} modal={showModal} closeModal={handleCloseModal}/>
       </div>
         ))
       }
-    
-    
     </div>
   )
 }

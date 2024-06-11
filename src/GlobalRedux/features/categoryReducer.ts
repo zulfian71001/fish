@@ -41,11 +41,11 @@ export const add_category = createAsyncThunk(
 
 export const get_category = createAsyncThunk(
   "category/get_category",
-  async (_, { rejectWithValue, fulfillWithValue }) => {
+  async (categoryId:string, { rejectWithValue, fulfillWithValue }) => {
     try {
 
       const { data } = await api.get(
-        `/get-category`,
+        `/get-category/${categoryId}`,
         {
           withCredentials: true,
         }
