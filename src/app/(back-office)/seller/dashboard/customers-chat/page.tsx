@@ -1,5 +1,4 @@
-import dynamic from "next/dynamic" 
-const CustomersChat= dynamic(()=>import("@/components/back-office/seller/CustomersChat")) 
+import CustomersChat from "@/components/back-office/seller/CustomersChat"
 
 
 const Page = () => {

@@ -5,47 +5,103 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { AppDispatch, useAppSelector } from "@/GlobalRedux/store";
-import { get_orders } from "@/GlobalRedux/features/orderReducer";
+import {
+  get_orders,
+  messageClear,
+  update_status_customer_acceptance,
+} from "@/GlobalRedux/features/orderReducer";
+import {
+  convertStatusDelivery,
+  convertStatus,
+  convertRupiah,
+} from "@/utils/convert";
+import Pagination from "../back-office/Pagination";
+import toast from "react-hot-toast";
+import ModalApproveProduct from "./ModalApproveProduct";
+import { process_transaction } from "@/GlobalRedux/features/paymentReducer";
 
+declare global {
+  interface Window {
+    snap: any;
+  }
+}
 const OrdersUser = () => {
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
+  const [showModal, setShowModal] = useState<boolean>(false);
   const { userInfo } = useAppSelector((state) => state.auth);
-  const { myOrders } = useAppSelector((state) => state.order);
+  const { orderId, myOrders, totalOrders, errorsMsg, successMsg } =
+    useAppSelector((state) => state.order);
+  const { transactionToken, loading } = useAppSelector(
+    (state) => state.payment
+  );
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [perPage, setPerPage] = useState<number>(5);
-  const [searchValue, setSearchValue] = useState<string>("");
   const [status, setStatus] = useState<string>("all");
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
   useEffect(() => {
-    dispatch(get_orders({ status: status, customerId: userInfo._id }));
-  }, [status, userInfo._id]);
+    dispatch(
+      get_orders({
+        status: status,
+        customerId: userInfo._id,
+        perPage,
+        page: currentPage,
+      })
+    );
+  }, [status, userInfo._id, perPage, currentPage]);
 
-  const convertStatus = (status:string)=>{
-    let statusData = "Belum Bayar"
-    if(status == "unpaid"){
-      return statusData
-    }
-    else {
-      return statusData = "Sudah Bayar"
-    }
-  }
+  const updateCustomerAcceptance = (orderId: string) => {
+    dispatch(
+      update_status_customer_acceptance({
+        orderId,
+        info: { customer_acceptance: "received" },
+      })
+    );
+  };
 
-  const convertStatusDelivery = (status:string)=>{
-    let statusData = "Tertunda"
-    if(status == "pending"){
-      return statusData
-    }
-    else if (status == "process") {
-      return statusData = "Proses"
-    }
-    else if (status == "placed") {
-      return statusData = "Sampai"
-    }
-    else {
-      return statusData = "Batal"
-    }
-  }
+  useEffect(() => {
+    const client_key = transactionToken;
+    const snapScript = "https://app.sandbox.midtrans.com/snap/snap.js";
+    const script = document.createElement("script");
+    script.src = snapScript;
+    script.setAttribute("data-client-key", client_key);
+    script.async = true;
+    document.body.appendChild(script);
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
 
+  const showPayment = () => {
+    dispatch(process_transaction(orderId));
+  };
+
+  useEffect(() => {
+    if (!loading) {
+      window.snap?.pay(transactionToken);
+    }
+  }, [loading]);
+
+  useEffect(() => {
+    if (errorsMsg) {
+      toast.error(errorsMsg, { position: "top-right" });
+      dispatch(messageClear());
+    }
+    if (successMsg) {
+      toast.success(successMsg, { position: "top-right" });
+      dispatch(
+        get_orders({
+          status: status,
+          customerId: userInfo._id,
+          perPage,
+          page: currentPage,
+        })
+      );
+      dispatch(messageClear());
+    }
+  }, [errorsMsg, successMsg]);
 
   return (
     <section className="w-full flex flex-col justify-between p-8 rounded-xl space-y-6 bg-slate-50">
@@ -87,38 +143,84 @@ const OrdersUser = () => {
             </tr>
           </thead>
           <tbody>
-            {myOrders.map((data: any, i: number) => (
-              <tr key={i} className="bg-cyan-500 border-b dark:bg-gray-800 text-slate-100  dark:border-gray-700">
-                <th
-                  scope="row"
-                  className="px-6 py-4 font-medium text-slate-100 whitespace-nowrap dark:text-white"
+            {myOrders?.length > 0 ? (
+              myOrders.map((data: any, i: number) => (
+                <tr
+                  key={i}
+                  className="bg-cyan-500 border-b dark:bg-gray-800 text-slate-100  dark:border-gray-700"
                 >
-                  {data._id}
-                </th>
-                <td className="px-6 py-4">{data.price}</td>
-                <td className="px-6 py-4">{convertStatus(data.payment_status)}</td>
-                <td className="px-6 py-4">{convertStatusDelivery(data.delivery_status)}</td>
-                <td className=" px-6 py-4 items-center ">
-                  <div className="flex  items-center gap-4">
-                    <button className=" py-1 px-2 flex justify-center items-center  bg-green-400 hover:bg-green-600" onClick={()=>router.push(`/dashboard/orders/detail/${data._id}`)}>
-                      Lihat
-                    </button>
-                    {
-                      data.delivery_status == "cancelled" || data.payment_status == "paid" ? (
-                        <></>
-                       
-                      )  : ( <button className=" py-1 px-2 flex justify-center items-center  bg-green-400 hover:bg-green-600" onClick={()=>router.push(`/dashboard/orders/detail/${data._id}`)}>
-                      Bayar
-                    </button>)
-                    }
+                  <th
+                    scope="row"
+                    className="px-6 py-4 font-medium text-slate-100 whitespace-nowrap dark:text-white"
+                  >
+                    {data._id}
+                  </th>
+                  <td className="px-6 py-4">{convertRupiah(data.price)}</td>
+                  <td className="px-6 py-4">
+                    {convertStatus(data.payment_status)}
+                  </td>
+                  <td className="px-6 py-4">
+                    {convertStatusDelivery(data.delivery_status)}
+                  </td>
+                  <td className=" px-6 py-4 items-center ">
+                    <div className="flex  items-center gap-4">
+                      <ModalApproveProduct
+                        id={data._id}
+                        handleClick={() => updateCustomerAcceptance(data._id)}
+                        modal={showModal}
+                        closeModal={handleCloseModal}
+                      />
 
-                  </div>
+                      <button
+                        className=" py-1 px-2 flex justify-center items-center  bg-green-400 hover:bg-green-600"
+                        onClick={() =>
+                          router.push(`/dashboard/orders/detail/${data._id}`)
+                        }
+                      >
+                        Lihat
+                      </button>
+                      {data.payment_status == "paid" &&
+                      data.customer_acceptance == "unreceived" ? (
+                        <button
+                          className=" py-1 px-2 flex justify-center items-center  bg-green-400 hover:bg-green-600"
+                          onClick={() => setShowModal(true)}
+                        >
+                          Terima Barang
+                        </button>
+                      ) : data.delivery_status !== "cancelled" &&
+                        data.payment_status == "unpaid" ? (
+                        <button
+                          className=" py-1 px-2 flex justify-center items-center  bg-green-400 hover:bg-green-600"
+                          onClick={showPayment}
+                        >
+                          Bayar
+                        </button>
+                      ) : (
+                        <></>
+                      )}
+                    </div>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan={6} className="text-center py-4">
+                  Tidak ada order.
                 </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       </div>
+      {totalOrders > perPage && (
+        <Pagination
+          pageNumber={currentPage}
+          setPageNumber={setCurrentPage}
+          totalItems={totalOrders}
+          perPage={perPage}
+          showItems={3}
+        />
+      )}
     </section>
   );
 };

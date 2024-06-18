@@ -20,7 +20,7 @@ const HeaderDashboard = () => {
           htmlFor="default-search"
           className="mb-2 text-sm font-medium text-slate-400 sr-only dark:text-white"
         >
-          Search
+          Cari
         </label>
         <div className="relative">
           <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -44,7 +44,7 @@ const HeaderDashboard = () => {
             type="search"
             id="default-search"
             className="block w-full p-4 ps-10 text-sm text-black rounded-lg bg-transparent focus:border-cyan-300 border-2 border-slate-400 "
-            placeholder="Search"
+            placeholder="Cari"
           />
         </div>
 

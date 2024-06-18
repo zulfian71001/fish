@@ -48,7 +48,7 @@ const SellersData = () => {
               htmlFor="default-search"
               className="mb-2 text-sm font-medium text-slate-700 sr-only dark:text-white"
             >
-              Search
+              Cari
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -72,7 +72,7 @@ const SellersData = () => {
                 type="search"
                 id="default-search"
                 className="block w-full p-4 ps-10 text-sm text-slate-700 rounded-lg bg-transparent focus:ring-cyan-300 border-2 border-slate-500 "
-                placeholder="Search "
+                placeholder="Cari"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   setSearchValue(e.target.value)
                 }
@@ -119,7 +119,7 @@ const SellersData = () => {
                   key={i}
                   className="bg-cyan-500 border-b dark:bg-gray-800 text-white  dark:border-gray-700"
                 >
-                  <td className="px-6 py-4">{1 + 1}</td>
+                  <td className="px-6 py-4">{i + 1}</td>
                   <td className="px-6 py-4 relative">
                     {
                       data.image ? (
@@ -130,7 +130,7 @@ const SellersData = () => {
                         className="w-16 h-18 object-contain"
                       />
                       ) : (
-                        <div className="w-full border border-slate-50 p-4"><p>gambar belum diupload</p></div>
+                        <div className="w-16 h-18 border border-slate-50 bg-slate-200 p-4"></div>
                       )
                     }
                    

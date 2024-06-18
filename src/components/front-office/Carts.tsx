@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import { delete_products_cart, get_products_cart, messageClear, quantity_dec, quantity_inc } from "@/GlobalRedux/features/cartReducer";
 import toast from "react-hot-toast";
 import Modal from "./Modal";
+import { convertRupiah } from "@/utils/convert";
 
 const Carts = (props:CartsProps) => {
   const dispatch = useDispatch<AppDispatch>();
@@ -57,17 +58,17 @@ const Carts = (props:CartsProps) => {
           <div className=" flex gap-6 items-center">
           <Image src={data?.productInfo?.images[0]} alt="image" className="w-36 h-32 object-contain" width={800} height={800}/>
         </div>
-        <p>{data.productInfo?.name}</p>
+        <p>{data?.productInfo?.name}</p>
           </div>
         <div className="w-full flex items-center justify-between px-10">
-        <p>{data.productInfo?.price}</p>
+        <p>{convertRupiah(data?.productInfo?.price)}</p>
         <div className="space-y-2 mt-4 lg:mt-0">
           <div className="w-full flex bg-slate-100 justify-between items-center p-2 rounded-md text-black">
-            <button onClick={() => dec(data.quantity, data._id)} className="px-2 ">
+            <button onClick={() => dec(data?.quantity, data?._id)} className="px-2 ">
               -
             </button>
             <p className="px-2 ">{data?.quantity}</p>
-            <button onClick={() => inc(data.quantity, data.productInfo.stock, data._id)} className="px-2">
+            <button onClick={() => inc(data?.quantity, data?.productInfo.stock, data?._id)} className="px-2">
               +
             </button>
           </div>

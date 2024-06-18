@@ -120,6 +120,7 @@ const sellerReducer = createSlice({
       }).addCase(get_sellers.fulfilled, (state, action)=>{
         state.loader = false
         state.sellers = action.payload.sellers
+        state.totalSellers = action.payload.totalSellers
       })
   },
 });

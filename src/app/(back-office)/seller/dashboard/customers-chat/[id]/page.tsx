@@ -1,10 +1,10 @@
-import ChatToSeller from "@/components/front-office/ChatToSeller"
+import SellerToCustomer from '@/components/back-office/seller/SellerToCustomer'
 import React from 'react'
 
 const page = ({params}:{params:{ id: string }}) => {
   return (
     <>
-        <ChatToSeller sellerId={params.id}/>
+        <SellerToCustomer customerId={params.id}/>
     </>
   )
 }

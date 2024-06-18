@@ -35,7 +35,7 @@ const sidebarContent = [
   {
     name: "Chat ",
     icon: <MessageCircle />,
-    url: "/dashboard/customers-chat",
+    url: "/dashboard/chat",
   },
   {
     name: "Ganti Password",
@@ -87,7 +87,7 @@ const SidebarUser = () => {
         }`}
       >
         <button
-          className="absolute top-4 right-4 z-40"
+          className="absolute top-4 right-4 z-[60]"
           onClick={() => setIsOpen(false)}
         >
           <X />

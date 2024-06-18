@@ -61,7 +61,7 @@ const AddCategory = () => {
     <>
 
       <section className="p-8 rounded-xl space-y-4 bg-white w-1/3 h-full">
-        <Heading title={"Add Category"} />
+        <Heading title={"Tambah Kategori"} />
         <div className="flex flex-col w-full items-center justify-center">
           <form
             className="max-w-sm w-full space-y-4"
@@ -114,8 +114,8 @@ const AddCategory = () => {
                       />
                     </svg>
                     <p className="mb-2 text-sm  text-gray-400">
-                      <span className="font-semibold">Click to upload</span> or
-                      drag and drop
+                      <span className="font-semibold">klik untuk upload</span> atau
+                      drag dan drop
                     </p>
                     <p className="text-xs  text-gray-400">
                       SVG, PNG, JPG or GIF (MAX. 800x400px)

@@ -76,11 +76,11 @@ const Reviews = ({
           <p className="text-slate-700 text-sm">{totalReviews} Semua Rating</p>
         </div>
         <div className="flex flex-col gap-2 py-2">
-          {rating_review.length > 0 &&
-            rating_review.map((data: any, i: number) => (
+          {rating_review?.length > 0 &&
+            rating_review?.map((data: any, i: number) => (
               <div className="flex gap-5 items-center" key={i}>
                 <div className="flex gap-1 text-md w-[93px]">
-                  <RatingTemp ratings={data.rating} />
+                  <RatingTemp ratings={data?.rating} />
                 </div>
                 <div className="w-[200px] h-[14px] bg-slate-200 relative">
                   <div
@@ -100,17 +100,17 @@ const Reviews = ({
           {totalReviews} Review Produk
         </h4>
         <div className="flex flex-col gap-8 pb-10 pt-4">
-          {reviews.length > 0 &&
-            reviews.map((data: any, i: number) => (
+          {reviews?.length > 0 &&
+            reviews?.map((data: any, i: number) => (
               <div className="flex flex-col gap-1" key={i}>
                 <div className="flex justify-between items-center">
                   <div className="flex gap-1 text-xl">
-                    <RatingTemp ratings={data.rating} />
+                    <RatingTemp ratings={data?.rating} />
                   </div>
-                  <span className="text-slate-700">{data.date}</span>
+                  <span className="text-slate-700">{data?.date}</span>
                 </div>
-                <span className="text-slate-700 text-md">{data.name}</span>
-                <p className="text-slate-700 text-sm">{data.review}</p>
+                <span className="text-slate-700 text-md">{data?.name}</span>
+                <p className="text-slate-700 text-sm">{data?.review}</p>
               </div>
             ))}
           <div className="flex justify-end">

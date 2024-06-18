@@ -3,6 +3,7 @@ import { ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import Ratings from "./Ratings"
+import { convertRupiah } from "@/utils/convert";
 
 const Product = (props: PropsProduct) => {
   const { images, name, price, rating, id, category, shopName, onClickHandle } = props;
@@ -30,7 +31,7 @@ const Product = (props: PropsProduct) => {
           </p>
         </div>
         <div className="flex justify-between items-center text-cyan-500">
-          <p>Rp. {price}</p>
+          <p>{convertRupiah(price)}</p>
           <button className="p-2 bg-cyan-500/20  rounded-md" onClick={()=>onClickHandle(id)}>
             <ShoppingCart />
           </button>

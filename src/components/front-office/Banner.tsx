@@ -10,7 +10,7 @@ const Banner = () => {
           [1,2,3].map((img:any, i:number) => (
             <Image
             key={i}
-            src={`/images/banner${img}.jpg`}
+            src={`/images/banner${img}.png`}
             alt="gambar"
             width={500}
             height={500}

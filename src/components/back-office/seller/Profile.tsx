@@ -77,7 +77,7 @@ const Profile = () => {
 
   return (
     <>
-      <section className="h-full flex flex-col justify-between space-y-6 ">
+      <section className="h-full flex flex-col justify-between space-y-6 text-cyan-500 ">
         <div className="flex flex-col lg:flex-row items-center gap-6 ">
           <div className=" flex w-full lg:w-1/3 bg-white rounded-xl p-8 items-center">
             {userInfo?.image ? (
@@ -145,9 +145,9 @@ const Profile = () => {
                           />
                         </svg>
                         <p className="mb-2 text-sm  text-gray-400">
-                          <span className="font-semibold">Click to upload</span>{" "}
-                          or drag and drop
-                        </p>
+                      <span className="font-semibold">klik untuk upload</span> atau
+                      drag dan drop
+                    </p>
                         <p className="text-xs  text-gray-400">
                           SVG, PNG, JPG or GIF (MAX. 800x400px)
                         </p>
@@ -166,7 +166,7 @@ const Profile = () => {
             )}
           </div>
           <div className="flex flex-col lg:flex-wrap w-full lg:w-2/3 gap-6 bg-white text-slate-700 rounded-xl p-8">
-            <div className="relative rounded-xl p-4 pr-24 bg-slate-100 ">
+            <div className="relative rounded-xl p-4 pr-24 bg-cyan-500 text-white ">
               <button className=" w-10 h-10 flex justify-center items-center rounded-sm bg-yellow-300 hover:bg-yellow-400 text-white absolute top-2 right-2">
                 <SquarePen />
               </button>
@@ -180,20 +180,20 @@ const Profile = () => {
             </div>
             {!userInfo?.shopInfo ? (
               <form
-                className="space-y-6 relative rounded-xl p-6 bg-slate-900"
+                className="space-y-6 relative rounded-xl p-6 bg-cyan-500 text-white"
                 onSubmit={handleFormStore}
               >
                 <div>
                   <label
                     htmlFor="shopName"
-                    className="block mb-2 text-sm font-medium text-white"
+                    className="block mb-2 text-sm font-medium text-slate-700"
                   >
                     Nama Toko
                   </label>
                   <input
                     type="text"
                     name="shopName"
-                    className="border text-sm rounded-lg outline-none block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-cyan-500 focus:border-cyan-500"
+                    className="border text-sm rounded-lg outline-none block w-full p-2.5 bg-white border-gray-600 placeholder-gray-400 text-slate-700 focus:ring-cyan-500 focus:border-cyan-500"
                     placeholder="ketikkan nama toko anda"
                     onChange={handleChange}
                   />
@@ -201,14 +201,14 @@ const Profile = () => {
                 <div>
                   <label
                     htmlFor="city"
-                    className="block mb-2 text-sm font-medium text-white"
+                    className="block mb-2 text-sm font-medium text-slate-700"
                   >
                     Kota
                   </label>
                   <input
                     type="text"
                     name="city"
-                    className=" border  text-sm rounded-lg outline-none block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-cyan-500 focus:border-cyan-500"
+                    className=" border  text-sm rounded-lg outline-none block w-full p-2.5 bg-white border-gray-600 placeholder-gray-400 text-slate-700 focus:ring-cyan-500 focus:border-cyan-500"
                     placeholder="ketikkan kota anda"
                     onChange={handleChange}
                   />
@@ -216,14 +216,14 @@ const Profile = () => {
                 <div>
                   <label
                     htmlFor="district"
-                    className="block mb-2 text-sm font-medium text-white"
+                    className="block mb-2 text-sm font-medium text-slate-700"
                   >
                     Kecamatan
                   </label>
                   <input
                     type="text"
                     name="district"
-                    className=" border  text-sm rounded-lg outline-none block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-cyan-500 focus:border-cyan-500"
+                    className=" border  text-sm rounded-lg outline-none block w-full p-2.5 bg-white border-gray-600 placeholder-gray-400 text-slate-700 focus:ring-cyan-500 focus:border-cyan-500"
                     placeholder="ketikkan kecamatan anda"
                     onChange={handleChange}
                   />
@@ -231,14 +231,14 @@ const Profile = () => {
                 <div>
                   <label
                     htmlFor="spesificAddress"
-                    className="block mb-2 text-sm font-medium text-white"
+                    className="block mb-2 text-sm font-medium text-slate-700"
                   >
                     Alamat Spesifik
                   </label>
                   <input
                     type="text"
                     name="spesificAddress"
-                    className=" border  text-sm rounded-lg outline-none block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-cyan-500 focus:border-cyan-500"
+                    className=" border  text-sm rounded-lg outline-none block w-full p-2.5 bg-white border-gray-600 placeholder-gray-400 text-slate-700 focus:ring-cyan-500 focus:border-cyan-500"
                     placeholder="ketikkan alamat spesifik anda"
                     onChange={handleChange}
                   />
@@ -271,7 +271,7 @@ const Profile = () => {
             </button>
               </form>
             ) : (
-              <div className="relative rounded-xl p-4 pr-24 bg-slate-100 ">
+              <div className="relative rounded-xl p-4 pr-24 bg-cyan-500 text-white ">
                 <button className=" w-10 h-10 flex justify-center items-center rounded-sm bg-yellow-300 hover:bg-yellow-400 text-white absolute top-2 right-2">
                   <SquarePen />
                 </button>

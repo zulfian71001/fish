@@ -8,6 +8,7 @@ import { AppDispatch, useAppSelector } from "@/GlobalRedux/store";
 import { useEffect } from "react";
 import { get_products_cart } from "@/GlobalRedux/features/cartReducer";
 import { useRouter } from "next/navigation";
+import { convertRupiah } from "@/utils/convert";
 
 const CartPage = () => {
   const router = useRouter()
@@ -66,7 +67,7 @@ const CartPage = () => {
                   </h2>
                 </div>
               </div>
-              {outOfStockProducts.map((data: any, i: number) => (
+              {outOfStockProducts?.map((data: any, i: number) => (
                 <Carts key={i} name={data.shopName} products={data.products} />
               ))}
             </>
@@ -75,21 +76,21 @@ const CartPage = () => {
         {
           cart_products.length > 0 && (
             <div className="w-full lg:w-1/3 h-full bg-white p-6 mt-10 mr-10 rounded-md space-y-4">
-          <p className="text-xl font-semibold">Orders</p>
+          <p className="text-xl font-semibold">Order</p>
           <div className="flex justify-between">
-            <p>{buy_item_product} items</p>
-            <p>Rp. {price}</p>
+            <p>{buy_item_product} produk</p>
+            <p>{convertRupiah(price)}</p>
           </div>
           <div className="flex justify-between">
             <p>Ongkir</p>
-            <p>Rp. {shipping_fee}</p>
+            <p>{convertRupiah(shipping_fee)}</p>
           </div>
           <div className="flex justify-between">
             <p>Total</p>
-            <p>Rp. {price + shipping_fee}</p>
+            <p>{convertRupiah(price + shipping_fee)}</p>
           </div>
           <button className="w-full bg-cyan-600 hover:bg-cyan-700 text-white p-2 rounded-md" onClick={()=>router.push('/shipping')}>
-            checkout
+            Order
           </button>
         </div>
           )

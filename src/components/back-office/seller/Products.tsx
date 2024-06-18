@@ -8,6 +8,7 @@ import { AppDispatch, useAppSelector } from "@/GlobalRedux/store";
 import { IDataMapProduct, searchData } from "@/utils/types";
 import { get_products } from "@/GlobalRedux/features/productReducer";
 import { useRouter } from "next/navigation";
+import { convertRupiah } from "@/utils/convert";
 
 const Products = () => {
   const router = useRouter()
@@ -41,7 +42,7 @@ const Products = () => {
               htmlFor="default-search"
               className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
             >
-              Search
+              Cari
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -65,7 +66,7 @@ const Products = () => {
                 type="search"
                 id="default-search"
                 className="block w-full p-4 ps-10 text-sm text-slate-700 rounded-lg bg-transparent focus:ring-cyan-300 border-2 border-slate-500 "
-                placeholder="Search "
+                placeholder="Cari"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   setSearchValue(e.target.value)
                 }
@@ -128,7 +129,7 @@ const Products = () => {
                     <td className="px-6 py-4">
                       <p className="line-clamp-1">{data.desc}</p>
                     </td>
-                    <td className="px-6 py-4">{data.price}</td>
+                    <td className="px-6 py-4">{convertRupiah(data.price)}</td>
                     <td className="px-6 py-4">{data.stock} kg</td>
                     <td className=" px-6 py-4 items-center ">
                       <div className="flex  items-center gap-4">

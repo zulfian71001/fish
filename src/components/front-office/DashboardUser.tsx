@@ -6,6 +6,8 @@ import { useRouter } from "next/navigation";
 import { AppDispatch, useAppSelector } from "@/GlobalRedux/store";
 import { get_dashboard_index_data } from "@/GlobalRedux/features/dashboardReducer";
 import { useEffect } from "react";
+import {convertStatusDelivery, convertStatus, convertRupiah} from "@/utils/convert"
+
 
 const DashboardUser = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -16,29 +18,7 @@ const DashboardUser = () => {
 
   useEffect(() => {
     dispatch(get_dashboard_index_data({ userId: userInfo._id }));
-  }, []);
-
-  const convertStatus = (status: string) => {
-    let statusData = "Belum Bayar";
-    if (status == "unpaid") {
-      return statusData;
-    } else {
-      return (statusData = "Sudah Bayar");
-    }
-  };
-
-  const convertStatusDelivery = (status: string) => {
-    let statusData = "Tertunda";
-    if (status == "pending") {
-      return statusData;
-    } else if (status == "process") {
-      return (statusData = "Proses");
-    } else if (status == "placed") {
-      return (statusData = "Sampai");
-    } else {
-      return (statusData = "Batal");
-    }
-  };
+  }, [userInfo._id]);
 
   const paymentHandler = (ord: any) => {
     let items = 0;
@@ -77,7 +57,7 @@ const DashboardUser = () => {
             </tr>
           </thead>
           <tbody>
-            {recentOrders.map((data: any, i: number) => (
+            {recentOrders?.length > 0 ? recentOrders.map((data: any, i: number) => (
               <tr
                 key={i}
                 className="bg-cyan-500 border-b dark:bg-gray-800 text-slate-100  dark:border-gray-700"
@@ -88,7 +68,7 @@ const DashboardUser = () => {
                 >
                   {data._id}
                 </th>
-                <td className="px-6 py-4">{data.price}</td>
+                <td className="px-6 py-4">{convertRupiah(data.price)}</td>
                 <td className="px-6 py-4">
                   {convertStatus(data.payment_status)}
                 </td>
@@ -121,7 +101,13 @@ const DashboardUser = () => {
                   </div>
                 </td>
               </tr>
-            ))}
+            )): (
+              <tr>
+                <td colSpan={6} className="text-center py-4">
+                  Tidak ada order.
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>

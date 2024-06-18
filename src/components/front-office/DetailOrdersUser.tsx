@@ -2,66 +2,20 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import {
-  IChangeImage,
-  IDataMapProduct,
-  IDataProduct,
-  IDataUpdateProduct,
-  requestDataCategory,
-} from "@/utils/types";
-import { X } from "lucide-react";
 // import Heading from "./Heading";
 import { useDispatch } from "react-redux";
 import { AppDispatch, useAppSelector } from "@/GlobalRedux/store";
 import Heading from "@/components/back-office/Heading";
 import { get_order } from "@/GlobalRedux/features/orderReducer";
-import toast from "react-hot-toast";
-import Ikan from "@/assets/ikan.jpeg";
+
 import Link from "next/link";
+import { convertRupiah, convertStatus, convertStatusDelivery } from "@/utils/convert";
 
 const DetailOrdersUser = ({ orderId }: { orderId: string }) => {
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
   const { loader, userInfo } = useAppSelector((state) => state.auth);
   const { myOrder } = useAppSelector((state) => state.order);
-  // const [dataCategory, setDataCategory] = useState<requestDataCategory>({
-  //   name: "",
-  //   image: new File([], ""),
-  // });
-  // const [image, setImage] = useState<string>(category ? category?.image : "");
-
-  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setDataCategory({
-  //     ...dataCategory,
-  //     name: e.target.value,
-  //   });
-  // };
-  // const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const files: FileList | null = e.target.files;
-  //   if (files && files.length > 0) {
-  //     setImage(URL.createObjectURL(files[0]));
-  //     setDataCategory({ ...dataCategory, image: files[0] });
-  //   }
-  // };
-
-  // const updatecategory = (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   console.log(image);
-  //   console.log(dataCategory);
-  //   // dispatch(add_category(category));
-  // };
-
-  // useEffect(() => {
-  //   if (errorsMsg) {
-  //     toast.error(errorsMsg, { duration: 3000, position: "top-right" });
-  //     dispatch(messageClear());
-  //   }
-  //   if (successMsg) {
-  //     toast.success(successMsg, { duration: 3000, position: "top-right" });
-  //     dispatch(messageClear());
-  //     setImage("");
-  //   }
-  // }, [errorsMsg, successMsg]);
 
   useEffect(() => {
     dispatch(get_order(orderId));
@@ -93,6 +47,7 @@ const DetailOrdersUser = ({ orderId }: { orderId: string }) => {
                   {" "}
                   {myOrder?.shippingInfo?.address}{" "}
                   {myOrder?.shippingInfo?.district}{" "}
+                  {myOrder?.shippingInfo?.district}{" "}
                   {myOrder?.shippingInfo?.city}{" "}
                   {myOrder?.shippingInfo?.province}
                 </span>
@@ -100,29 +55,29 @@ const DetailOrdersUser = ({ orderId }: { orderId: string }) => {
               <p className="text-slate-700">Email kepada {userInfo?.email}</p>
             </div>
             <div className="space-y-2">
-              <p>Harga: {myOrder.price}</p>
+              <p>Harga: {convertRupiah(myOrder?.price)}</p>
               <p>
                 Status Pembayaran:{" "}
                 <span
                   className={`px-2.5 py-0.5 ${
-                    myOrder.payment_status === "paid"
+                    myOrder?.payment_status === "paid"
                       ? "bg-green-100 text-green-800"
                       : "bg-red-100 text-red-800"
                   } rounded-md`}
                 >
-                  {myOrder.payment_status}
+                  {convertStatus(myOrder?.payment_status)}
                 </span>
               </p>
               <p>
                 Status Pengiriman:{" "}
                 <span
                   className={`px-2.5 py-0.5 ${
-                    myOrder.delivery_status === "paid"
+                    myOrder?.delivery_status === "placed"
                       ? "bg-green-100 text-green-800"
                       : "bg-red-100 text-red-800"
                   } rounded-md`}
                 >
-                  {myOrder.payment_status}
+                  {convertStatusDelivery(myOrder?.delivery_status)}
                 </span>
               </p>
             </div>
@@ -150,14 +105,14 @@ const DetailOrdersUser = ({ orderId }: { orderId: string }) => {
                         )}
                       </div>
                       <div className="flex flex-col text-sm">
-                        <Link href={`/product/${myOrder.productId}`}>
-                          {product.name}
+                        <Link href={`/product/${myOrder?.productId}`}>
+                          {product?.name}
                         </Link>
-                        <p>banyak: {product.quantity}</p>
+                        <p>banyak: {product?.quantity}</p>
                       </div>
                     </div>
                     <div className="pl-4">
-                      <p>Rp {product.price}</p>
+                      <p>{convertRupiah(product?.price)}</p>
                     </div>
                   </div>
                 </div>

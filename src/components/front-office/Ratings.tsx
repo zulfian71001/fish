@@ -1,6 +1,6 @@
 import { CiStar } from "react-icons/ci";
 import { FaStar } from "react-icons/fa6";
-import { FaStarHalfAlt as FaStarHalf} from "react-icons/fa";
+import { FaStarHalfAlt as FaStarHalf } from "react-icons/fa";
 const Ratings = ({ ratings }: { ratings: number }) => {
   return (
     <>
@@ -17,7 +17,7 @@ const Ratings = ({ ratings }: { ratings: number }) => {
           <CiStar />
         </span>
       )}
-            {ratings >= 2 ? (
+      {ratings >= 2 ? (
         <span className="text-yellow-300">
           <FaStar />
         </span>
@@ -30,7 +30,7 @@ const Ratings = ({ ratings }: { ratings: number }) => {
           <CiStar />
         </span>
       )}
-            {ratings >= 3 ? (
+      {ratings >= 3 ? (
         <span className="text-yellow-300">
           <FaStar />
         </span>
@@ -43,7 +43,7 @@ const Ratings = ({ ratings }: { ratings: number }) => {
           <CiStar />
         </span>
       )}
-            {ratings >= 4 ? (
+      {ratings >= 4 ? (
         <span className="text-yellow-300">
           <FaStar />
         </span>
@@ -56,7 +56,7 @@ const Ratings = ({ ratings }: { ratings: number }) => {
           <CiStar />
         </span>
       )}
-            {ratings >= 5 ? (
+      {ratings >= 5 ? (
         <span className="text-yellow-300">
           <FaStar />
         </span>

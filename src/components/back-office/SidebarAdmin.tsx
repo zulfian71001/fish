@@ -35,7 +35,7 @@ const sidebarContent = [
     url: "/admin/dashboard/sellers",
   },
   {
-    name: "Status Semua Seller",
+    name: "Aktivasi Seller",
     icon: <Users />,
     url: "/admin/dashboard/sellers-status",
   },
@@ -97,7 +97,7 @@ const Sidebar = () => {
         }`}
       >
         <button
-          className="absolute top-4 right-4"
+          className="absolute top-4 right-4 z-[60]"
           onClick={() => setIsOpen(false)}
         >
           <X />

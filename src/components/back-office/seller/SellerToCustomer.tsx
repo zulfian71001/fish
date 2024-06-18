@@ -1,5 +1,5 @@
 "use client";
-import React, { ChangeEvent, FormEvent, useState } from "react";
+import React, { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import Heading from "@/components/back-office/Heading";
 import {
   MessageCircleMore,
@@ -15,54 +15,62 @@ import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { AppDispatch, useAppSelector } from "@/GlobalRedux/store";
 import { get_dashboard_index_data } from "@/GlobalRedux/features/dashboardReducer";
-import { useEffect } from "react";
 import io from "socket.io-client";
 import {
-  add_friend,
+  get_customer_message,
+  get_customers,
   messageClear,
-  send_message,
-  updateMessage,
-} from "@/GlobalRedux/features/chatReducer";
+  send_message_to_customer,
+  updateActiveCustomer,
+  updateMessageSeller,
+} from "@/GlobalRedux/features/backOfficeChatReducer";
 import { fdMessages } from "@/utils/types";
-import toast from "react-hot-toast";
 
 const socket = io("http://localhost:5000");
-
-const ChatToSeller = ({ sellerId }: { sellerId: string }) => {
+const Chat = ({ customerId }: { customerId: string }) => {
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
-  const [activeSellers, setActiveSellers] = useState<Array<Partial<fdMessages>>>([]);
-  const [text, setText] = useState<string>("");
+  const scrollRef = useRef()
   const [receiverMsg, setReceiverMsg] = useState<Partial<fdMessages>>({});
+  const [text, setText] = useState<string>("");
   const { userInfo } = useAppSelector((state) => state.auth);
-  const { currentFd, my_friends, fd_messages, successMsg } = useAppSelector(
-    (state) => state.chat
-  );
+  const { customers, messages, currentCustomer, successMsg, activeCustomer } =
+    useAppSelector((state) => state.backOfficeChat);
 
   useEffect(() => {
-    socket.emit("add_user", userInfo._id, userInfo);
+    if (userInfo && userInfo.role == "seller") {
+      socket.emit("add_seller", userInfo._id, userInfo);
+    } else {
+      socket.emit("add_admin", userInfo);
+    }
+  }, [userInfo]);
+
+  useEffect(() => {
+    socket.on("activeCustomer", (customers) => {
+      dispatch(updateActiveCustomer(customers));
+    });
   }, []);
 
   useEffect(() => {
-    if (sellerId) {
-      dispatch(
-        add_friend({
-          sellerId: sellerId || "",
-          userId: userInfo._id,
-        })
-      );
+    dispatch(get_customers({ sellerId: userInfo._id }));
+  }, [userInfo._id]);
+
+  useEffect(() => {
+    if (customerId) {
+      dispatch(get_customer_message(customerId));
     }
-  }, [sellerId]);
+  }, [customerId]);
 
   const sendMessage = (e: FormEvent) => {
     e.preventDefault();
+    console.log(text);
     if (text.trim() !== "") {
       dispatch(
-        send_message({
+        send_message_to_customer({
           userId: userInfo._id,
           message: text,
-          sellerId,
-          name: userInfo.name,
+          receiverId: customerId,
+          name: userInfo.shopInfo.shopName,
         })
       );
     }
@@ -70,57 +78,57 @@ const ChatToSeller = ({ sellerId }: { sellerId: string }) => {
   };
 
   useEffect(() => {
-    socket.on("seller_message", (msg) => {
-      console.log(msg);
-      setReceiverMsg(msg);
-    });
-    socket.on("activeSeller", (sellers) => {
-      setActiveSellers(sellers);
-    });
-  }, []);
-
-  useEffect(() => {
     if (successMsg) {
-        socket.emit("send_customer_message", fd_messages[fd_messages.length - 1])
+      socket.emit("send_seller_message", messages[messages.length - 1]);
       dispatch(messageClear());
     }
   }, [successMsg]);
 
   useEffect(() => {
+    socket.on("customer_message", (msg) => {
+      setReceiverMsg(msg);
+    });
+
+  }, []);
+
+  useEffect(() => {
     if (receiverMsg) {
       if (
-        sellerId === receiverMsg?.senderId &&
+        customerId === receiverMsg?.senderId &&
         userInfo._id === receiverMsg?.receiverId
       ) {
-        dispatch(updateMessage(receiverMsg));
+        dispatch(updateMessageSeller(receiverMsg));
       }
+      //   else {
+      //     toast.success(receiveMsg?.senderName + " " + "mengirim sebuah pesan");
+      //   dispatch(messageClear());
+      //   }
     }
   }, [receiverMsg]);
+
   return (
     <>
-      <section className="px-8 rounded-xl flex gap-4 bg-white w-full">
+      <section className="px-8 rounded-xl flex gap-4 bg-white w-full min-h-[70vh]">
         <div className=" w-[180px]">
           <div className="space-y-1">
             <div className="flex items-center justify-center gap-1 py-3 text-cyan-500">
-              <MessageCircleMore />
-              <Heading title={"Chat"} />
+              <Heading title={"Pembeli"} />
             </div>
             <div className="flex flex-col w-full justify-center gap-2 py-2">
-              {sellerId &&
-                my_friends?.length > 0 &&
-                my_friends?.map((data: any, i: number) => (
+              {customers?.length > 0 &&
+                customers?.map((data: any, i: number) => (
                   <Link
-                    href={`/dashboard/chat/${data?.fdId}`}
+                    href={`/seller/dashboard/customers-chat/${data?.fdId}`}
                     key={i}
                     className="flex gap-2 items-center py-1"
                   >
                     <div className="w-[30px] h-[30px] rounded-full relative">
-                      {
-                        activeSellers?.some((f:any)=>f.sellerId === f.fdId) &&  <div className="w-[10px] h-[10px] rounded-full bg-green-500 absolute right-0 bottom-0 "></div>
-                      }
-                     
+                    {activeCustomer.some((c:any) => c.customerId === currentCustomer._id) && (
+                        <div className="w-[10px] h-[10px] rounded-full bg-green-500 absolute right-0 bottom-0 "></div>
+                      )}
+
                       {data?.image ? (
-                        <Image src={data?.image} alt="gambar" />
+                        <Image src={data.image} alt="gambar" />
                       ) : (
                         <Image src={User} alt="gambar" />
                       )}
@@ -132,40 +140,43 @@ const ChatToSeller = ({ sellerId }: { sellerId: string }) => {
           </div>
         </div>
         <div className="w-[calc(100%-180px)] ">
-          {currentFd ? (
+          {customerId ? (
             <div className="w-full h-full">
               <div className="flex gap-3 text-xl items-center text-slate-700 h-[50px]">
                 <div className="w-[30px] h-[30px] rounded-full relative">
-                {
-                        activeSellers?.some((f:any)=>f.sellerId === currentFd.fdId) &&  <div className="w-[10px] h-[10px] rounded-full bg-green-500 absolute right-0 bottom-0 "></div>
-                      }
-                  {currentFd?.image ? (
-                    <Image src={currentFd?.image} alt="gambar" />
+                {activeCustomer.some((c:any) => c.customerId === currentCustomer._id) && (
+                        <div className="w-[10px] h-[10px] rounded-full bg-green-500 absolute right-0 bottom-0 "></div>
+                      )}
+                  {currentCustomer?.image ? (
+                    <Image src={currentCustomer.image} alt="gambar" />
                   ) : (
                     <Image src={User} alt="gambar" />
                   )}
                 </div>
-                <span>{currentFd?.name}</span>
+                <span>{currentCustomer.name}</span>
               </div>
               <div className="h-[400px] w-full bg-slate-100 rounded-md p-4">
                 <div className="w-full h-full flex flex-col gap-3 overflow-y-auto">
-                  {fd_messages?.length > 0 &&
-                    fd_messages?.map((data: any, i: number) => {
-                      if (currentFd?.fdId !== data?.receiverId) {
+                  {customerId ? (
+                    messages.map((data: any, i: number) => {
+                      if (data.senderId === customerId) {
                         return (
                           <div
                             className="w-full flex items-center gap-2 text-[14px]"
                             key={i}
                           >
                             <div className="w-[30px] h-[30px] rounded-full relative">
-                              {currentFd?.image ? (
-                                <Image src={currentFd?.image} alt="gambar" />
+                              {currentCustomer?.image ? (
+                                <Image
+                                  src={currentCustomer.image}
+                                  alt="gambar"
+                                />
                               ) : (
                                 <Image src={User} alt="gambar" />
                               )}
                             </div>
                             <div className="bg-cyan-500 p-2 text-white rounded-md">
-                              <span>{data?.message}</span>
+                              <span>{data.message}</span>
                             </div>
                           </div>
                         );
@@ -176,7 +187,7 @@ const ChatToSeller = ({ sellerId }: { sellerId: string }) => {
                             key={i}
                           >
                             <div className="bg-cyan-500 p-2 text-white rounded-md">
-                              <span>{data?.message}</span>
+                              <span>{data.message}</span>
                             </div>
                             <div className="w-[30px] h-[30px] rounded-full relative">
                               {userInfo?.image ? (
@@ -188,45 +199,38 @@ const ChatToSeller = ({ sellerId }: { sellerId: string }) => {
                           </div>
                         );
                       }
-                    })}
+                    })
+                  ) : (
+                    <></>
+                  )}
                 </div>
               </div>
-              <div className="flex p-2 justify-between items-center w-full">
-                <div className="w-[40px] h-[40px] border p-2 justify-center items-center flex rounded-full hover:shadow-xl">
-                  <label className="cursor-pointer">
-                    <Plus />
-                  </label>
-                  <input className="hidden" type="file" />
-                </div>
+              <form
+                className="flex p-2 justify-between items-center w-full text-slate-700"
+                onSubmit={sendMessage}
+              >
                 <div className="border h-[40px] ml-2 w-[calc(100%-60px)] rounded-full relative">
                   <input
                     type="text"
                     placeholder="ketikkan pesan"
-                    className="w-full rounded-full h-full outline-none p-3"
+                    className="w-full rounded-full h-full outline-none p-3 "
+                    value={text}
                     onChange={(e: ChangeEvent<HTMLInputElement>) =>
                       setText(e.target.value)
                     }
-                    value={text}
+                    readOnly={customerId ? false : true}
                   />
-                  <div className="text-2xl absolute right-2 top-2 cursor-auto">
-                    <span>
-                      <SmilePlus />
-                    </span>
-                  </div>
                 </div>
                 <div className="w-[40px] p-2 flex justify-center items-center rounded-full hover:shadow-xl transition-all duration-150">
-                  <div
-                    className="text-2xl cursor-pointer"
-                    onClick={sendMessage}
-                  >
+                  <button type="submit" className={`text-2xl cursor-pointer`} disabled={customerId ? false : true}>
                     <SendHorizontal />
-                  </div>
+                  </button>
                 </div>
-              </div>
+              </form>
             </div>
           ) : (
             <div className="w-full h-full flex justify-center items-center text-xl font-bold text-slate-700">
-              <span>Pilih Penjual</span>
+              <span>Pilih Pembeli</span>
             </div>
           )}
         </div>
@@ -235,4 +239,4 @@ const ChatToSeller = ({ sellerId }: { sellerId: string }) => {
   );
 };
 
-export default ChatToSeller;
+export default Chat;

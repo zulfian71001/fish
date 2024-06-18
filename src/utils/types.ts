@@ -187,6 +187,7 @@ export interface ShippingProps {
   city: string;
   post: string;
   district: string;
+  subDistrict: string;
   payment: string;
 }
 
@@ -224,6 +225,8 @@ export interface IOrder {
   myOrder: {};
   orderId: string;
   order: {};
+  orders:[],
+  totalOrders:number
 }
 
 export interface IPayment {
@@ -259,6 +262,8 @@ export interface PropsModal {
 export interface GetOrdersParams {
   customerId: string;
   status: string;
+  perPage:number
+  page:number
 }
 export interface GetDashboardParams {
   userId: string;
@@ -298,4 +303,41 @@ export interface RatingProps {
 export interface reviewProps {
   rating:number
   input:string
+}
+
+export interface fdMessages {
+  id?:string
+  senderId:string,
+  senderName:string,
+  receiverId:string,
+  message:string,
+status?:string
+}
+
+export interface  myFriends {
+  fdId:string,
+  name:string,
+  image:string,
+}
+
+export interface IChatUserRedux {
+  successMsg: string;
+  errorsMsg: string;
+  my_friends:myFriends[],
+  fd_messages: fdMessages[],
+  currentFd:{}
+}
+export interface IBackOfficeChatRedux {
+  successMsg: string;
+  errorsMsg: string;
+  customers:myFriends[],
+  messages:fdMessages[],
+  activeCustomer:Partial<myFriends>[],
+  activeSeller:Partial<myFriends>[],
+  messageNotification:[],
+  activeAdmin:[],
+  friends:[],
+  seller_admin_message:[],
+  currentSeller:{},
+  currentCustomer:{}
 }

@@ -48,7 +48,7 @@ const sidebarContent = [
     url: "/seller/dashboard/payment",
   },
   {
-    name: "Chat Semua Pembeli",
+    name: "Chat Pembeli",
     icon: <MessageCircle />,
     url: "/seller/dashboard/customers-chat",
   },
@@ -110,7 +110,7 @@ const Sidebar = () => {
         }`}
       >
         <button
-          className="absolute top-4 right-4"
+          className="absolute top-4 right-4 z-[60]"
           onClick={() => setIsOpen(false)}
         >
           <X />

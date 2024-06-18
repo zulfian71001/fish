@@ -12,7 +12,7 @@ const RecentOrders = () => {
     <div className="flex flex-col p-8 rounded-xl space-y-4 bg-white">
       <div className="flex w-full items-center justify-between">
         <Heading title="Order terakhir" />
-        <p>View All</p>
+        <p>Lihat Semua</p>
       </div>
       <div className="flex w-full items-center justify-between">
         <select
@@ -30,7 +30,7 @@ const RecentOrders = () => {
             htmlFor="default-search"
             className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
           >
-            Search
+            Cari
           </label>
           <div className="relative">
             <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -54,7 +54,7 @@ const RecentOrders = () => {
               type="search"
               id="default-search"
               className="block w-full p-4 ps-10 text-sm text-black rounded-lg bg-transparent focus:border-cyan-300 border-2 border-slate-400 "
-              placeholder="Search "
+              placeholder="Cari"
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setSearchValue(e.target.value)
               }
@@ -71,16 +71,16 @@ const RecentOrders = () => {
                 Order Id
               </th>
               <th scope="col" className="px-6 py-3">
-                Price
+                Harga
               </th>
               <th scope="col" className="px-6 py-3">
-                Payment Status
+                Status Pembayaran
               </th>
               <th scope="col" className="px-6 py-3">
                 Order Status
               </th>
               <th scope="col" className="px-6 py-3">
-                Active
+                Aksi
               </th>
             </tr>
           </thead>

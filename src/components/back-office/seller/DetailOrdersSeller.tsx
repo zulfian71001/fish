@@ -2,7 +2,7 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import Image from "next/image";
 import orang from "@/assets/orang.jpeg";
-import Heading from "./Heading";
+import Heading from "../Heading";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { AppDispatch, useAppSelector } from "@/GlobalRedux/store";
@@ -11,6 +11,7 @@ import {
   get_admin_order,
   get_seller_order,
   messageClear,
+  seller_order_status_update,
 } from "@/GlobalRedux/features/orderReducer";
 import { searchData } from "@/utils/types";
 import Pagination from "@/components/back-office/Pagination";
@@ -32,7 +33,7 @@ const DetailOrders = ({ orderId }: { orderId: string }) => {
   const [payment, setPayment] = useState<string>(order?.payment_status);
 
   useEffect(() => {
-    dispatch(get_admin_order(orderId));
+    dispatch(get_seller_order(orderId));
   }, [orderId]);
 
   useEffect(() => {
@@ -52,9 +53,10 @@ const DetailOrders = ({ orderId }: { orderId: string }) => {
 
   const update_status = (e: ChangeEvent<HTMLSelectElement>) => {
     dispatch(
-      admin_order_status_update({ orderId, info: { status: e.target.value, payment: e.target.value } })
+      seller_order_status_update({ orderId, info: { status: e.target.value, payment: e.target.value } })
     );
-    dispatch(get_admin_order(orderId));
+    dispatch(get_seller_order(orderId));
+
     setStatus(e.target.value);
   };
 

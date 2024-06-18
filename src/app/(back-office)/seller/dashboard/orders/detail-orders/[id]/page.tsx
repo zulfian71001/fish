@@ -1,11 +1,11 @@
 import dynamic from "next/dynamic"
 
-const DetailOrders = dynamic(()=>import("@/components/back-office/DetailOrders"))
+const DetailOrders = dynamic(()=>import("@/components/back-office/seller/DetailOrdersSeller"))
 
 const page = ({params}:{params:{id:string}}) => {
   return (
     <>
-    <DetailOrders/>
+    <DetailOrders orderId={params.id}/>
     </>
   )
 }

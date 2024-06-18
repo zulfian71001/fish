@@ -3,6 +3,7 @@ import Sidebar from "@/components/back-office/Sidebar";
 import { Toaster } from "react-hot-toast";
 
 const layout = ({ children }: { children: React.ReactNode }) => {
+  
   return (
     <div className="flex">
       <Sidebar />

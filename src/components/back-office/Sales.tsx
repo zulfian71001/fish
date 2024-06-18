@@ -104,7 +104,7 @@ const Sales = () => {
   };
   return (
     <div className="bg-white p-8 space-y-4 rounded-xl">
-      <Heading title="Orders" />
+      <Heading title="Order" />
       <Chart
         ref={chartRef}
         type="bar"

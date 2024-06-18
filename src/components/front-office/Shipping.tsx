@@ -8,6 +8,9 @@ import { AppDispatch, useAppSelector } from "@/GlobalRedux/store";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { process_transaction } from "@/GlobalRedux/features/paymentReducer";
+import { convertRupiah } from "@/utils/convert";
+import axios from "axios";
+import api from "@/app/api/api";
 
 declare global {
   interface Window {
@@ -28,7 +31,7 @@ const Shipping = () => {
   const { successMsg, errorsMsg } = useAppSelector((state) => state.order);
   const [isShowPayment, setIsShowPayment] = useState<boolean>(false);
   const [isFull, setIsFull] = useState<boolean>(false);
-  const [isOrdering, setIsOrdering] = useState(false); 
+  const [isOrdering, setIsOrdering] = useState(false);
   const [isNavigate, setIsNavigate] = useState<string>("/home");
   const [dataShipping, setDataShipping] = useState<ShippingProps>({
     name: "",
@@ -36,25 +39,138 @@ const Shipping = () => {
     province: "",
     city: "",
     district: "",
+    subDistrict: "",
     address: "",
     post: "",
     payment: "",
   });
 
+  const [provinces, setProvinces] = useState([]);
+  const [cities, setCities] = useState([]);
+  const [districts, setDistricts] = useState([]);
+  const [subDistricts, setSubDistricts] = useState([]);
+
+  useEffect(() => {
+    const fetchProvinces = async () => {
+      try {
+        const response = await axios.get(
+          "https://api.binderbyte.com/wilayah/provinsi?api_key=61f6a81a4bf681041a43f94419682c8e0b2493c80b6f5aa82d8b1809b6a3adc2"
+        );
+        setProvinces(response.data.value);
+      } catch (error) {
+        console.error("Error fetching provinces:", error);
+      }
+    };
+
+    fetchProvinces();
+  }, [dataShipping.province]);
+
   const handleChange = (e: React.ChangeEvent<any>) => {
-    setDataShipping({ ...dataShipping, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setDataShipping((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+
+    if (name === "province") {
+      setDataShipping((prevData) => ({
+        ...prevData,
+        city: "",
+        district: "",
+        subDistrict: "",
+      }));
+      fetchCities(value);
+    } else if (name === "city") {
+      setDataShipping((prevData) => ({
+        ...prevData,
+        district: "",
+        subDistrict: "",
+      }));
+      fetchDistricts(value);
+    } else if (name === "district") {
+      setDataShipping((prevData) => ({
+        ...prevData,
+        subDistrict: "",
+      }));
+      fetchSubDistricts(value);
+    } else {
+      setDataShipping((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    }
+  };
+
+  const fetchCities = async (provinceId: any) => {
+    try {
+      const response = await axios.get(
+        `https://api.binderbyte.com/wilayah/kabupaten?api_key=61f6a81a4bf681041a43f94419682c8e0b2493c80b6f5aa82d8b1809b6a3adc2&id_provinsi=${provinceId}`
+      );
+      setCities(response.data.value);
+    } catch (error) {
+      console.error("Error fetching cities:", error);
+    }
+  };
+
+  const fetchDistricts = async (cityId: any) => {
+    try {
+      const response = await axios.get(
+        `https://api.binderbyte.com/wilayah/kecamatan?api_key=61f6a81a4bf681041a43f94419682c8e0b2493c80b6f5aa82d8b1809b6a3adc2&id_kabupaten=${cityId}`
+      );
+      setDistricts(response.data.value);
+    } catch (error) {
+      console.error("Error fetching districts:", error);
+    }
+  };
+
+  const fetchSubDistricts = async (districtId: any) => {
+    try {
+      const response = await axios.get(
+        ` https://api.binderbyte.com/wilayah/kelurahan?api_key=61f6a81a4bf681041a43f94419682c8e0b2493c80b6f5aa82d8b1809b6a3adc2&id_kecamatan=${districtId}`
+      );
+      console.log(response.data.value);
+      setSubDistricts(response.data.value);
+    } catch (error) {
+      console.error("Error fetching districts:", error);
+    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const { name, phone, province, city, district, address, post, payment } =
-      dataShipping;
+    if (
+      !dataShipping.name ||
+      !dataShipping.phone ||
+      !dataShipping.province ||
+      !dataShipping.city ||
+      !dataShipping.district ||
+      !dataShipping.address ||
+      !dataShipping.post ||
+      !dataShipping.payment
+    ) {
+      toast.error(
+        "Harap lengkapi semua kolom sebelum menyimpan data pengiriman.",
+        { position: "top-right" }
+      );
+      return;
+    }
+    const {
+      name,
+      phone,
+      province,
+      city,
+      district,
+      subDistrict,
+      address,
+      post,
+      payment,
+    } = dataShipping;
     if (
       name &&
       phone &&
       province &&
       city &&
       district &&
+      subDistrict &&
       address &&
       post &&
       payment
@@ -62,26 +178,37 @@ const Shipping = () => {
       if (payment == "cod") {
         setIsNavigate("/home");
       }
+
       setIsFull(true);
     }
-
-    console.log(dataShipping);
+    const nameProvince: any = provinces.find(
+      (provinsi: any) => provinsi.id === province
+    );
+    const nameCity: any = cities.find((kota: any) => kota.id === city);
+    const nameDistrict: any = districts.find(
+      (kecamatan: any) => kecamatan.id === district
+    );
+    const nameSubDistrict: any = subDistricts.find(
+      (desa: any) => desa.id === subDistrict
+    );
+    setDataShipping((prevState) => ({
+      ...prevState,
+      province: nameProvince.name,
+    }));
+    setDataShipping((prevState) => ({ ...prevState, city: nameCity.name }));
+    setDataShipping((prevState) => ({
+      ...prevState,
+      district: nameDistrict.name,
+    }));
+    setDataShipping((prevState) => ({
+      ...prevState,
+      subDistrict: nameSubDistrict.name,
+    }));
   };
 
-  useEffect(() => {
-    const client_key = transactionToken;
-    const snapScript = "https://app.sandbox.midtrans.com/snap/snap.js";
-    const script = document.createElement("script");
-    script.src = snapScript;
-    script.setAttribute("data-client-key", client_key);
-    script.async = true;
-    document.body.appendChild(script);
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, []);
+
   const placeOrder = () => {
-    setIsOrdering(true); 
+    setIsOrdering(true);
     dispatch(
       place_order({
         price,
@@ -93,14 +220,12 @@ const Shipping = () => {
         items: buy_item_product,
       })
     );
+    router.push(`/dashboard/orders`);
     setTimeout(() => {
-      setIsOrdering(false); 
+      setIsOrdering(false);
     }, 3000);
   };
 
-  const showPayment = () => {
-    dispatch(process_transaction(orderId));
-  };
   useEffect(() => {
     if (errorsMsg) {
       toast.error(errorsMsg, { position: "top-right" });
@@ -116,183 +241,215 @@ const Shipping = () => {
     }
   }, [errorsMsg, successMsg]);
 
-  useEffect(() => {
-    if (!loading) {
-      window.snap?.pay(transactionToken);
-    }
-  }, [loading]);
-
   return (
     <div className="min-h-[85vh] w-full bg-slate-100">
       <div className="w-full h-full flex gap-2">
-        {isShowPayment ? (
+        <>
           <div className="w-[60%] flex flex-col items-end mx-8">
-          <button
-            className={`w-full hover:bg-cyan-700 text-white p-2 rounded-md bg-cyan-600`}
-            onClick={showPayment}
-          >
-            Bayar Sekarang
-          </button>
-          </div>
-
-        ) : (
-          <>
-            <div className="w-[60%] flex flex-col items-end mx-8">
-              <div className="w-full flex flex-col p-10 bg-white rounded-md my-10 gap-6">
-                {!isFull ? (
-                  <>
-                    <h5 className="text-xl font-semibold">
-                      Shipping information
-                    </h5>
-                    <form
-                      className="grid grid-cols-1 md:grid-cols-2 gap-6"
-                      onSubmit={handleSubmit}
-                    >
-                      <div className="flex flex-col">
-                        <label htmlFor="name">Nama</label>
-                        <input
-                          type="text"
-                          className="p-2 outline-none border border-slate-500 rounded-md"
-                          name="name"
-                          placeholder="Nama"
-                          onChange={handleChange}
-                        />
-                      </div>
-                      <div className="flex flex-col">
-                        <label htmlFor="phone">Phone</label>
-                        <input
-                          type="text"
-                          className="p-2 outline-none border border-slate-500 rounded-md"
-                          name="phone"
-                          placeholder="Phone"
-                          onChange={handleChange}
-                        />
-                      </div>
-                      <div className="flex flex-col">
-                        <label htmlFor="province">Provinsi</label>
-                        <input
-                          type="text"
-                          className="p-2 outline-none border border-slate-500 rounded-md"
-                          name="province"
-                          placeholder="Provinsi"
-                          onChange={handleChange}
-                        />
-                      </div>
-                      <div className="flex flex-col">
-                        <label htmlFor="city">Kota</label>
-                        <input
-                          type="text"
-                          className="p-2 outline-none border border-slate-500 rounded-md"
-                          placeholder="Kota"
-                          name="city"
-                          onChange={handleChange}
-                        />
-                      </div>
-                      <div className="flex flex-col">
-                        <label htmlFor="district">Kecamatan</label>
-                        <input
-                          type="text"
-                          className="p-2 outline-none border border-slate-500 rounded-md"
-                          placeholder="Kecamatan"
-                          name="district"
-                          onChange={handleChange}
-                        />
-                      </div>
-                      <div className="flex flex-col">
-                        <label htmlFor="address">Alamat Lengkap</label>
-                        <input
-                          type="text"
-                          className="p-2 outline-none border border-slate-500 rounded-md"
-                          placeholder="Alamat lengkap"
-                          name="address"
-                          onChange={handleChange}
-                        />
-                      </div>
-                      <div className="flex flex-col">
-                        <label htmlFor="post">Kode Pos</label>
-                        <input
-                          type="text"
-                          className="p-2 outline-none border border-slate-500 rounded-md"
-                          placeholder="Kode Pos"
-                          name="post"
-                          onChange={handleChange}
-                        />
-                      </div>
-                      <div className="w-full ">
-                        <p>Pilih Pembayaran</p>
-                        <select
-                          className="text-black border-slate-500 outline-none h-10 w-full rounded-md "
-                          onChange={handleChange}
-                          name="payment"
-                          defaultValue=""
-                        >
-                          <option value="" disabled>
-                            Pilih Pembayaran
-                          </option>
-                          <option value="transfer">transfer</option>
-                          <option value="cod">COD</option>
-                        </select>
-                      </div>
-
-                      <div className="w-full flex items-end">
-                        <button
-                          type="submit"
-                          className="bg-cyan-500 text-white font-semibold hover:bg-cyan-600 w-full p-3 rounded-md"
-                        >
-                          Save
-                        </button>
-                      </div>
-                    </form>
-                  </>
-                ) : (
-                  <div>
-                    <p>Dikirim ke {dataShipping.name}</p>
-                    <div className="flex gap-1">
-                      <p className="bg-cyan-100 text-cyan-700 font-medium mr-2 px-2 rounded-md">
-                        Home
-                      </p>
-                      <p className=" text-black font-medium">
-                        {dataShipping.address} {dataShipping.district}{" "}
-                        {dataShipping.city} {dataShipping.province}
-                      </p>
-                      <p
-                        className="text-cyan-600 hover:text-cyan-700 font-semibold cursor-pointer px-2"
-                        onClick={() => setIsFull(false)}
-                      >
-                        Ganti
-                      </p>
+            <div className="w-full flex flex-col p-10 bg-white rounded-md my-10 gap-6">
+              {!isFull ? (
+                <>
+                  <h5 className="text-xl font-semibold">
+                    Informasi Pengiriman
+                  </h5>
+                  <form
+                    className="grid grid-cols-1 md:grid-cols-2 gap-6"
+                    onSubmit={handleSubmit}
+                  >
+                    <div className="flex flex-col">
+                      <label htmlFor="name">Nama</label>
+                      <input
+                        type="text"
+                        className="p-2 outline-none border border-slate-500 rounded-md"
+                        name="name"
+                        placeholder="Nama"
+                        onChange={handleChange}
+                      />
                     </div>
-                    <p className="text-black">Email to {userInfo?.email}</p>
+                    <div className="flex flex-col">
+                      <label htmlFor="phone">No. Tlp</label>
+                      <input
+                        type="text"
+                        className="p-2 outline-none border border-slate-500 rounded-md"
+                        name="phone"
+                        placeholder="Phone"
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <div className="flex flex-col">
+                      <label htmlFor="province">Provinsi</label>
+                      <select
+                        className="p-2 outline-none border border-slate-500 rounded-md"
+                        name="province"
+                        value={dataShipping.province}
+                        onChange={handleChange}
+                      >
+                        <option value="" disabled>
+                          Pilih Provinsi
+                        </option>
+                        {provinces.length > 0 &&
+                          provinces?.map((province: any) => (
+                            <option key={province?.id} value={province?.id}>
+                              {province?.name}
+                            </option>
+                          ))}
+                      </select>
+                    </div>
+                    <div className="flex flex-col">
+                      <label htmlFor="city">Kota</label>
+                      <select
+                        className="p-2 outline-none border border-slate-500 rounded-md"
+                        name="city"
+                        value={dataShipping.city}
+                        onChange={handleChange}
+                      >
+                        <option value="" disabled>
+                          Pilih Kota
+                        </option>
+                        {cities.length > 0 &&
+                          cities.map((city: any) => (
+                            <option key={city?.id} value={city?.id}>
+                              {city?.name}
+                            </option>
+                          ))}
+                      </select>
+                    </div>
+                    <div className="flex flex-col">
+                      <label htmlFor="district">Kecamatan</label>
+                      <select
+                        className="p-2 outline-none border border-slate-500 rounded-md"
+                        name="district"
+                        value={dataShipping.district}
+                        onChange={handleChange}
+                      >
+                        <option value="" disabled>
+                          Pilih Kecamatan
+                        </option>
+                        {districts.length > 0 &&
+                          districts.map((district: any) => (
+                            <option key={district?.id} value={district?.id}>
+                              {district?.name}
+                            </option>
+                          ))}
+                      </select>
+                    </div>
+                    <div className="flex flex-col">
+                      <label htmlFor="subDistrict">Desa</label>
+                      <select
+                        className="p-2 outline-none border border-slate-500 rounded-md"
+                        name="subDistrict"
+                        value={dataShipping.subDistrict}
+                        onChange={handleChange}
+                      >
+                        <option value="" disabled>
+                          Pilih Desa
+                        </option>
+                        {subDistricts.length > 0 &&
+                          subDistricts.map((subDistrict: any) => (
+                            <option
+                              key={subDistrict?.id}
+                              value={subDistrict?.id}
+                            >
+                              {subDistrict?.name}
+                            </option>
+                          ))}
+                      </select>
+                    </div>
+                    <div className="flex flex-col">
+                      <label htmlFor="address">Alamat Lengkap</label>
+                      <input
+                        type="text"
+                        className="p-2 outline-none border border-slate-500 rounded-md"
+                        placeholder="Alamat lengkap"
+                        name="address"
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <div className="flex flex-col">
+                      <label htmlFor="post">Kode Pos</label>
+                      <input
+                        type="text"
+                        className="p-2 outline-none border border-slate-500 rounded-md"
+                        placeholder="Kode Pos"
+                        name="post"
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <div className="w-full ">
+                      <p>Pilih Pembayaran</p>
+                      <select
+                        className="text-black border-slate-500 outline-none h-10 w-full rounded-md "
+                        onChange={handleChange}
+                        name="payment"
+                        defaultValue=""
+                      >
+                        <option value="" disabled>
+                          Pilih Pembayaran
+                        </option>
+                        <option value="transfer">transfer</option>
+                        <option value="cod">COD</option>
+                      </select>
+                    </div>
+
+                    <div className="w-full flex items-end">
+                      <button
+                        type="submit"
+                        className="bg-cyan-500 text-white font-semibold hover:bg-cyan-600 w-full p-3 rounded-md"
+                      >
+                        Simpan
+                      </button>
+                    </div>
+                  </form>
+                </>
+              ) : (
+                <div>
+                  <p>Dikirim ke {dataShipping.name}</p>
+                  <div className="flex gap-1">
+                    <p className="bg-cyan-100 text-cyan-700 font-medium mr-2 px-2 rounded-md">
+                      Home
+                    </p>
+                    <p className=" text-black font-medium">
+                      {dataShipping.address} {dataShipping.subDistrict}{" "}
+                      {dataShipping.district} {dataShipping.city}{" "}
+                      {dataShipping.province}
+                    </p>
+                    <p
+                      className="text-cyan-600 hover:text-cyan-700 font-semibold cursor-pointer px-2"
+                      onClick={() => setIsFull(false)}
+                    >
+                      Ganti
+                    </p>
                   </div>
-                )}
-              </div>
+                  <p className="text-black">Email Kepada {userInfo?.email}</p>
+                </div>
+              )}
             </div>
-            <div className="w-full lg:w-[40%] h-full bg-white p-6 mt-10 mr-10 rounded-md space-y-4">
-              <p className="text-xl font-semibold">Orders</p>
-              <div className="flex justify-between">
-                <p>Total items</p>
-                <p>{buy_item_product}</p>
-              </div>
-              <div className="flex justify-between">
-                <p>Ongkos Kirim</p>
-                <p>Rp. {shipping_fee}</p>
-              </div>
-              <div className="flex justify-between">
-                <p>Total pembayaran</p>
-                <p>Rp. {price + shipping_fee}</p>
-              </div>
-              <button
-                disabled={!isFull || isOrdering}
-                className={`w-full hover:bg-cyan-700 text-white p-2 rounded-md ${
-                  isFull ? "bg-cyan-600" : "bg-cyan-300"
-                }`}
-                onClick={placeOrder}
-              >
-                 {isOrdering ? 'Processing...' : 'Order'} 
-              </button>
+          </div>
+          <div className="w-full lg:w-[40%] h-full bg-white p-6 mt-10 mr-10 rounded-md space-y-4">
+            <p className="text-xl font-semibold">Order</p>
+            <div className="flex justify-between">
+              <p>Total items</p>
+              <p>{buy_item_product}</p>
             </div>
-          </>
-        )}
+            <div className="flex justify-between">
+              <p>Ongkos Kirim</p>
+              <p>{convertRupiah(shipping_fee)}</p>
+            </div>
+            <div className="flex justify-between">
+              <p>Total pembayaran</p>
+              <p>{convertRupiah(price + shipping_fee)}</p>
+            </div>
+            <button
+              disabled={!isFull || isOrdering}
+              className={`w-full  text-white p-2 rounded-md ${
+                isFull ? "bg-cyan-600 hover:bg-cyan-700" : "bg-cyan-700"
+              }`}
+              onClick={placeOrder}
+            >
+              {isOrdering ? "Processing..." : "Buat Order"}
+            </button>
+          </div>
+        </>
       </div>
     </div>
   );

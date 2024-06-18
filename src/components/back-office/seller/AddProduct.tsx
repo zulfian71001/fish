@@ -75,7 +75,7 @@ const AddProduct = () => {
     formData.append("stock", String(dataProduct.stock));
     formData.append("price", String(dataProduct.price));
     formData.append("desc", dataProduct.desc);
-    formData.append("shopName", userInfo?.shopInfo.shopName);
+    formData.append("shopName", userInfo?.shopInfo?.shopName);
     for (let i = 0; i < images.length; i++) {
       formData.append("images", images[i]);
     }
@@ -207,7 +207,7 @@ useEffect(() => {
                   name="desc"
                   onChange={handleChange}
                   className=" border  text-sm rounded-lg outline-none block w-full p-2.5 border-gray-600 placeholder-gray-400 text-slate-700 focus:border-cyan-500"
-                  placeholder="ketikkan nama deskripsi"
+                  placeholder="ketikkan deskripsi produk"
                 />
               </div>
             </div>
@@ -261,8 +261,8 @@ useEffect(() => {
                       />
                     </svg>
                     <p className="mb-2 text-sm  text-gray-400">
-                      <span className="font-semibold">Click to upload</span> or
-                      drag and drop
+                      <span className="font-semibold">klik untuk upload</span> atau
+                      drag dan drop
                     </p>
                     <p className="ml-2 text-xs  text-gray-400">
                       SVG, PNG, JPG or GIF (MAX. 800x400px)

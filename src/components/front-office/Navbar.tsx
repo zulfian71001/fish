@@ -81,6 +81,7 @@ const Navbar = () => {
     },
   ];
   const handleLogout = () => {
+    setOpenModal(false);
     localStorage.removeItem("accessToken");
     deleteCookie("accessToken");
     router.push("/home");
@@ -222,7 +223,7 @@ const Navbar = () => {
           </div>
         </div>
         <div
-          className={` duration-500 ease-in lg:hidden z-[60] ${
+          className={` duration-500 ease-in xl:hidden z-[60] ${
             isOpen
               ? "fixed left-0 right-0 bottom-0 top-0 bg-black/50 opacity-100"
               : "hidden opacity-0 -left-[100%]"

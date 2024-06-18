@@ -11,6 +11,8 @@ import cartReducer from "./features/cartReducer";
 import orderReducer from "./features/orderReducer";
 import dashboardUser from "./features/dashboardReducer"
 import paymentReducer from "./features/paymentReducer";
+import chatReducer from "./features/chatReducer";
+import backOfficeChatReducer from "./features/backOfficeChatReducer";
 
 const createNoopStorage = () => {
   return {
@@ -46,7 +48,9 @@ const rootReducer:any = combineReducers({
   cart:cartReducer,
   order:orderReducer,
   payment:paymentReducer,
-  dashboardUser:dashboardUser
+  dashboardUser:dashboardUser,
+  chat:chatReducer,
+  backOfficeChat:backOfficeChatReducer
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
