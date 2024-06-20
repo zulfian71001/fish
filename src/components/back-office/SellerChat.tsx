@@ -24,7 +24,7 @@ import {
 
 } from "@/GlobalRedux/features/backOfficeChatReducer";
 
-const socket = io("http://localhost:5000");
+const socket = io("http://93.127.167.182:5000");
 const Chat = () => {
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();

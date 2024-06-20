@@ -26,7 +26,7 @@ import {
 import { fdMessages } from "@/utils/types";
 import toast from "react-hot-toast";
 
-const socket = io("http://localhost:5000");
+const socket = io("http://93.127.167.182:5000");
 
 const ChatToSeller = ({ sellerId }: { sellerId: string }) => {
   const dispatch = useDispatch<AppDispatch>();

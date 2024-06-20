@@ -36,7 +36,7 @@ import {
 } from "@/GlobalRedux/features/backOfficeChatReducer";
 import { fdMessages } from "@/utils/types";
 
-const socket = io("http://localhost:5000");
+const socket = io("http://93.127.167.182:5000");
 const Chat = ({ sellerId }: { sellerId: string }) => {
   const dispatch = useDispatch<AppDispatch>();
   const pathname = usePathname();
