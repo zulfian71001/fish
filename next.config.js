@@ -3,11 +3,12 @@ module.exports = {
   images: {
     domains: ["res.cloudinary.com", "example.com"],
   },
-  async rewrites() {
+  async redirects() {
     return [
       {
-        source: '/home',
-        destination: '/',
+        source: '/',
+        destination: '/home',
+        permanent: true,
       },
     ]
   },
