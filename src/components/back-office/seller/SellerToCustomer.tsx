@@ -26,7 +26,7 @@ import {
 } from "@/GlobalRedux/features/backOfficeChatReducer";
 import { fdMessages } from "@/utils/types";
 
-const socket = io("http://93.127.167.182:5000");
+const socket = io("https://iwakmart.shop");
 const Chat = ({ customerId }: { customerId: string }) => {
   const dispatch = useDispatch<AppDispatch>();
 const pathname = usePathname()
