@@ -17,11 +17,13 @@ const Page = () => {
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
   const { categories } = useAppSelector((state) => state.home);
+  const { userInfo} = useAppSelector((state) => state.auth);
 
   useEffect(() => {
     dispatch(get_categories());
   }, [dispatch]);
 
+  console.log(userInfo)
   return (
     <div className="w-full">
       <Navbar />
