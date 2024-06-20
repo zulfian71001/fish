@@ -12,8 +12,9 @@ import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { deleteCookie } from "cookies-next";
-import Image from "next/image";
-import Logo from "@/assets/logo.png";
+import { AppDispatch, useAppSelector } from "@/GlobalRedux/store";
+import { useDispatch } from "react-redux";
+import { setUserInfo } from "@/GlobalRedux/features/authReducer";
 
 
 const sidebarContent = [
@@ -27,11 +28,7 @@ const sidebarContent = [
     icon: <ShoppingBasket />,
     url: "/dashboard/orders",
   },
-//   {
-//     name: "Pembayaran",
-//     icon: <DollarSign />,
-//     url: "/seller/dashboard/payment",
-//   },
+
   {
     name: "Chat ",
     icon: <MessageCircle />,
@@ -47,8 +44,10 @@ const sidebarContent = [
 const SidebarUser = () => {
   const pathname = usePathname();
   const router = useRouter();
+  const dispatch = useDispatch<AppDispatch>();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const handleLogout = () => {
+    dispatch(setUserInfo())
     localStorage.removeItem("accessToken");
     deleteCookie( "accessToken");
     router.push("/home");

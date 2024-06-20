@@ -18,9 +18,10 @@ const Navbar = () => {
   const { userInfo } = useAppSelector((state) => state.auth); 
   const { total_cart_products, userId } = useAppSelector((state) => state.cart);
 
-  const token = hasCookie("accessToken");
+  const token = userInfo.token;
   useEffect(() => {
     if (token) {
+      localStorage.setItem("accessToken", userInfo.token);
       dispatch(user_info());
     } else {
       dispatch(setUserInfo());
@@ -83,6 +84,7 @@ const Navbar = () => {
   ];
   const handleLogout = () => {
     setOpenModal(false);
+    dispatch(setUserInfo())
     localStorage.removeItem("accessToken");
     deleteCookie("accessToken");
     if(pathname == "/home") {

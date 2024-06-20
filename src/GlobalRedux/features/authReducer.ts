@@ -1,8 +1,6 @@
 import {
   createSlice,
-  PayloadAction,
   createAsyncThunk,
-  isRejectedWithValue,
 } from "@reduxjs/toolkit";
 import { jwtDecode } from "jwt-decode";
 import api from "@/app/api/api";
@@ -11,7 +9,6 @@ import {
   requestDataRegister,
   serverResponse,
   RejectedAction,
-  serverResponseRegister,
   IAuth,
   IJwtPayload,
   IFormStore,
