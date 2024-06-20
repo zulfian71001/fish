@@ -92,7 +92,7 @@ const DetailProduct = ({ productId }: { productId: string }) => {
       </div>
       <div className="w-full flex flex-col lg:flex-row px-8 my-6">
         <div className="flex flex-col gap-8 relative w-full lg:w-1/2 rounded-md">
-          {product?.images && product.images.length > 0 ? (
+          {product?.images && product.images.length > 0 && (
             <Image
               src={image || product.images[0]}
               alt="gambar"
@@ -100,15 +100,7 @@ const DetailProduct = ({ productId }: { productId: string }) => {
               width={500}
               height={500}
             />
-          ) : (
-            <Image
-              src={Ikan}
-              alt="placeholder"
-              className="w-full object-cover h-80"
-              width={500}
-              height={500}
-            />
-          )}
+          ) }
           {product?.images?.length > 1 ? (
             <div className="w-full">
               <Swiper
@@ -180,6 +172,9 @@ const DetailProduct = ({ productId }: { productId: string }) => {
             <p className="font-bold text-2xl">Ketersediaan</p>
             <p className={`text-${product?.stock ? "cyan" : "red"}-600`}>
               {product?.stock ? `stok ada ${product?.stock} kg` : "stok habis"}
+            </p>
+            <p >
+              {userInfo?.shopInfo?.noWa}
             </p>
           </div>
           <div className="flex gap-4">

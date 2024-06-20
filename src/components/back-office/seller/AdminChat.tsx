@@ -1,83 +1,216 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
+import Heading from "@/components/back-office/Heading";
+import {
+  MessageCircleMore,
+  Plus,
+  Send,
+  SendHorizontal,
+  SmilePlus,
+} from "lucide-react";
+import User from "@/assets/user.png";
+import Link from "next/link";
 import Image from "next/image";
-import orang from "@/assets/orang.jpeg";
-import { IChatUser } from "@/utils/types";
+import { useDispatch } from "react-redux";
+import { usePathname, useRouter } from "next/navigation";
+import { AppDispatch, useAppSelector } from "@/GlobalRedux/store";
+import { get_dashboard_index_data } from "@/GlobalRedux/features/dashboardReducer";
+import io from "socket.io-client";
+import {
+  get_customers,
+  get_seller_message,
+  get_sellers,
+  messageClear,
+  send_message_seller_admin,
+  updateActiveCustomer,
+} from "@/GlobalRedux/features/backOfficeChatReducer";
+import { fdMessages } from "@/utils/types";
 
-const dataCustomers = [
-  {
-    image: orang,
-    name: "Nafis",
-  },
-  {
-    image: orang,
-    name: "Nafis",
-  },
-  {
-    image: orang,
-    name: "Nafis",
-  },
-  {
-    image: orang,
-    name: "Nafis",
-  },
-];
+const socket = io("http://localhost:5000");
+const Chat = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const pathname = usePathname();
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [receiverMsg, setReceiverMsg] = useState<Partial<fdMessages>>({});
+  const [text, setText] = useState<string>("");
+  const { userInfo } = useAppSelector((state) => state.auth);
+  const {
+    currentSeller,
+    successMsg,
+    activeSeller,
+    seller_admin_message,
+    updateMessageAdmin,
+    activeAdmin
+  } = useAppSelector((state) => state.backOfficeChat);
 
-const DetailSeller = () => {
-  const [currentUser, setCurrentUser] = useState<number>(0);
-  const [iUser, setIUser] = useState<IChatUser[]>(dataCustomers);
-  const [searchValue, setSearchValue] = useState<string>("");
-  const [show, setShow] = useState<boolean>(false);
   useEffect(() => {
-    console.log(iUser);
-  }, [iUser]);
-  const activeUserClick = (id: number) => {
-    setCurrentUser(id);
+    if (userInfo && userInfo.role == "seller") {
+      socket.emit("add_seller", userInfo._id, userInfo);
+    } else {
+      socket.emit("add_admin", userInfo);
+    }
+  }, [userInfo]);
+
+
+  useEffect(() => {
+    dispatch(get_sellers());
+  }, []);
+
+  const sendMessage = (e: FormEvent) => {
+    e.preventDefault();
+    if (text.trim() !== "") {
+      dispatch(
+        send_message_seller_admin({
+          userId: userInfo._id,
+          message: text,
+          receiverId: '',
+          senderName: userInfo?.name,
+        })
+      );
+    }
+    setText("");
   };
+
+  useEffect(() => {
+
+      dispatch(get_seller_message());
+    
+  }, []);
+
+  useEffect(() => {
+    if (successMsg) {
+      socket.emit("send_message_seller_to_admin", seller_admin_message[seller_admin_message.length - 1]);
+      dispatch(messageClear());
+    }
+  }, [successMsg]);
+
+  useEffect(() => {
+    socket.on("received_admin_message", (msg) => {
+      dispatch(updateMessageAdmin);
+    });
+  }, []);
+
+  // useEffect(() => {
+  //   if (receiverMsg) {
+  //     if (
+  //       sellerId === receiverMsg?.senderId &&
+  //       userInfo._id === receiverMsg?.receiverId
+  //     ) {
+  //       dispatch(updateMessageSeller(receiverMsg));
+  //     }
+  //     //   else {
+  //     //     toast.success(receiveMsg?.senderName + " " + "mengirim sebuah pesan");
+  //     //   dispatch(messageClear());
+  //     //   }
+  //   }
+  // }, [receiverMsg]);
+
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [seller_admin_message]);
+
+
+
   return (
-    <section className="h-screen flex justify-between p-8 rounded-xl space-y-6 bg-slate-800">
-      <div className="flex flex-col p-2 gap-4">
-        {iUser
-          .filter((_, i) => i === currentUser)
-          .map((data, i) => (
-            <div className="flex items-center gap-4" key={i}>
-              <Image
-                src={data.image}
-                alt="gambar"
-                className="w-14 h-14 rounded-full"
-              />
-              <h4>{data.name}</h4>
+    <>
+      <section className="px-8 rounded-xl flex gap-4 bg-white w-full min-h-[70vh]">
+        <div className="w-full ">
+          <div className="w-full h-full">
+            <div className="flex gap-3 text-xl items-center text-slate-700 h-[50px]">
+              <div className="w-[30px] h-[30px] rounded-full relative">
+                {activeAdmin && (
+                  <div className="w-[10px] h-[10px] rounded-full bg-green-500 absolute right-0 bottom-0 "></div>
+                )}
+                {currentSeller?.image ? (
+                  <Image src={currentSeller?.image} alt="gambar" />
+                ) : (
+                  <Image src={User} alt="gambar" />
+                )}
+              </div>
+              <span>
+                Admin
+              </span>
             </div>
-          ))}
-        <div className="space-y-2">
-          <div className="flex flex-col gap-2 bg-slate-900 p-4 h-[calc(100vh-230px)] relative">
-            <div className="flex items-center flex-wrap w-1/3 bg-slate-950 p-3 rounded-md relative before:absolute before:-bottom-[2px] before:-left-1 before:bg-slate-950 before:skew-x-[-36deg] before:w-4  before:h-4 before:content-[''] ">
-              <p>sdnapdskcsldasdfasn kfsaklnld dsgsdgsd afasfdsf</p>
+            <div className="h-[400px] w-full bg-slate-100 rounded-md p-4">
+              <div className="w-full h-full flex flex-col gap-3 overflow-y-auto">
+                {userInfo.role ==="seller" ? (
+                  seller_admin_message.map((data: any, i: number) => {
+                    if (data.senderId !== userInfo._id) {
+                      return (
+                        <div
+                          className="w-full flex items-center gap-2 text-[14px]"
+                          key={i}
+                          ref={scrollRef}
+                        >
+                          <div className="w-[30px] h-[30px] rounded-full relative">
+                            {currentSeller?.image ? (
+                              <Image src={currentSeller?.image} alt="gambar" />
+                            ) : (
+                              <Image src={User} alt="gambar" />
+                            )}
+                          </div>
+                          <div className="bg-cyan-500 p-2 text-white rounded-md">
+                            <span>{data.message}</span>
+                          </div>
+                        </div>
+                      );
+                    } else {
+                      return (
+                        <div
+                          className="w-full flex justify-end items-center gap-2 text-[14px]"
+                          key={i}
+                          ref={scrollRef}
+                        >
+                          <div className="bg-cyan-500 p-2 text-white rounded-md">
+                            <span>{data.message}</span>
+                          </div>
+                          <div className="w-[30px] h-[30px] rounded-full relative">
+                            {userInfo?.image ? (
+                              <Image src={userInfo.image} alt="gambar" />
+                            ) : (
+                              <Image src={User} alt="gambar" />
+                            )}
+                          </div>
+                        </div>
+                      );
+                    }
+                  })
+                ) : (
+                  <></>
+                )}
+              </div>
             </div>
-            <div className="flex self-end justify-end items-center flex-wrap w-1/3 bg-slate-950 p-3 rounded-md relative after:absolute after:-bottom-[2px] after:-right-1 after:bg-slate-950 after:skew-x-[36deg] after:w-4 after:h-4 after:content-[''] ">
-              <p className="">
-                sdnapdskcsldasdfasn kfsaklnld dsgsdgsd afasfdsf
-              </p>
-            </div>
-          </div>
-          <form className="flex items-center gap-4">
-            <input
-              type="pesan"
-              id="pesan"
-              className="bg-slate-900 border border-gray-600 text-slate-100 text-sm rounded-lg outline-none focus:ring-cyan-500 focus:border-cyan-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-cyan-500 dark:focus:border-cyan-500"
-              placeholder="ketikkan pesan anda"
-            />
-            <button
-              type="submit"
-              className="text-white bg-cyan-500 hover:bg-cyan-600 focus:ring-4 focus:outline-none focus:ring-cyan-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800"
+            <form
+              className="flex p-2 justify-between items-center w-full text-slate-700"
+              onSubmit={sendMessage}
             >
-              Submit
-            </button>
-          </form>
+              <div className="border h-[40px] ml-2 w-[calc(100%-60px)] rounded-full relative">
+                <input
+                  type="text"
+                  placeholder="ketikkan pesan"
+                  className="w-full rounded-full h-full outline-none p-3 "
+                  value={text}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                    setText(e.target.value)
+                  }
+                  // readOnly={sellerId ? false : true}
+                />
+              </div>
+              <div className="w-[40px] p-2 flex justify-center items-center rounded-full hover:shadow-xl transition-all duration-150">
+                <button
+                  type="submit"
+                  className={`text-2xl cursor-pointer`}
+                  // disabled={sellerId ? false : true}
+                >
+                  <SendHorizontal />
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 };
 
-export default DetailSeller;
+export default Chat;

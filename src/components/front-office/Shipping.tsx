@@ -176,7 +176,7 @@ const Shipping = () => {
       payment
     ) {
       if (payment == "cod") {
-        setIsNavigate("/home");
+        setIsNavigate("/dashboard/orders");
       }
 
       setIsFull(true);

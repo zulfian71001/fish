@@ -1,5 +1,5 @@
 "use client";
-import React, { ChangeEvent, FormEvent, useState } from "react";
+import React, { ChangeEvent, FormEvent, useRef, useState } from "react";
 import Heading from "@/components/back-office/Heading";
 import {
   MessageCircleMore,
@@ -12,7 +12,7 @@ import User from "@/assets/user.png";
 import Link from "next/link";
 import Image from "next/image";
 import { useDispatch } from "react-redux";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { AppDispatch, useAppSelector } from "@/GlobalRedux/store";
 import { get_dashboard_index_data } from "@/GlobalRedux/features/dashboardReducer";
 import { useEffect } from "react";
@@ -30,7 +30,8 @@ const socket = io("http://localhost:5000");
 
 const ChatToSeller = ({ sellerId }: { sellerId: string }) => {
   const dispatch = useDispatch<AppDispatch>();
-  const router = useRouter();
+  const pathname = usePathname();
+  const scrollRef = useRef<HTMLDivElement>(null);
   const [activeSellers, setActiveSellers] = useState<Array<Partial<fdMessages>>>([]);
   const [text, setText] = useState<string>("");
   const [receiverMsg, setReceiverMsg] = useState<Partial<fdMessages>>({});
@@ -81,7 +82,7 @@ const ChatToSeller = ({ sellerId }: { sellerId: string }) => {
 
   useEffect(() => {
     if (successMsg) {
-        socket.emit("send_customer_message", fd_messages[fd_messages.length - 1])
+        socket.emit("send_customer_message", fd_messages[fd_messages?.length - 1])
       dispatch(messageClear());
     }
   }, [successMsg]);
@@ -94,8 +95,16 @@ const ChatToSeller = ({ sellerId }: { sellerId: string }) => {
       ) {
         dispatch(updateMessage(receiverMsg));
       }
+      // else {
+        //     toast.success(receiveMsg?.senderName + " " + "mengirim sebuah pesan");
+        //   dispatch(messageClear());
+        //   }
     }
   }, [receiverMsg]);
+
+  useEffect(()=>{
+    scrollRef.current?.scrollIntoView({behavior:"smooth"})
+  },[fd_messages])
   return (
     <>
       <section className="px-8 rounded-xl flex gap-4 bg-white w-full">
@@ -112,7 +121,7 @@ const ChatToSeller = ({ sellerId }: { sellerId: string }) => {
                   <Link
                     href={`/dashboard/chat/${data?.fdId}`}
                     key={i}
-                    className="flex gap-2 items-center py-1"
+                    className={`flex gap-2 items-center py-1 hover:bg-slate-100 px-2 rounded-xs ${pathname === `/dashboard/chat/${data?.fdId}` ? "bg-slate-100" : ""}`}
                   >
                     <div className="w-[30px] h-[30px] rounded-full relative">
                       {
@@ -155,7 +164,7 @@ const ChatToSeller = ({ sellerId }: { sellerId: string }) => {
                         return (
                           <div
                             className="w-full flex items-center gap-2 text-[14px]"
-                            key={i}
+                            key={i} ref={scrollRef}
                           >
                             <div className="w-[30px] h-[30px] rounded-full relative">
                               {currentFd?.image ? (
@@ -173,7 +182,7 @@ const ChatToSeller = ({ sellerId }: { sellerId: string }) => {
                         return (
                           <div
                             className="w-full flex justify-end items-center gap-2 text-[14px]"
-                            key={i}
+                            key={i} ref={scrollRef}
                           >
                             <div className="bg-cyan-500 p-2 text-white rounded-md">
                               <span>{data?.message}</span>

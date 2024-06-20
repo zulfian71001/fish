@@ -1,20 +1,10 @@
 import {
   createSlice,
-  PayloadAction,
   createAsyncThunk,
-  isRejectedWithValue,
 } from "@reduxjs/toolkit";
-import { jwtDecode } from "jwt-decode";
 import api from "@/app/api/api";
 import {
-  requestData,
-  requestDataRegister,
-  serverResponse,
   RejectedAction,
-  serverResponseRegister,
-  IAuth,
-  IJwtPayload,
-  IFormStore,
   IChatUserRedux,
 } from "@/utils/types";
 
@@ -50,7 +40,6 @@ export const add_friend = createAsyncThunk(
           withCredentials: true,
         }
       );
-      console.log(data);
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
       return rejectWithValue(error.response.data.error);
@@ -69,7 +58,6 @@ export const send_message = createAsyncThunk(
           withCredentials: true,
         }
       );
-      console.log(data);
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
       return rejectWithValue(error.response.data.error);
@@ -81,15 +69,6 @@ export const chatSlice = createSlice({
   name: "chat",
   initialState,
   reducers: {
-    // setSuccessMsg: (state, action: PayloadAction<string>) => {
-    //   state.successMsg = action.payload;
-    // },
-    // setErrorsMsg: (state, action: PayloadAction<string>) => {
-    //   state.errorsMsg = action.payload;
-    // },
-    // setLoader: (state, action: PayloadAction<boolean>) => {
-    //   state.loader = action.payload;
-    // },
     messageClear: (state) => {
       state.errorsMsg = "";
       state.successMsg = "";
@@ -120,15 +99,7 @@ export const chatSlice = createSlice({
         state.fd_messages = [...state.fd_messages, action.payload.messages];
         state.successMsg = "pesan terkirim";
       });
-    //     .addCase(admin_login.fulfilled, (state, action) => {
-    //       state.loader = false;
-    //       state.successMsg = action.payload.message as string;
-    //       state.role = getRoleFromToken(action.payload.token);
-    //     })
-    //       .addCase(add_info_profile.rejected, (state, action) => {
-    //         state.loader = false;
-    //         state.errorsMsg = action.payload as string;
-    //       });
+
   },
 });
 

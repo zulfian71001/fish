@@ -1,5 +1,5 @@
 import api from "@/app/api/api";
-import { GetOrdersParams, ICart, IOrder, orderProps, RejectedAction, requestCart, searchData } from "@/utils/types";
+import { GetOrdersParams, IOrder, orderProps, RejectedAction,searchData } from "@/utils/types";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState: IOrder = {
@@ -33,10 +33,8 @@ export const get_orders = createAsyncThunk(
   "order/get_orders", async({customerId, status, page, perPage}:GetOrdersParams, { fulfillWithValue, rejectWithValue }) => {
     try {
       const { data } = await api.get(`/home/order/get-orders/${customerId}/${status}?page=${page}&&perPage=${perPage}`);
-      console.log(data);
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
-      console.log(error.response.data.error);
       return rejectWithValue(error.response.data.error);
     }
   }
@@ -46,10 +44,8 @@ export const get_admin_orders = createAsyncThunk(
   "order/get_admin_orders", async({perPage,page, searchValue }:searchData, { fulfillWithValue, rejectWithValue }) => {
     try {
       const { data } = await api.get(`/admin/get-orders?page=${page}&&perPage=${perPage}&&searchValue=${searchValue}`, {withCredentials:true});
-      console.log(data);
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
-      console.log(error.response.data.error);
       return rejectWithValue(error.response.data.error);
     }
   }
@@ -59,10 +55,8 @@ export const get_seller_orders = createAsyncThunk(
   "order/get_seller_orders", async({perPage,page, searchValue, sellerId }:searchData, { fulfillWithValue, rejectWithValue }) => {
     try {
       const { data } = await api.get(`/seller/get-orders/${sellerId}?page=${page}&&perPage=${perPage}&&searchValue=${searchValue}`, {withCredentials:true});
-      console.log(data);
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
-      console.log(error.response.data.error);
       return rejectWithValue(error.response.data.error);
     }
   }
@@ -72,10 +66,8 @@ export const get_order = createAsyncThunk(
   "order/get_order", async(orderId:string , { fulfillWithValue, rejectWithValue }) => {
     try {
       const { data } = await api.get(`/home/order/get-order/${orderId}`);
-      console.log(data);
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
-      console.log(error.response.data.error);
       return rejectWithValue(error.response.data.error);
     }
   }
@@ -85,10 +77,8 @@ export const get_admin_order = createAsyncThunk(
   "order/get_admin_order", async(orderId:string , { fulfillWithValue, rejectWithValue }) => {
     try {
       const { data } = await api.get(`/admin/get-order/${orderId}`,{withCredentials:true});
-      console.log(data);
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
-      console.log(error.response.data.error);
       return rejectWithValue(error.response.data.error);
     }
   }
@@ -98,10 +88,8 @@ export const get_seller_order = createAsyncThunk(
   "order/get_seller_order", async(orderId:string , { fulfillWithValue, rejectWithValue }) => {
     try {
       const { data } = await api.get(`/seller/get-order/${orderId}`,{withCredentials:true});
-      console.log(data);
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
-      console.log(error.response.data.error);
       return rejectWithValue(error.response.data.error);
     }
   }
@@ -111,10 +99,8 @@ export const admin_order_status_update = createAsyncThunk(
   "order/admin_order_status_update", async({orderId, info}:{orderId:string, info:any} , { fulfillWithValue, rejectWithValue }) => {
     try {
       const { data } = await api.put(`/admin/order-status/update/${orderId}`,info,{withCredentials:true});
-      console.log(data);
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
-      console.log(error.response.data.error);
       return rejectWithValue(error.response.data.error);
     }
   }
@@ -124,10 +110,8 @@ export const seller_order_status_update = createAsyncThunk(
   "order/seller_order_status_update", async({orderId, info}:{orderId:string, info:any} , { fulfillWithValue, rejectWithValue }) => {
     try {
       const { data } = await api.put(`/seller/order-status/update/${orderId}`,info,{withCredentials:true});
-      console.log(data);
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
-      console.log(error.response.data.error);
       return rejectWithValue(error.response.data.error);
     }
   }
@@ -137,10 +121,8 @@ export const update_status_customer_acceptance = createAsyncThunk(
   "order/update_status_customer_acceptance", async({orderId, info}:{orderId:string, info:any} , { fulfillWithValue, rejectWithValue }) => {
     try {
       const { data } = await api.put(`/home/order/order-status-acceptance/${orderId}`,info,{withCredentials:true});
-      console.log(data);
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
-      console.log(error.response.data.error);
       return rejectWithValue(error.response.data.error);
     }
   }
@@ -203,25 +185,7 @@ const orderSlice = createSlice({
       })      
       .addCase(update_status_customer_acceptance.rejected, (state, action) => {
         state.errorsMsg = action.payload as string;
-      })
-      
-    //   .addCase(get_products_cart.fulfilled, (state, action) => {
-    //     state.cart_products = action.payload.cart_products;
-    //     state.price = action.payload.price;
-    //     state.total_cart_products = action.payload.total_cart_products;
-    //     state.shipping_fee = action.payload.shipping_fee;
-    //     state.outOfStockProducts = action.payload.outOfStockProducts;
-    //     state.buy_item_product = action.payload.buy_item_product;
-    //   })
-    //   .addCase(delete_products_cart.fulfilled, (state, action) => {
-    //     state.successMsg = action.payload.message as string;
-    //   })
-    //   .addCase(quantity_inc.fulfilled, (state, action) => {
-    //     state.successMsg = action.payload.message as string;
-    //   })
-    //   .addCase(quantity_dec.fulfilled, (state, action) => {
-    //     state.successMsg = action.payload.message as string;
-    //   });
+      });
   },
 });
 

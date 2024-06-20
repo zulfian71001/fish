@@ -2,7 +2,6 @@ import api from "@/app/api/api";
 import {
 
   IPayment,
-  orderProps,
   RejectedAction,
 
 } from "@/utils/types";
@@ -22,10 +21,8 @@ export const process_transaction = createAsyncThunk(
   ) => {
     try {
       const { data } = await api.post(`/home/payment/process-transaction`, {id});
-      console.log(data);
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
-      console.log(error.response.data.error);
       return rejectWithValue(error.response.data.error);
     }
   }
@@ -53,23 +50,7 @@ const paymentSlice = createSlice({
       .addCase(process_transaction.pending, (state, action) => {
         state.loading = true;
       });
-    //   .addCase(get_products_cart.fulfilled, (state, action) => {
-    //     state.cart_products = action.payload.cart_products;
-    //     state.price = action.payload.price;
-    //     state.total_cart_products = action.payload.total_cart_products;
-    //     state.shipping_fee = action.payload.shipping_fee;
-    //     state.outOfStockProducts = action.payload.outOfStockProducts;
-    //     state.buy_item_product = action.payload.buy_item_product;
-    //   })
-    //   .addCase(delete_products_cart.fulfilled, (state, action) => {
-    //     state.successMsg = action.payload.message as string;
-    //   })
-    //   .addCase(quantity_inc.fulfilled, (state, action) => {
-    //     state.successMsg = action.payload.message as string;
-    //   })
-    //   .addCase(quantity_dec.fulfilled, (state, action) => {
-    //     state.successMsg = action.payload.message as string;
-    //   });
+
   },
 });
 

@@ -42,7 +42,7 @@ const ProductCategory = () => {
 
   return (
     <>
-      <section className="p-8 rounded-xl space-y-4 bg-white w-2/3">
+      <section className="p-8 rounded-xl space-y-4 bg-white w-full lg:w-2/3">
         <div className="flex w-full items-center justify-between">
           <select
             className="bg-cyan-500 border-none"

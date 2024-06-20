@@ -1,42 +1,31 @@
 "use client";
-import dynamic from "next/dynamic";
-const SmallCards = dynamic(() => import("./SmallCards"));
-import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import Heading from "../Heading";
+import Link from "next/link";
+import { get_dashboard_index_data_seller } from "@/GlobalRedux/features/dashboardReducer";
 import { useDispatch } from "react-redux";
+import { useRouter } from "next/navigation";
 import { AppDispatch, useAppSelector } from "@/GlobalRedux/store";
-import { get_dashboard_index_data } from "@/GlobalRedux/features/dashboardReducer";
-import { useEffect } from "react";
 import {convertStatusDelivery, convertStatus, convertRupiah} from "@/utils/convert"
 
-
-const DashboardUser = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  const router = useRouter();
-  const { userInfo } = useAppSelector((state) => state.auth);
+const RecentOrders = () => {
+  const dispatch = useDispatch<AppDispatch>()
+  const router = useRouter()
   const { totalOrders, pendingOrder, recentOrders, cancelledOrder } =
-    useAppSelector((state) => state.dashboardUser);
+  useAppSelector((state) => state.dashboardUser);
+  const {userInfo} = useAppSelector((state)=>state.auth)
 
-  useEffect(() => {
-    dispatch(get_dashboard_index_data({ userId: userInfo._id }));
-  }, [userInfo._id]);
-
-  const paymentHandler = (ord: any) => {
-    let items = 0;
-    for (let i = 0; i < ord.length; i++) {
-      items = ord.products[i].quantity + items;
-    }
-    // router.push('/dashboard/payment')
-  };
+useEffect(() => {
+  dispatch(get_dashboard_index_data_seller({userId:userInfo._id}));
+}, []);
   return (
-    <div className="w-full flex flex-col gap-6 bg-slate-200">
-      <SmallCards
-        totalOrders={totalOrders}
-        pendingOrder={pendingOrder}
-        cancelledOrder={cancelledOrder}
-      />
-
+    <div className="flex flex-col p-8 rounded-xl space-y-4 bg-white">
+      <div className="flex w-full items-center justify-between">
+        <Heading title="Order terakhir" />
+        <Link href="/seller/dashboard/orders" className="text-cyan-500 font-bold hover:text-cyan-600">Lihat Semua</Link>
+      </div>
       <div className="relative overflow-x-auto">
-        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 rounded-md">
+      <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 rounded-md">
           <thead className="text-xs uppercase bg-cyan-600 text-slate-100  dark:bg-gray-700 dark:text-gray-400">
             <tr>
               <th scope="col" className="px-6 py-3">
@@ -80,24 +69,12 @@ const DashboardUser = () => {
                     <button
                       className=" py-1 px-2 flex justify-center items-center  bg-green-400 hover:bg-green-600"
                       onClick={() =>
-                        router.push(`/dashboard/orders/detail/${data._id}`)
+                        router.push(`/seller/dashboard/orders/detail-orders/${data._id}`)
                       }
                     >
                       Lihat
                     </button>
-                    {data?.delivery_status == "cancelled" ||
-                    data?.payment_status == "paid" || data?.payment_method == 'cod' ? (
-                      <></>
-                    ) : (
-                      <button
-                        className=" py-1 px-2 flex justify-center items-center  bg-green-400 hover:bg-green-600"
-                        onClick={() =>
-                          router.push(`/dashboard/orders}`)
-                        }
-                      >
-                        bayar order
-                      </button>
-                    )}
+                   
                   </div>
                 </td>
               </tr>
@@ -115,4 +92,4 @@ const DashboardUser = () => {
   );
 };
 
-export default DashboardUser;
+export default RecentOrders;

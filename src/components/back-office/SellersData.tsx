@@ -3,14 +3,13 @@ import React, { useEffect, useState } from "react";
 import Heading from "./Heading";
 import Pagination from "./Pagination";
 import Image from "next/image";
-import orang from "@/assets/orang.jpeg";
-import orang2 from "@/assets/orang2.jpeg";
 import { Eye } from "lucide-react";
 import { AppDispatch, useAppSelector } from "@/GlobalRedux/store";
 import { useDispatch } from "react-redux";
 import { get_sellers } from "@/GlobalRedux/features/sellerReducer";
 import { searchData } from "@/utils/types";
 import {useRouter} from "next/navigation"
+import {getFirstCharacter} from "@/utils/convert"
 
 const SellersData = () => {
   const router = useRouter()
@@ -19,7 +18,6 @@ const SellersData = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [perPage, setPerPage] = useState<number>(5);
   const [searchValue, setSearchValue] = useState<string>("");
-  const [show, setShow] = useState<boolean>(false);
   useEffect(() => {
     const obj: searchData = {
       perPage,
@@ -130,7 +128,7 @@ const SellersData = () => {
                         className="w-16 h-18 object-contain"
                       />
                       ) : (
-                        <div className="w-16 h-18 border border-slate-50 bg-slate-200 p-4"></div>
+                        <div className="w-16 h-18 bg-white flex justify-center items-center text-cyan-500 font-bold rounded-md p-4">{getFirstCharacter(data?.name)}</div>
                       )
                     }
                    

@@ -43,11 +43,6 @@ const sidebarContent = [
     url: "/seller/dashboard/orders",
   },
   {
-    name: "Pembayaran",
-    icon: <DollarSign />,
-    url: "/seller/dashboard/payment",
-  },
-  {
     name: "Chat Pembeli",
     icon: <MessageCircle />,
     url: "/seller/dashboard/customers-chat",

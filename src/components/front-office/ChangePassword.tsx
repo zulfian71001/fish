@@ -5,22 +5,22 @@ import Heading from "@/components/back-office/Heading";
 import { useDispatch } from "react-redux";
 import { AppDispatch, useAppSelector } from "@/GlobalRedux/store";
 import {
-  get_category,
   messageClear,
-} from "@/GlobalRedux/features/categoryReducer";
+  change_password_user
+} from "@/GlobalRedux/features/authReducer";
 import toast from "react-hot-toast";
-
+import { IFormUpdatePasswordUser } from "@/utils/types";
 
 const ChangePassword = () => {
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
-  const { loader, errorsMsg, successMsg, category } = useAppSelector(
-    (state) => state.category
+  const { loader, errorsMsg, successMsg,userInfo } = useAppSelector(
+    (state) => state.auth
   );
 
-  const [dataPassword, setDataPassword] = useState<object>({
-    old_password: "",
-    new_password: "",
+  const [dataPassword, setDataPassword] = useState<IFormUpdatePasswordUser>({
+    oldPassword: "",
+    newPassword: "",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,19 +34,23 @@ const ChangePassword = () => {
   const updatePassword = (e: React.FormEvent) => {
     e.preventDefault();
  console.log(dataPassword)
+ dispatch(change_password_user(dataPassword))
   };
 
-  // useEffect(() => {
-  //   if (errorsMsg) {
-  //     toast.error(errorsMsg, { duration: 3000, position: "top-right" });
-  //     dispatch(messageClear());
-  //   }
-  //   if (successMsg) {
-  //     toast.success(successMsg, { duration: 3000, position: "top-right" });
-  //     dispatch(messageClear());
-  //     setImage("");
-  //   }
-  // }, [errorsMsg, successMsg]);
+  useEffect(() => {
+    if (errorsMsg) {
+      toast.error(errorsMsg, { duration: 3000, position: "top-right" });
+      dispatch(messageClear());
+    }
+    if (successMsg) {
+      toast.success(successMsg, { duration: 3000, position: "top-right" });
+      setDataPassword({
+        oldPassword: "",
+        newPassword: "",
+      });
+      dispatch(messageClear());
+    }
+  }, [errorsMsg, successMsg]);
 
 
   return (
@@ -65,30 +69,32 @@ const ChangePassword = () => {
             <div className="flex flex-col gap-4 mb-4">
               <div>
                 <label
-                  htmlFor="old_password"
+                  htmlFor="oldPassword"
                   className="block mb-2 text-sm font-medium text-slate-700"
                 >
                   Password Lama
                 </label>
                 <input
-                  type="text"
-                  name="old_password"
+                  type="password"
+                  name="oldPassword"
                   onChange={handleChange}
+                  value={dataPassword.oldPassword}
                   className=" border  text-sm rounded-lg outline-none block w-full p-2.5 border-gray-600 placeholder-gray-400 text-slate-700 focus:border-cyan-500"
                   placeholder="ketikkan password lama"
                 />
               </div>
               <div>
                 <label
-                  htmlFor="new_password"
+                  htmlFor="newPassword"
                   className="block mb-2 text-sm font-medium text-slate-700"
                 >
                   Password Baru
                 </label>
                 <input
-                  type="text"
-                  name="new_password"
+                  type="password"
+                  name="newPassword"
                   onChange={handleChange}
+                  value={dataPassword.newPassword}
                   className=" border  text-sm rounded-lg outline-none block w-full p-2.5 border-gray-600 placeholder-gray-400 text-slate-700 focus:border-cyan-500"
                   placeholder="ketikkan password baru"
                 />

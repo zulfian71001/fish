@@ -114,8 +114,13 @@ useEffect(() => {
 
   return (
     <>
-      <section className="p-8 rounded-xl space-y-4 bg-white">
-        <div className="flex items-center justify-between">
+      <section className="p-8 rounded-xl space-y-4 bg-white w-full">
+        {
+          userInfo?.status !== "active"  ? (
+            <div className="w-full flex justify-center items-center text-slate-700">Akun belum teraktivasi</div>
+          ) : (
+          <>
+            <div className="flex items-center justify-between">
           <Heading title={"Tambah Produk"} />
           <button
             type="button"
@@ -305,7 +310,9 @@ useEffect(() => {
               )}
             </button>
           </form>
-        </div>
+        </div> 
+          </>)
+        }
       </section>
     </>
   );

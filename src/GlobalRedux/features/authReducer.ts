@@ -15,6 +15,9 @@ import {
   IAuth,
   IJwtPayload,
   IFormStore,
+  IFormSeller,
+  IFormUpdatePassword,
+  IFormUpdatePasswordUser,
 } from "@/utils/types";
 
 const getRoleFromToken = (token: string | null) => {
@@ -130,7 +133,6 @@ export const user_info = createAsyncThunk(
       const { data } = await api.get("/get-user", {
         withCredentials: true,
       });
-      console.log(data);
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
       return rejectWithValue(error.response.data.error);
@@ -145,10 +147,8 @@ export const upload_image_profile = createAsyncThunk(
       const { data } = await api.post("/upload-image-profile", image, {
         withCredentials: true,
       });
-      console.log(data);
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
-      console.log(error.response.data.error);
       return rejectWithValue(error.response.data.error);
     }
   }
@@ -160,28 +160,71 @@ export const add_info_profile = createAsyncThunk(
       const { data } = await api.post("/add-info-profile", info, {
         withCredentials: true,
       });
-      console.log(data);
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
-      console.log(error.response.data.error);
       return rejectWithValue(error.response.data.error);
     }
   }
 );
 
+export const update_info_profile_seller = createAsyncThunk(
+  "auth/update_info_profile_seller",
+  async (info:IFormSeller, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const { data } = await api.put(`/update-info-profile-seller`, info, {
+        withCredentials: true,
+      });
+      return fulfillWithValue(data);
+    } catch (error: RejectedAction | any) {
+      return rejectWithValue(error.response.data.error);
+    }
+  }
+);
+export const update_info_profile_store = createAsyncThunk(
+  "auth/update_info_profile_seller",
+  async (info:IFormStore, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const { data } = await api.post(`/update-info-profile-store`, info, {
+        withCredentials: true,
+      });
+      return fulfillWithValue(data);
+    } catch (error: RejectedAction | any) {
+      return rejectWithValue(error.response.data.error);
+    }
+  }
+);
+export const change_password_seller = createAsyncThunk(
+  "auth/change_password_seller",
+  async (info:IFormUpdatePassword, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const { data } = await api.put(`/change-password-seller`, info, {
+        withCredentials: true,
+      });
+      return fulfillWithValue(data);
+    } catch (error: RejectedAction | any) {
+      return rejectWithValue(error.response.data.error);
+    }
+  }
+);
+export const change_password_user = createAsyncThunk(
+  "auth/change_password_user",
+  async (info:IFormUpdatePasswordUser, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const { data } = await api.put(`/change-password-user`, info, {
+        withCredentials: true,
+      });
+      return fulfillWithValue(data);
+    } catch (error: RejectedAction | any) {
+      return rejectWithValue(error.response.data.error);
+    }
+  }
+);
+
+
 export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    // setSuccessMsg: (state, action: PayloadAction<string>) => {
-    //   state.successMsg = action.payload;
-    // },
-    // setErrorsMsg: (state, action: PayloadAction<string>) => {
-    //   state.errorsMsg = action.payload;
-    // },
-    // setLoader: (state, action: PayloadAction<boolean>) => {
-    //   state.loader = action.payload;
-    // },
     setUserInfo: (state) => {
       state.userInfo = ""
     },
@@ -288,6 +331,40 @@ export const authSlice = createSlice({
           state.loader = true;
         })
         .addCase(add_info_profile.rejected, (state, action) => {
+          state.loader = false;
+          state.errorsMsg = action.payload as string;
+        })
+        .addCase(update_info_profile_seller.fulfilled, (state, action) => {
+          state.loader = false;
+          state.userInfo = action.payload.userInfo;
+          state.successMsg = action.payload.message ;
+        })
+        .addCase(update_info_profile_seller.pending, (state, _) => {
+          state.loader = true;
+        })
+        .addCase(update_info_profile_seller.rejected, (state, action) => {
+          state.loader = false;
+          state.errorsMsg = action.payload as string;
+        })
+        .addCase(change_password_seller.fulfilled, (state, action) => {
+          state.loader = false;
+          state.successMsg = action.payload.message ;
+        })
+        .addCase(change_password_seller.pending, (state, _) => {
+          state.loader = true;
+        })
+        .addCase(change_password_seller.rejected, (state, action) => {
+          state.loader = false;
+          state.errorsMsg = action.payload as string;
+        })
+                .addCase(change_password_user.fulfilled, (state, action) => {
+          state.loader = false;
+          state.successMsg = action.payload.message ;
+        })
+        .addCase(change_password_user.pending, (state, _) => {
+          state.loader = true;
+        })
+        .addCase(change_password_user.rejected, (state, action) => {
           state.loader = false;
           state.errorsMsg = action.payload as string;
         });

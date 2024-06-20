@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import orang from "@/assets/orang.jpeg";
 import {
   get_seller,
   update_status_seller,
@@ -16,11 +15,7 @@ const DetailSeller = ({ sellerId }: { sellerId: string }) => {
   const { seller, successMsg, errorsMsg } = useAppSelector(
     (state) => state.seller
   );
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [perPage, setPerPage] = useState<number>(5);
-  const [searchValue, setSearchValue] = useState<string>("");
   const [status, setStatus] = useState<string>(seller?.status);
-  const [show, setShow] = useState<boolean>(false);
 
   const updateStatus = (e: React.FormEvent) => {
     e.preventDefault();

@@ -138,13 +138,29 @@ export interface requestEditDataProduct {
 
 export interface IFormStore {
   shopName: string;
+  province:string
   city: string;
   district: string;
+  subDistrict: string;
   spesificAddress: string;
+  noWa:string;
+  noRek: string;
+  noGopay: string;
+}
+
+export interface IFormSeller {
+  name: string;
+  email: string;
+  sellerId?: string;
 }
 
 export interface IFormUpdatePassword {
   email: string;
+  oldPassword: string;
+  newPassword: string;
+}
+
+export interface IFormUpdatePasswordUser {
   oldPassword: string;
   newPassword: string;
 }
@@ -330,14 +346,15 @@ export interface IChatUserRedux {
 export interface IBackOfficeChatRedux {
   successMsg: string;
   errorsMsg: string;
-  customers:myFriends[],
+  customers:Partial<myFriends>[],
+  sellers:Partial<myFriends>[],
   messages:fdMessages[],
   activeCustomer:Partial<myFriends>[],
   activeSeller:Partial<myFriends>[],
   messageNotification:[],
   activeAdmin:[],
   friends:[],
-  seller_admin_message:[],
+  seller_admin_message:Partial<fdMessages>[],
   currentSeller:{},
   currentCustomer:{}
 }

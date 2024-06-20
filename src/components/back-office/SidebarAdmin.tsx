@@ -47,7 +47,7 @@ const sidebarContent = [
   {
     name: "Chat",
     icon: <MessageCircle />,
-    url: "/admin/dashboard/chat",
+    url: "/admin/dashboard/sellers-chat",
   },
 ];
 

@@ -39,7 +39,7 @@ const Orders = () => {
             <option value="10">10</option>
             <option value="15">15</option>
           </select>
-          <form className="max-w-md ">
+          {/* <form className="max-w-md ">
             <label
               htmlFor="default-search"
               className="mb-2 text-sm font-medium text-slate-700 sr-only dark:text-white"
@@ -74,7 +74,7 @@ const Orders = () => {
                 }
               />
             </div>
-          </form>
+          </form> */}
         </div>
         <div className="relative overflow-x-auto">
           <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 rounded-md">

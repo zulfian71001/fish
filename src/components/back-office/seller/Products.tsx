@@ -31,7 +31,12 @@ const Products = () => {
   return (
     <>
       <section className="p-8 rounded-xl space-y-4 bg-white">
-        <div className="flex w-full items-center justify-between">
+              {
+          userInfo?.status !== "active" ? (
+            <div className="w-full flex justify-center items-center text-slate-700">Akun belum teraktivasi</div>
+          ) : (
+          <>
+                 <div className="flex w-full items-center justify-between">
           <select className="bg-cyan-500 text-white border-none">
             <option value="5">5</option>
             <option value="10">10</option>
@@ -162,6 +167,9 @@ const Products = () => {
             showItems={3}
           />
         )}
+          </>)
+        }
+ 
       </section>
     </>
   );

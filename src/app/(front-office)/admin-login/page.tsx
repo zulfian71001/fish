@@ -4,7 +4,7 @@ import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import LayoutAuth from "@/components/front-office/LayoutAuth";
-import cover from "@/assets/coverAdmin.jpg"
+import cover from "@/assets/loginAdminBaru.jpg"
 import { useDispatch } from "react-redux";
 import { admin_login, messageClear } from "@/GlobalRedux/features/authReducer";
 import toast, { Toaster } from "react-hot-toast";

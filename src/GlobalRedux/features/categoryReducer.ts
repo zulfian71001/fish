@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from "@/app/api/api";
 import {
   RejectedAction,
@@ -50,10 +50,8 @@ export const get_category = createAsyncThunk(
           withCredentials: true,
         }
       );
-      console.log(data);
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
-      console.log(error);
       return rejectWithValue(error.response.data.error);
     }
   }
@@ -70,10 +68,8 @@ export const delete_category = createAsyncThunk(
           withCredentials: true,
         }
       );
-      console.log(data);
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
-      console.log(error);
       return rejectWithValue(error.response.data.error);
     }
   }
@@ -91,10 +87,8 @@ export const get_categories = createAsyncThunk(
           withCredentials: true,
         }
       );
-      console.log(data);
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
-      console.log(error);
       return rejectWithValue(error.response.data.error);
     }
   }
@@ -104,18 +98,6 @@ export const categorySlice = createSlice({
   name: "category",
   initialState,
   reducers: {
-    // setSuccessMsg: (state, action: PayloadAction<string>) => {
-    //   state.successMsg = action.payload;
-    // },
-    // setErrorsMsg: (state, action: PayloadAction<string>) => {
-    //   state.errorsMsg = action.payload;
-    // },
-    // setLoader: (state, action: PayloadAction<boolean>) => {
-    //   state.loader = action.payload;
-    // },
-    // setUserInfo: (state, action: PayloadAction<string>) => {
-    //   state.userInfo = action.payload;
-    // },
     messageClear: (state) => {
       state.errorsMsg = "";
       state.successMsg = "";

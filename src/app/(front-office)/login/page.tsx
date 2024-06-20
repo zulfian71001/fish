@@ -3,11 +3,10 @@ import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import LayoutAuth from "@/components/front-office/LayoutAuth";
-import gambar1 from "@/assets/images.jpeg";
 import toast, { Toaster } from "react-hot-toast";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation"
-import cover from "@/assets/cover.jpg"
+import cover from "@/assets/loginUser.jpg"
 import { messageClear, customer_login } from "@/GlobalRedux/features/authReducer";
 import { useAppSelector, AppDispatch } from "@/GlobalRedux/store";
 import { useDispatch } from "react-redux";

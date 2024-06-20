@@ -1,7 +1,6 @@
 import api from "@/app/api/api";
 import { IHome, RejectedAction } from "@/utils/types";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { isNotFoundError } from "next/dist/client/components/not-found";
 
 const initialState: IHome = {
   categories: [],
@@ -21,9 +20,9 @@ export const get_categories = createAsyncThunk(
   async (_, { fulfillWithValue, rejectWithValue }) => {
     try {
       const { data } = await api.get("/home/get-categories");
+      console.log(data.categories)
       return fulfillWithValue(data.categories);
     } catch (error: RejectedAction | any) {
-      console.log(error.response.data.error);
       return rejectWithValue(error.response.data.error);
     }
   }
@@ -34,10 +33,8 @@ export const get_products = createAsyncThunk(
   async (_, { fulfillWithValue, rejectWithValue }) => {
     try {
       const { data } = await api.get("/home/get-products");
-      console.log(data.products);
       return fulfillWithValue(data.products);
     } catch (error: RejectedAction | any) {
-      console.log(error.response.data.error);
       return rejectWithValue(error.response.data.error);
     }
   }
@@ -48,10 +45,8 @@ export const get_product = createAsyncThunk(
   async (id: string, { fulfillWithValue, rejectWithValue }) => {
     try {
       const { data } = await api.get(`/home/get-product/${id}`);
-      console.log(data);
       return fulfillWithValue(data.product);
     } catch (error: RejectedAction | any) {
-      console.log(error.response.data.error);
       return rejectWithValue(error.response.data.error);
     }
   }
@@ -87,10 +82,8 @@ export const search_products = createAsyncThunk(
           query.currentPage
         }`
       );
-      console.log(data);
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
-      console.log(error.response.data.error);
       return rejectWithValue(error.response.data.error);
     }
   }
@@ -114,10 +107,8 @@ export const get_reviews = createAsyncThunk(
   "review/get_reviews", async({productId, pageNumber}:{productId:string, pageNumber:number}, {fulfillWithValue, rejectWithValue})=>{
     try {
       const {data} = await api.get(`/home/customer/get-reviews/${productId}?pageNumber=${pageNumber}`)
-      console.log(data);
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
-      console.log(error.response.data.error);
       return rejectWithValue(error.response.data.error);
     }
   }

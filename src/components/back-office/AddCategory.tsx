@@ -60,7 +60,7 @@ const AddCategory = () => {
   return (
     <>
 
-      <section className="p-8 rounded-xl space-y-4 bg-white w-1/3 h-full">
+      <section className="p-8 rounded-xl space-y-4 bg-white w-full lg:w-1/3 h-full">
         <Heading title={"Tambah Kategori"} />
         <div className="flex flex-col w-full items-center justify-center">
           <form

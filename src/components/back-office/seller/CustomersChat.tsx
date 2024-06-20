@@ -12,7 +12,7 @@ import User from "@/assets/user.png";
 import Link from "next/link";
 import Image from "next/image";
 import { useDispatch } from "react-redux";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { AppDispatch, useAppSelector } from "@/GlobalRedux/store";
 import { get_dashboard_index_data } from "@/GlobalRedux/features/dashboardReducer";
 import io from "socket.io-client";
@@ -25,7 +25,7 @@ import {
 const socket = io("http://localhost:5000");
 const Chat = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const router = useRouter();
+  const pathname = usePathname()
   const { userInfo } = useAppSelector((state) => state.auth);
   const { customers, activeCustomer,currentCustomer } = useAppSelector(
     (state) => state.backOfficeChat
@@ -62,7 +62,8 @@ const Chat = () => {
                   <Link
                     href={`/seller/dashboard/customers-chat/${data?.fdId}`}
                     key={i}
-                    className="flex gap-2 items-center py-1"
+                    className={`flex gap-2 items-center py-1 hover:bg-slate-100 px-2 rounded-xs ${pathname === `seller/dashboard/customers-chat/${data?.fdId}` ? "bg-slate-100" : ""}`}
+
                   >
                     <div className="w-[30px] h-[30px] rounded-full relative">
                       {activeCustomer.some((c:any) => c.customerId === currentCustomer._id) && (

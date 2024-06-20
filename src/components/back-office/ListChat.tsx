@@ -1,7 +1,7 @@
 import React from "react";
 import Heading from "./Heading";
 import Image from "next/image";
-import gambar from "@/assets/images.jpeg";
+import gambar from "@/assets/user.png";
 
 const ListChat = () => {
   return (

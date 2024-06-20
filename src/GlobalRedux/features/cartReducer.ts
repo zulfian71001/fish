@@ -22,10 +22,8 @@ export const add_to_cart = createAsyncThunk(
   async (info: requestCart, { fulfillWithValue, rejectWithValue }) => {
     try {
       const { data } = await api.post(`/home/product/add-to-cart`, info);
-      console.log(data);
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
-      console.log(error.response.data.error);
       return rejectWithValue(error.response.data.error)
     }
   }
@@ -36,10 +34,8 @@ export const get_products_cart = createAsyncThunk(
   async (userId:any, { fulfillWithValue, rejectWithValue }) => {
     try {
       const { data } = await api.get(`/home/product/get-products-cart/${userId}`);
-      console.log(data);
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
-      console.log(error.response.data.error);
       return rejectWithValue(error.response.data.error)
     }
   }
@@ -50,10 +46,8 @@ export const delete_products_cart = createAsyncThunk(
   async (cartId:any, { fulfillWithValue, rejectWithValue }) => {
     try {
       const { data } = await api.delete(`/home/product/delete-products-cart/${cartId}`);
-      console.log(data);
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
-      console.log(error.response.data.error);
       return rejectWithValue(error.response.data.error)
     }
   }
@@ -64,10 +58,8 @@ export const quantity_inc = createAsyncThunk(
   async (cartId:any, { fulfillWithValue, rejectWithValue }) => {
     try {
       const { data } = await api.put(`/home/product/quantity-inc/${cartId}`);
-      console.log(data);
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
-      console.log(error.response.data.error);
       return rejectWithValue(error.response.data.error)
     }
   }
@@ -78,10 +70,8 @@ export const quantity_dec = createAsyncThunk(
   async (cartId:any, { fulfillWithValue, rejectWithValue }) => {
     try {
       const { data } = await api.put(`/home/product/quantity-dec/${cartId}`);
-      console.log(data);
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
-      console.log(error.response.data.error);
       return rejectWithValue(error.response.data.error)
     }
   }

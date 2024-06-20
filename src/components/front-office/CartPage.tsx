@@ -90,7 +90,7 @@ const CartPage = () => {
             <p>{convertRupiah(price + shipping_fee)}</p>
           </div>
           <button className="w-full bg-cyan-600 hover:bg-cyan-700 text-white p-2 rounded-md" onClick={()=>router.push('/shipping')}>
-            Order
+            Pengiriman
           </button>
         </div>
           )

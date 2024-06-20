@@ -48,10 +48,8 @@ export const get_products = createAsyncThunk(
           withCredentials: true,
         }
       );
-      console.log(data);
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
-      console.log(error);
       return rejectWithValue(error.response.data.error);
     }
   }
@@ -64,10 +62,8 @@ export const get_product = createAsyncThunk(
       const { data } = await api.get(`/get-product/${productId}`, {
         withCredentials: true,
       });
-      console.log(data);
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
-      console.log(error);
       return rejectWithValue(error.response.data.error);
     }
   }
@@ -87,10 +83,8 @@ export const update_product = createAsyncThunk(
           withCredentials: true,
         }
       );
-      console.log(data);
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
-      console.log(error.response.data.error);
       return rejectWithValue(error.response.data.error);
     }
   }
@@ -111,10 +105,8 @@ export const update_product_image = createAsyncThunk(
       const { data } = await api.post("/update-product-image", formData, {
         withCredentials: true,
       });
-      console.log(data);
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
-      console.log(error.response.data.error);
       return rejectWithValue(error.response.data.error);
     }
   }
@@ -124,18 +116,6 @@ export const productSlice = createSlice({
   name: "product",
   initialState,
   reducers: {
-    // setSuccessMsg: (state, action: PayloadAction<string>) => {
-    //   state.successMsg = action.payload;
-    // },
-    // setErrorsMsg: (state, action: PayloadAction<string>) => {
-    //   state.errorsMsg = action.payload;
-    // },
-    // setLoader: (state, action: PayloadAction<boolean>) => {
-    //   state.loader = action.payload;
-    // },
-    // setUserInfo: (state, action: PayloadAction<string>) => {
-    //   state.userInfo = action.payload;
-    // },
     messageClear: (state) => {
       state.errorsMsg = "";
       state.successMsg = "";

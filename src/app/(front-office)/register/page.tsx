@@ -3,14 +3,13 @@ import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import LayoutAuth from "@/components/front-office/LayoutAuth";
-import gambar1 from "@/assets/images.jpeg";
 import { useDispatch } from "react-redux";
 import { AppDispatch, useAppSelector } from "@/GlobalRedux/store";
 import {  messageClear, customer_register } from "@/GlobalRedux/features/authReducer";
 import toast, { Toaster } from "react-hot-toast";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import cover from "@/assets/coverAdmin.jpg"
+import cover from "@/assets/daftarUser.jpg"
 
 const signInSchema = z.object({
   name: z.string().min(3, "minimal 3 karakter"),

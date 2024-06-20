@@ -3,12 +3,12 @@ import React, { useState, ChangeEvent, useEffect } from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { CiSearch } from "react-icons/ci";
 import { LayoutDashboard, LogOut, X } from "lucide-react";
-import { AppDispatch, useAppSelector } from "@/GlobalRedux/store";
 import Logo from "@/assets/logo.png";
 import Image from "next/image";
 import { deleteCookie } from "cookies-next";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
+import { AppDispatch, useAppSelector } from "@/GlobalRedux/store";
 import { useDispatch } from "react-redux";
 import { setUserInfo, user_info } from "@/GlobalRedux/features/authReducer";
 import { RiShoppingCartLine } from "react-icons/ri";
@@ -34,6 +34,7 @@ const Navbar = () => {
   const [searchValue, setSearchValue] = useState<string>("");
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
+  const [openModalBackOffice, setOpenModalBackOffice] = useState<boolean>(false);
   const [isScroll, setIsScroll] = useState<boolean>(false);
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
@@ -84,8 +85,13 @@ const Navbar = () => {
     setOpenModal(false);
     localStorage.removeItem("accessToken");
     deleteCookie("accessToken");
-    router.push("/home");
+    if(pathname == "/home") {
+      window?.location?.reload();
+    } else {
+      router.push("/home")
+    }
   };
+  
 
   return (
     <nav
@@ -98,7 +104,9 @@ const Navbar = () => {
           Beranda
         </Link>
         {userInfo.role == "seller" || userInfo.role == "admin"
-          ? ""
+          ?  <Link href="/products" className="px-4 py-2 text-md  hover:text-cyan-400 ">
+         Produk
+        </Link>
           : Content.map((item: any, i: number) => (
               <Link
                 key={i}
@@ -181,6 +189,21 @@ const Navbar = () => {
               </div>
               <p>{userInfo?.name}</p>
             </div>
+          ) : userInfo?.role == "seller" || userInfo.role == "admin" ? (
+            
+            <div
+              className="flex items-center justify-between gap-2 hover:bg-cyan-500/10 p-2 rounded-md cursor-pointer"
+              onClick={() => setOpenModalBackOffice(!openModalBackOffice)}
+            >
+              <div className="w-8 h-8 rounded-full relative">
+                {userInfo?.image ? (
+                  <Image src={Logo} alt="profile" fill={true} />
+                ) : (
+                  <div className="bg-cyan-500 w-8 h-8 rounded-full"></div>
+                )}
+              </div>
+              <p>{userInfo?.name}</p>
+            </div>
           ) : (
             <>
               <Link
@@ -221,6 +244,21 @@ const Navbar = () => {
               <p>Logout</p>
             </button>
           </div>
+          <div
+            className={`bg-white flex flex-col gap-1 shadow-xl text-slate-700 transition-all duration-500 rounded-md p-2 ${
+              openModalBackOffice ? "block absolute top-12 -left-6 z-[60]" : "hidden"
+            }`}
+          >
+            <button
+              className={`flex gap-3  hover:bg-cyan-500 hover:text-white py-2 px-3 rounded-lg mx-1  `}
+              onClick={handleLogout}
+            >
+              <div>
+                <LogOut />
+              </div>
+              <p>Logout</p>
+            </button>
+          </div>
         </div>
         <div
           className={` duration-500 ease-in xl:hidden z-[60] ${
@@ -232,7 +270,7 @@ const Navbar = () => {
           <div
             className={`flex flex-col px-4 gap-6 pt-10 transition-all duration-500 ease-in ${
               isOpen
-                ? "fixed right-[40%] left-0 top-0 bottom-0 bg-slate-50 opacity-100"
+                ? "fixed right-[50%] md:right-[60%] left-0 top-0 bottom-0 bg-slate-50 opacity-100"
                 : "hidden opacity-0 -left-[100%]"
             }`}
           >
@@ -263,7 +301,8 @@ const Navbar = () => {
             </div>
             <div className="z-10 flex gap-4">
               {userInfo?.role == "customer" ? (
-                <div className="flex items-center">
+                <div className="flex flex-col">
+                  <div className="flex items-center">
                   <div className="w-10 h-10 rounded-full relative">
                     {userInfo?.image ? (
                       <Image src={Logo} alt="profile" fill={true} />
@@ -273,7 +312,39 @@ const Navbar = () => {
                   </div>
                   <p>{userInfo?.name}</p>
                 </div>
-              ) : (
+                  <button
+              className={`flex gap-3  hover:bg-cyan-500 hover:text-white py-2 px-3 rounded-lg mx-1  `}
+              onClick={handleLogout}
+            >
+              <div>
+                <LogOut />
+              </div>
+              <p>Logout</p>
+            </button>
+                </div>
+                
+              ) : userInfo?.role == "seller" || userInfo.role == "admin" ? 
+              ( <div className="flex flex-col">
+                <div className="flex items-center">
+                <div className="w-10 h-10 rounded-full relative">
+                  {userInfo?.image ? (
+                    <Image src={Logo} alt="profile" fill={true} />
+                  ) : (
+                    <div className="bg-cyan-500 w-full"></div>
+                  )}
+                </div>
+                <p>{userInfo?.name}</p>
+              </div>
+                <button
+            className={`flex gap-3  hover:bg-cyan-500 hover:text-white py-2 px-3 rounded-lg mx-1  `}
+            onClick={handleLogout}
+          >
+            <div>
+              <LogOut />
+            </div>
+            <p>Logout</p>
+          </button>
+              </div>):(
                 <div className="flex flex-col gap-4 px-4">
                   <Link
                     href="/login"

@@ -8,7 +8,7 @@ import { get_admin_orders } from "@/GlobalRedux/features/orderReducer";
 import { searchData } from "@/utils/types";
 import Pagination from "@/components/back-office/Pagination";
 import { ChevronsDown } from "lucide-react";
-import {convertRupiah, convertStatusDelivery, convertStatus} from "@/utils/convert"
+import {convertRupiah, convertStatusDelivery, convertStatus, convertStatusDeliverySearch} from "@/utils/convert"
 
 const OrdersUser = () => {
   const router = useRouter();
@@ -18,14 +18,13 @@ const OrdersUser = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [perPage, setPerPage] = useState<number>(5);
   const [searchValue, setSearchValue] = useState<string>("");
-  const [status, setStatus] = useState<string>("all");
   const [expandedRows, setExpandedRows] = useState<Set<number>>(new Set());
 
   useEffect(() => {
     const obj: searchData = {
       perPage,
       page: currentPage,
-      searchValue,
+      searchValue: convertStatusDeliverySearch(searchValue),
     };
     dispatch(get_admin_orders(obj));
   }, [perPage, searchValue, currentPage, dispatch]);
@@ -39,25 +38,53 @@ const OrdersUser = () => {
     }
     setExpandedRows(newExpandedRows);
   };
-
+console.log(searchValue)
   return (
     <section className="w-full flex flex-col justify-between p-8 rounded-xl space-y-6 bg-slate-50">
-      <div className="flex items-center justify-between">
         <Heading title="Semua Order" />
-        <select
-          className="bg-cyan-500 text-white border-none outline-none"
-          onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-            setStatus(e.target.value)
-          }
-        >
-          <option value="all">Semua</option>
-          <option value="pending">Pending</option>
-          <option value="processing">Proses</option>
-          <option value="WareHouse">Toko</option>
-          <option value="placed">sampai</option>
-          <option value="cancelled">batal</option>
-        </select>
-      </div>
+        <div className="flex w-full items-center justify-between">
+          <select className="bg-cyan-500 text-white border-none">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+          </select>
+          {/* <form className="max-w-md ">
+            <label
+              htmlFor="default-search"
+              className="mb-2 text-sm font-medium text-slate-700 sr-only dark:text-white"
+            >
+              Cari
+            </label>
+            <div className="relative">
+              <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                <svg
+                  className="w-4 h-4 text-gray-500 dark:text-gray-400"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                  />
+                </svg>
+              </div>
+              <input
+                type="search"
+                id="default-search"
+                className="block w-full p-4 ps-10 text-sm text-slate-700 rounded-lg bg-transparent focus:ring-cyan-300 border-2 border-slate-500 "
+                placeholder="Cari berdasarkan status pengiriman"
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setSearchValue(e.target.value)
+                }
+              />
+            </div>
+          </form> */}
+        </div>
       <div className="relative overflow-x-auto">
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 rounded-md">
           <thead className="text-xs uppercase bg-cyan-600 text-slate-100 dark:bg-gray-700 dark:text-gray-400">
@@ -143,6 +170,9 @@ const OrdersUser = () => {
                         <td className="px-6 py-4">
                           {convertStatusDelivery(data.delivery_status)}
                         </td>
+                        <td className="px-6 py-4">
+                      {data.payment_method}
+                    </td>
                         <td className="px-6 py-4" colSpan={2}></td>
                       </tr>
                     ))}

@@ -61,29 +61,31 @@ const OrdersUser = () => {
     );
   };
 
-  useEffect(() => {
-    const client_key = transactionToken;
-    const snapScript = "https://app.sandbox.midtrans.com/snap/snap.js";
-    const script = document.createElement("script");
-    script.src = snapScript;
-    script.setAttribute("data-client-key", client_key);
-    script.async = true;
-    document.body.appendChild(script);
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, []);
 
+  useEffect(() => {
+    if (transactionToken) {
+      const snapScript = "https://app.sandbox.midtrans.com/snap/snap.js";
+      const script = document.createElement("script");
+      script.src = snapScript;
+      script.setAttribute("data-client-key", transactionToken);
+      script.async = true;
+      document.body.appendChild(script);
+
+      script.onload = () => {
+        if (!loading) {
+          window.snap?.pay(transactionToken);
+        }
+      };
+
+      return () => {
+        document.body.removeChild(script);
+      };
+    }
+  }, [transactionToken, loading]);
+  
   const showPayment = () => {
     dispatch(process_transaction(orderId));
   };
-
-  useEffect(() => {
-    if (!loading) {
-      window.snap?.pay(transactionToken);
-    }
-  }, [loading]);
-
   useEffect(() => {
     if (errorsMsg) {
       toast.error(errorsMsg, { position: "top-right" });
@@ -114,9 +116,9 @@ const OrdersUser = () => {
           }
         >
           <option value="all">Semua</option>
-          <option value="pending">Pending</option>
+          <option value="pending">Tertunda</option>
           <option value="processing">Proses</option>
-          <option value="WareHouse">Toko</option>
+          <option value="delivery">Pengiriman</option>
           <option value="placed">sampai</option>
           <option value="cancelled">batal</option>
         </select>
@@ -179,21 +181,21 @@ const OrdersUser = () => {
                       >
                         Lihat
                       </button>
-                      {data.payment_status == "paid" &&
-                      data.customer_acceptance == "unreceived" ? (
+                      {data?.payment_status == "paid" &&
+                      data?.customer_acceptance == "unreceived" ? (
                         <button
                           className=" py-1 px-2 flex justify-center items-center  bg-green-400 hover:bg-green-600"
                           onClick={() => setShowModal(true)}
                         >
                           Terima Barang
                         </button>
-                      ) : data.delivery_status !== "cancelled" &&
-                        data.payment_status == "unpaid" ? (
+                      ) : data?.delivery_status !== "cancelled" &&
+                        data?.payment_status == "unpaid" && data?.payment_method == "transfer" ? (
                         <button
                           className=" py-1 px-2 flex justify-center items-center  bg-green-400 hover:bg-green-600"
                           onClick={showPayment}
                         >
-                          Bayar
+                          Bayar 
                         </button>
                       ) : (
                         <></>

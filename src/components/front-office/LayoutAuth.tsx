@@ -1,8 +1,11 @@
+'use client'
 import React from "react";
 import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
 import { ArrowLeft, ChevronsLeft } from "lucide-react";
-
+import { useAppSelector, AppDispatch } from "@/GlobalRedux/store";
+import { useDispatch } from "react-redux";
+import { useRouter } from "next/navigation";
 type Props = {
   title: string;
   desc?: string;
@@ -14,6 +17,11 @@ type Props = {
 
 const LayoutAuth = (props: Props) => {
   const { title, desc, formLayout, gambar, namelink, link } = props;
+  const { userInfo } = useAppSelector(
+    (state) => state.auth
+  );
+  const router = useRouter();
+if(!userInfo){
   return (
     <div className="w-full h-screen flex justify-center items-center gap-4">
       <Link className="absolute top-2 left-2 bg-cyan-500 text-white px-2 py-1 rounded-md group hover:bg-cyan-600 transition-all duration-300" href="/home">
@@ -34,6 +42,9 @@ const LayoutAuth = (props: Props) => {
       </div>
     </div>
   );
+} else {
+  router.push("/home")
+}
 };
 
 export default LayoutAuth;
