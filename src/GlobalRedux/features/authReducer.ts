@@ -99,13 +99,23 @@ export const customer_login = createAsyncThunk(
       const { data } = await api.post<serverResponse>("/customer-login", info, {
         withCredentials: true,
       });
-      localStorage.setItem("accessToken", data.token);
+      console.log('Response data:', data);  // Log response data
+      
+      // Check if localStorage is available
+      if (typeof localStorage !== 'undefined') {
+        localStorage.setItem("accessToken", data.token);
+      } else {
+        console.error('localStorage is not available');
+      }
+
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
+      console.error('Login error:', error);  // Log error
       return rejectWithValue(error.response.data.error);
     }
   }
 );
+
 
 export const customer_register = createAsyncThunk(
   "auth/customer_register",
