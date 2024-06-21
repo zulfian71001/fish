@@ -16,6 +16,14 @@ import {
   IFormUpdatePassword,
   IFormUpdatePasswordUser,
 } from "@/utils/types";
+const initialState: IAuth = {
+  successMsg: "",
+  errorsMsg: "",
+  loader: false,
+  userInfo:{},
+  role: "",
+  token: "",
+};
 
 const getRoleFromToken = (token: string | null) => {
   if (token) {
@@ -32,14 +40,7 @@ const getRoleFromToken = (token: string | null) => {
   }
 };
 
-const initialState: IAuth = {
-  successMsg: "",
-  errorsMsg: "",
-  loader: false,
-  userInfo:{},
-  role: "",
-  token: "",
-};
+
 export const seller_register = createAsyncThunk(
   "auth/seller_register",
   async (info: requestDataRegister, { rejectWithValue, fulfillWithValue }) => {
@@ -98,7 +99,8 @@ export const customer_login = createAsyncThunk(
       });
       console.log('Response data:', data);  // Log response data
       
-      // Check if localStorage is available
+      // Check if localStorage is 
+      localStorage.setItem("accessToken", data.token);
       if (typeof localStorage !== 'undefined') {
         localStorage.setItem("accessToken", data.token);
       } else {

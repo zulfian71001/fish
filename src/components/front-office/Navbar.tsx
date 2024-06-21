@@ -22,7 +22,7 @@ const Navbar = () => {
 
   useEffect(() => {
     if (token) {
-      localStorage.setItem("accessToken", userInfo.token);
+      localStorage.setItem("accessToken", token);
       dispatch(user_info());
     } else {
       dispatch(setUserInfo());
