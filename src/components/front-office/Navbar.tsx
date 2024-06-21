@@ -13,17 +13,22 @@ import { useDispatch } from "react-redux";
 import { setUserInfo, user_info } from "@/GlobalRedux/features/authReducer";
 import { RiShoppingCartLine } from "react-icons/ri";
 import { hasCookie } from "cookies-next";
+import { setCookie } from 'cookies-next';
+
 const Navbar = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { userInfo } = useAppSelector((state) => state.auth); 
   const { total_cart_products, userId } = useAppSelector((state) => state.cart);
   const { token } = useAppSelector((state) => state.auth);
+  
 
 
   useEffect(() => {
     if (token) {
+      setCookie('accessToken', token);
       localStorage.setItem("accessToken", token);
       dispatch(user_info());
+
     } else {
       dispatch(setUserInfo());
       localStorage.removeItem("accessToken")

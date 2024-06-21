@@ -3,6 +3,7 @@ import {
   createAsyncThunk,
 } from "@reduxjs/toolkit";
 import { jwtDecode } from "jwt-decode";
+import { setCookie } from 'cookies-next';
 import api from "@/app/api/api";
 import {
   requestData,
@@ -68,6 +69,7 @@ export const admin_login = createAsyncThunk(
         withCredentials: true,
       });
       localStorage.setItem("accessToken", data.token);
+      setCookie('accessToken', data.token);
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
       return rejectWithValue(error.response.data.error);
@@ -82,6 +84,7 @@ export const seller_login = createAsyncThunk(
       const { data } = await api.post<serverResponse>("/seller-login", info, {
         withCredentials: true,
       });
+      setCookie('accessToken', data.token);
       localStorage.setItem("accessToken", data.token);
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
@@ -100,7 +103,7 @@ export const customer_login = createAsyncThunk(
       console.log('Response data:', data);  // Log response data
       
       // Check if localStorage is 
-      localStorage.setItem("accessToken", data.token);
+      setCookie('accessToken', data.token);
       if (typeof localStorage !== 'undefined') {
         localStorage.setItem("accessToken", data.token);
       } else {
