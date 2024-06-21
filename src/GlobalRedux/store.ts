@@ -1,15 +1,15 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useSelector } from "react-redux";
-import { persistReducer, persistStore } from "redux-persist";
+import { persistReducer } from "redux-persist";
 import createWebStorage from "redux-persist/lib/storage/createWebStorage";
-import authReducer from "./features/authReducer";
+import  authReducer from "./features/authReducer";
 import categoryReducer from "./features/categoryReducer";
 import productReducer from "./features/productReducer";
-import sellerReducer from "./features/sellerReducer";
-import homeReducer from "./features/homeReducer";
+import sellerReducer from "./features/sellerReducer"
+import homeReducer from "./features/homeReducer"
 import cartReducer from "./features/cartReducer";
 import orderReducer from "./features/orderReducer";
-import dashboardUser from "./features/dashboardReducer";
+import dashboardUser from "./features/dashboardReducer"
 import paymentReducer from "./features/paymentReducer";
 import chatReducer from "./features/chatReducer";
 import backOfficeChatReducer from "./features/backOfficeChatReducer";
@@ -36,34 +36,32 @@ const storage =
 const persistConfig = {
   key: "root",
   storage: storage,
-  blacklist: ['category.loader', 'product.loader', 'home.categories']
 };
 
-const rootReducer: any = combineReducers({
-  auth: authReducer,
-  category: categoryReducer,
-  product: productReducer,
-  seller: sellerReducer,
-  home: homeReducer,
-  cart: cartReducer,
-  order: orderReducer,
-  payment: paymentReducer,
-  dashboardUser: dashboardUser,
-  chat: chatReducer,
-  backOfficeChat: backOfficeChatReducer
+const rootReducer:any = combineReducers({
+  auth:authReducer,
+  category:categoryReducer,
+  product:productReducer,
+  seller:sellerReducer,
+  home:homeReducer,
+  cart:cartReducer,
+  order:orderReducer,
+  payment:paymentReducer,
+  dashboardUser:dashboardUser,
+  chat:chatReducer,
+  backOfficeChat:backOfficeChatReducer
 });
-
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-export const store: any = configureStore({
+export const store:any = configureStore({
   reducer: persistedReducer,
-  middleware: getDefaultMiddleware => getDefaultMiddleware({
-    serializableCheck: false,
-  }),
-  devTools: process.env.NODE_ENV !== 'production'
+  middleware: getDefaultMiddleware => {
+    return getDefaultMiddleware({
+      serializableCheck: false,
+    })
+  },
+  devTools:true
 });
-
-export const persistor = persistStore(store);
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
