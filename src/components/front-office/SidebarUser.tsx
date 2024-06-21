@@ -14,7 +14,7 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { deleteCookie } from "cookies-next";
 import { AppDispatch, useAppSelector } from "@/GlobalRedux/store";
 import { useDispatch } from "react-redux";
-import { setUserInfo } from "@/GlobalRedux/features/authReducer";
+import { logout, setUserInfo } from "@/GlobalRedux/features/authReducer";
 
 
 const sidebarContent = [
@@ -48,6 +48,7 @@ const SidebarUser = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const handleLogout = () => {
     dispatch(setUserInfo())
+    dispatch(logout())
     localStorage.removeItem("accessToken");
     deleteCookie( "accessToken");
     router.push("/home");

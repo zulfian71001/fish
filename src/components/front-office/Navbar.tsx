@@ -10,7 +10,7 @@ import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { AppDispatch, useAppSelector } from "@/GlobalRedux/store";
 import { useDispatch } from "react-redux";
-import { setUserInfo, user_info } from "@/GlobalRedux/features/authReducer";
+import { logout, setUserInfo, user_info } from "@/GlobalRedux/features/authReducer";
 import { RiShoppingCartLine } from "react-icons/ri";
 import { hasCookie } from "cookies-next";
 import { setCookie } from "cookies-next";
@@ -28,6 +28,7 @@ const Navbar = () => {
       dispatch(user_info(token));
     } else {
       dispatch(setUserInfo());
+      dispatch(logout())
       localStorage.removeItem("accessToken");
       deleteCookie("accessToken");
       router.push("/home");

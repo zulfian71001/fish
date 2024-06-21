@@ -147,6 +147,21 @@ export const user_info = createAsyncThunk(
   }
 );
 
+export const logout = createAsyncThunk(
+  "auth/logout",
+  async (_, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      const { data } = await api.get(`/logout`, {
+        withCredentials: true,
+      });
+      return fulfillWithValue(data);
+    } catch (error: RejectedAction | any) {
+      return rejectWithValue(error.response.data.error);
+    }
+  }
+);
+
+
 export const upload_image_profile = createAsyncThunk(
   "auth/upload_image_profile",
   async (image: any, { fulfillWithValue, rejectWithValue }) => {

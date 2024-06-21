@@ -19,7 +19,7 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { deleteCookie } from "cookies-next";
 import Image from "next/image";
 import Logo from "@/assets/logo.png";
-import { setUserInfo } from "@/GlobalRedux/features/authReducer";
+import { logout, setUserInfo } from "@/GlobalRedux/features/authReducer";
 import { AppDispatch, useAppSelector } from "@/GlobalRedux/store";
 import { useDispatch } from "react-redux";
 
@@ -69,6 +69,7 @@ const Sidebar = () => {
   const handleLogout = () => {
     dispatch(setUserInfo())
     localStorage.removeItem("accessToken");
+    dispatch(logout())
     deleteCookie( "accessToken");
     router.push("/home");
   };
