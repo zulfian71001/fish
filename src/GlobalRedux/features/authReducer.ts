@@ -142,11 +142,20 @@ export const user_info = createAsyncThunk(
   "auth/user_info",
   async (_, { rejectWithValue, fulfillWithValue }) => {
     try {
+      const accessToken = localStorage.getItem('accessToken');
+      if (!accessToken) {
+        throw new Error('Access token not found');
+      }
+
       const { data } = await api.get("/get-user", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
         withCredentials: true,
       });
+
       return fulfillWithValue(data);
-    } catch (error: RejectedAction | any) {
+    }catch (error: RejectedAction | any) {
       return rejectWithValue(error.response.data.error);
     }
   }
