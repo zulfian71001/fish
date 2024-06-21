@@ -27,7 +27,7 @@ const Navbar = () => {
     if (token) {
       setCookie('accessToken', token);
       localStorage.setItem("accessToken", token);
-      dispatch(user_info());
+      dispatch(user_info(token));
 
     } else {
       dispatch(setUserInfo());

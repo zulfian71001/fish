@@ -1,9 +1,6 @@
-import {
-  createSlice,
-  createAsyncThunk,
-} from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { jwtDecode } from "jwt-decode";
-import { setCookie } from 'cookies-next';
+import { setCookie } from "cookies-next";
 import api from "@/app/api/api";
 import {
   requestData,
@@ -21,7 +18,7 @@ const initialState: IAuth = {
   successMsg: "",
   errorsMsg: "",
   loader: false,
-  userInfo:{},
+  userInfo: {},
   role: "",
   token: "",
 };
@@ -40,7 +37,6 @@ const getRoleFromToken = (token: string | null) => {
     return "";
   }
 };
-
 
 export const seller_register = createAsyncThunk(
   "auth/seller_register",
@@ -69,7 +65,7 @@ export const admin_login = createAsyncThunk(
         withCredentials: true,
       });
       localStorage.setItem("accessToken", data.token);
-      setCookie('accessToken', data.token);
+      setCookie("accessToken", data.token);
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
       return rejectWithValue(error.response.data.error);
@@ -84,7 +80,7 @@ export const seller_login = createAsyncThunk(
       const { data } = await api.post<serverResponse>("/seller-login", info, {
         withCredentials: true,
       });
-      setCookie('accessToken', data.token);
+      setCookie("accessToken", data.token);
       localStorage.setItem("accessToken", data.token);
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
@@ -100,24 +96,23 @@ export const customer_login = createAsyncThunk(
       const { data } = await api.post<serverResponse>("/customer-login", info, {
         withCredentials: true,
       });
-      console.log('Response data:', data);  // Log response data
-      
-      // Check if localStorage is 
-      setCookie('accessToken', data.token);
-      if (typeof localStorage !== 'undefined') {
+      console.log("Response data:", data); // Log response data
+
+      // Check if localStorage is
+      setCookie("accessToken", data.token);
+      if (typeof localStorage !== "undefined") {
         localStorage.setItem("accessToken", data.token);
       } else {
-        console.error('localStorage is not available');
+        console.error("localStorage is not available");
       }
 
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
-      console.error('Login error:', error);  // Log error
+      console.error("Login error:", error); // Log error
       return rejectWithValue(error.response.data.error);
     }
   }
 );
-
 
 export const customer_register = createAsyncThunk(
   "auth/customer_register",
@@ -140,9 +135,9 @@ export const customer_register = createAsyncThunk(
 
 export const user_info = createAsyncThunk(
   "auth/user_info",
-  async (_, { rejectWithValue, fulfillWithValue }) => {
+  async (token: string, { rejectWithValue, fulfillWithValue }) => {
     try {
-      const { data } = await api.get("/get-user", {
+      const { data } = await api.get(`/get-user/${token}`, {
         withCredentials: true,
       });
       return fulfillWithValue(data);
@@ -167,7 +162,7 @@ export const upload_image_profile = createAsyncThunk(
 );
 export const add_info_profile = createAsyncThunk(
   "auth/add_info_profile",
-  async (info:IFormStore, { fulfillWithValue, rejectWithValue }) => {
+  async (info: IFormStore, { fulfillWithValue, rejectWithValue }) => {
     try {
       const { data } = await api.post("/add-info-profile", info, {
         withCredentials: true,
@@ -181,7 +176,7 @@ export const add_info_profile = createAsyncThunk(
 
 export const update_info_profile_seller = createAsyncThunk(
   "auth/update_info_profile_seller",
-  async (info:IFormSeller, { fulfillWithValue, rejectWithValue }) => {
+  async (info: IFormSeller, { fulfillWithValue, rejectWithValue }) => {
     try {
       const { data } = await api.put(`/update-info-profile-seller`, info, {
         withCredentials: true,
@@ -194,7 +189,7 @@ export const update_info_profile_seller = createAsyncThunk(
 );
 export const update_info_profile_store = createAsyncThunk(
   "auth/update_info_profile_seller",
-  async (info:IFormStore, { fulfillWithValue, rejectWithValue }) => {
+  async (info: IFormStore, { fulfillWithValue, rejectWithValue }) => {
     try {
       const { data } = await api.post(`/update-info-profile-store`, info, {
         withCredentials: true,
@@ -207,7 +202,7 @@ export const update_info_profile_store = createAsyncThunk(
 );
 export const change_password_seller = createAsyncThunk(
   "auth/change_password_seller",
-  async (info:IFormUpdatePassword, { fulfillWithValue, rejectWithValue }) => {
+  async (info: IFormUpdatePassword, { fulfillWithValue, rejectWithValue }) => {
     try {
       const { data } = await api.put(`/change-password-seller`, info, {
         withCredentials: true,
@@ -220,7 +215,10 @@ export const change_password_seller = createAsyncThunk(
 );
 export const change_password_user = createAsyncThunk(
   "auth/change_password_user",
-  async (info:IFormUpdatePasswordUser, { fulfillWithValue, rejectWithValue }) => {
+  async (
+    info: IFormUpdatePasswordUser,
+    { fulfillWithValue, rejectWithValue }
+  ) => {
     try {
       const { data } = await api.put(`/change-password-user`, info, {
         withCredentials: true,
@@ -232,13 +230,12 @@ export const change_password_user = createAsyncThunk(
   }
 );
 
-
 export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
     setUserInfo: (state) => {
-      state.userInfo = {}
+      state.userInfo = {};
     },
     messageClear: (state) => {
       state.errorsMsg = "";
@@ -259,127 +256,127 @@ export const authSlice = createSlice({
         state.successMsg = action.payload.message as string;
         state.role = getRoleFromToken(action.payload.token);
       })
-        .addCase(seller_register.pending, (state) => {
-          state.loader = true;
-        })
-        .addCase(seller_register.rejected, (state, action) => {
-          state.loader = false;
-          state.errorsMsg = action.payload as string;
-        })
-        .addCase(seller_register.fulfilled, (state, action) => {
-          state.loader = false;
-          state.successMsg = action.payload.message as string;
-          state.role = getRoleFromToken(action.payload.token);
-          state.token = action.payload.token;
-        })
-        .addCase(customer_register.pending, (state) => {
-          state.loader = true;
-        })
-        .addCase(customer_register.rejected, (state, action) => {
-          state.loader = false;
-          state.errorsMsg = action.payload as string;
-        })
-        .addCase(customer_register.fulfilled, (state, action) => {
-          state.loader = false;
-          state.successMsg = action.payload.message as string;
-          state.role = getRoleFromToken(action.payload.token);
-          state.token = action.payload.token;
-        })
-        .addCase(seller_login.pending, (state) => {
-          state.loader = true;
-        })
-        .addCase(seller_login.rejected, (state, action) => {
-          state.loader = false;
-          state.errorsMsg = action.payload as string;
-        })
-        .addCase(seller_login.fulfilled, (state, action) => {
-          state.loader = false;
-          state.successMsg = action.payload.message as string;
-          state.role = getRoleFromToken(action.payload.token);
-          state.token = action.payload.token;
-        })
-        .addCase(customer_login.pending, (state) => {
-          state.loader = true;
-        })
-        .addCase(customer_login.rejected, (state, action) => {
-          state.loader = false;
-          state.errorsMsg = action.payload as string;
-        })
-        .addCase(customer_login.fulfilled, (state, action) => {
-          state.loader = false;
-          state.successMsg = action.payload.message as string;
-          state.role = getRoleFromToken(action.payload.token);
-          state.token = action.payload.token;
-        })
-        .addCase(user_info.fulfilled, (state, action) => {
-          state.loader = false;
-          state.userInfo = action.payload.userInfo;
-        })
-        .addCase(user_info.pending, (state, action) => {
-          state.loader = true;
-        })
-        .addCase(user_info.rejected, (state, action) => {
-          state.loader = false;
-          state.errorsMsg = action.payload as string;
-        })
-        .addCase(upload_image_profile.fulfilled, (state, action) => {
-          state.loader = false;
-          state.userInfo = action.payload.userInfo;
-          state.successMsg = action.payload.message ;
-        })
-        .addCase(upload_image_profile.pending, (state, _) => {
-          state.loader = true;
-        })
-        .addCase(upload_image_profile.rejected, (state, action) => {
-          state.loader = false;
-          state.errorsMsg = action.payload as string;
-        })
-        .addCase(add_info_profile.fulfilled, (state, action) => {
-          state.loader = false;
-          state.userInfo = action.payload.userInfo;
-          state.successMsg = action.payload.message ;
-        })
-        .addCase(add_info_profile.pending, (state, _) => {
-          state.loader = true;
-        })
-        .addCase(add_info_profile.rejected, (state, action) => {
-          state.loader = false;
-          state.errorsMsg = action.payload as string;
-        })
-        .addCase(update_info_profile_seller.fulfilled, (state, action) => {
-          state.loader = false;
-          state.userInfo = action.payload.userInfo;
-          state.successMsg = action.payload.message ;
-        })
-        .addCase(update_info_profile_seller.pending, (state, _) => {
-          state.loader = true;
-        })
-        .addCase(update_info_profile_seller.rejected, (state, action) => {
-          state.loader = false;
-          state.errorsMsg = action.payload as string;
-        })
-        .addCase(change_password_seller.fulfilled, (state, action) => {
-          state.loader = false;
-          state.successMsg = action.payload.message ;
-        })
-        .addCase(change_password_seller.pending, (state, _) => {
-          state.loader = true;
-        })
-        .addCase(change_password_seller.rejected, (state, action) => {
-          state.loader = false;
-          state.errorsMsg = action.payload as string;
-        })
-                .addCase(change_password_user.fulfilled, (state, action) => {
-          state.loader = false;
-          state.successMsg = action.payload.message ;
-        })
-        .addCase(change_password_user.pending, (state, _) => {
-          state.loader = true;
-        })
-        .addCase(change_password_user.rejected, (state, action) => {
-          state.loader = false;
-          state.errorsMsg = action.payload as string;
-        });
+      .addCase(seller_register.pending, (state) => {
+        state.loader = true;
+      })
+      .addCase(seller_register.rejected, (state, action) => {
+        state.loader = false;
+        state.errorsMsg = action.payload as string;
+      })
+      .addCase(seller_register.fulfilled, (state, action) => {
+        state.loader = false;
+        state.successMsg = action.payload.message as string;
+        state.role = getRoleFromToken(action.payload.token);
+        state.token = action.payload.token;
+      })
+      .addCase(customer_register.pending, (state) => {
+        state.loader = true;
+      })
+      .addCase(customer_register.rejected, (state, action) => {
+        state.loader = false;
+        state.errorsMsg = action.payload as string;
+      })
+      .addCase(customer_register.fulfilled, (state, action) => {
+        state.loader = false;
+        state.successMsg = action.payload.message as string;
+        state.role = getRoleFromToken(action.payload.token);
+        state.token = action.payload.token;
+      })
+      .addCase(seller_login.pending, (state) => {
+        state.loader = true;
+      })
+      .addCase(seller_login.rejected, (state, action) => {
+        state.loader = false;
+        state.errorsMsg = action.payload as string;
+      })
+      .addCase(seller_login.fulfilled, (state, action) => {
+        state.loader = false;
+        state.successMsg = action.payload.message as string;
+        state.role = getRoleFromToken(action.payload.token);
+        state.token = action.payload.token;
+      })
+      .addCase(customer_login.pending, (state) => {
+        state.loader = true;
+      })
+      .addCase(customer_login.rejected, (state, action) => {
+        state.loader = false;
+        state.errorsMsg = action.payload as string;
+      })
+      .addCase(customer_login.fulfilled, (state, action) => {
+        state.loader = false;
+        state.successMsg = action.payload.message as string;
+        state.role = getRoleFromToken(action.payload.token);
+        state.token = action.payload.token;
+      })
+      .addCase(user_info.fulfilled, (state, action) => {
+        state.loader = false;
+        state.userInfo = action.payload.userInfo;
+      })
+      .addCase(user_info.pending, (state, action) => {
+        state.loader = true;
+      })
+      .addCase(user_info.rejected, (state, action) => {
+        state.loader = false;
+        state.errorsMsg = action.payload as string;
+      })
+      .addCase(upload_image_profile.fulfilled, (state, action) => {
+        state.loader = false;
+        state.userInfo = action.payload.userInfo;
+        state.successMsg = action.payload.message;
+      })
+      .addCase(upload_image_profile.pending, (state, _) => {
+        state.loader = true;
+      })
+      .addCase(upload_image_profile.rejected, (state, action) => {
+        state.loader = false;
+        state.errorsMsg = action.payload as string;
+      })
+      .addCase(add_info_profile.fulfilled, (state, action) => {
+        state.loader = false;
+        state.userInfo = action.payload.userInfo;
+        state.successMsg = action.payload.message;
+      })
+      .addCase(add_info_profile.pending, (state, _) => {
+        state.loader = true;
+      })
+      .addCase(add_info_profile.rejected, (state, action) => {
+        state.loader = false;
+        state.errorsMsg = action.payload as string;
+      })
+      .addCase(update_info_profile_seller.fulfilled, (state, action) => {
+        state.loader = false;
+        state.userInfo = action.payload.userInfo;
+        state.successMsg = action.payload.message;
+      })
+      .addCase(update_info_profile_seller.pending, (state, _) => {
+        state.loader = true;
+      })
+      .addCase(update_info_profile_seller.rejected, (state, action) => {
+        state.loader = false;
+        state.errorsMsg = action.payload as string;
+      })
+      .addCase(change_password_seller.fulfilled, (state, action) => {
+        state.loader = false;
+        state.successMsg = action.payload.message;
+      })
+      .addCase(change_password_seller.pending, (state, _) => {
+        state.loader = true;
+      })
+      .addCase(change_password_seller.rejected, (state, action) => {
+        state.loader = false;
+        state.errorsMsg = action.payload as string;
+      })
+      .addCase(change_password_user.fulfilled, (state, action) => {
+        state.loader = false;
+        state.successMsg = action.payload.message;
+      })
+      .addCase(change_password_user.pending, (state, _) => {
+        state.loader = true;
+      })
+      .addCase(change_password_user.rejected, (state, action) => {
+        state.loader = false;
+        state.errorsMsg = action.payload as string;
+      });
   },
 });
 

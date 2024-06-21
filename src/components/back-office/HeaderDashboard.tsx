@@ -11,7 +11,7 @@ const HeaderDashboard = () => {
   const { token, userInfo } = useAppSelector((state) => state.auth);
   useEffect(() => {
     if (token) {
-      dispatch(user_info());
+      dispatch(user_info(token));
     }
   }, [token]);
   return (
