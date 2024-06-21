@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { jwtDecode } from "jwt-decode";
-import { setCookie } from "cookies-next";
+import { deleteCookie, setCookie } from "cookies-next";
 import api from "@/app/api/api";
 import {
   requestData,
@@ -28,7 +28,7 @@ const getRoleFromToken = (token: string | null) => {
     const decodeToken: IJwtPayload = jwtDecode(token);
     const expired = new Date(decodeToken.exp * 1000);
     if (expired < new Date()) {
-      localStorage.removeItem("accessToken");
+      deleteCookie("accessToken");
       return "";
     } else {
       return decodeToken.role;
@@ -49,7 +49,7 @@ export const seller_register = createAsyncThunk(
           withCredentials: true,
         }
       );
-      localStorage.setItem("accessToken", data.token);
+      setCookie("accessToken", data.token);
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
       return rejectWithValue(error.response.data.error);
@@ -64,7 +64,6 @@ export const admin_login = createAsyncThunk(
       const { data } = await api.post<serverResponse>("/admin-login", info, {
         withCredentials: true,
       });
-      localStorage.setItem("accessToken", data.token);
       setCookie("accessToken", data.token);
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
@@ -81,7 +80,6 @@ export const seller_login = createAsyncThunk(
         withCredentials: true,
       });
       setCookie("accessToken", data.token);
-      localStorage.setItem("accessToken", data.token);
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
       return rejectWithValue(error.response.data.error);
@@ -96,15 +94,7 @@ export const customer_login = createAsyncThunk(
       const { data } = await api.post<serverResponse>("/customer-login", info, {
         withCredentials: true,
       });
-      console.log("Response data:", data); // Log response data
-
-      // Check if localStorage is
-      setCookie("accessToken", data.token);
-      if (typeof localStorage !== "undefined") {
-        localStorage.setItem("accessToken", data.token);
-      } else {
-        console.error("localStorage is not available");
-      }
+      setCookie("accessToken", data.token)
 
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
@@ -125,7 +115,8 @@ export const customer_register = createAsyncThunk(
           withCredentials: true,
         }
       );
-      localStorage.setItem("accessToken", data.token);
+      setCookie("accessToken", data.token)
+
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
       return rejectWithValue(error.response.data.error);
@@ -135,9 +126,9 @@ export const customer_register = createAsyncThunk(
 
 export const user_info = createAsyncThunk(
   "auth/user_info",
-  async (token: string, { rejectWithValue, fulfillWithValue }) => {
+  async (_, { rejectWithValue, fulfillWithValue }) => {
     try {
-      const { data } = await api.get(`/get-user/${token}`, {
+      const { data } = await api.get(`/get-user`, {
         withCredentials: true,
       });
       return fulfillWithValue(data);
@@ -154,6 +145,7 @@ export const logout = createAsyncThunk(
       const { data } = await api.get(`/logout`, {
         withCredentials: true,
       });
+      deleteCookie("accessToken");
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
       return rejectWithValue(error.response.data.error);
@@ -391,7 +383,12 @@ export const authSlice = createSlice({
       .addCase(change_password_user.rejected, (state, action) => {
         state.loader = false;
         state.errorsMsg = action.payload as string;
-      });
+      }).addCase(logout.fulfilled, (state, action) => {
+        state.loader = false;
+        state.userInfo = action.payload.userInfo
+        state.role = "";
+        state.token = ""
+      })
   },
 });
 

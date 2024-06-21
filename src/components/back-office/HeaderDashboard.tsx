@@ -5,13 +5,15 @@ import { useAppSelector, AppDispatch } from "@/GlobalRedux/store";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import Image from "next/image";
+import { hasCookie } from "cookies-next";
 
 const HeaderDashboard = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { token, userInfo } = useAppSelector((state) => state.auth);
+  const { userInfo } = useAppSelector((state) => state.auth);
+  const token = hasCookie("accessToken");
   useEffect(() => {
     if (token) {
-      dispatch(user_info(token));
+      dispatch(user_info());
     }
   }, [token]);
   return (
