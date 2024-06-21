@@ -46,7 +46,7 @@ const Page = () => {
   }, [errorsMsg, successMsg]);
 
   const add_cart = (id: string) => {
-    if (!userInfo) {
+    if (!userInfo || !userInfo._id) {
       router.push("/login");
     } else {
       if (userInfo.role == "customer") {

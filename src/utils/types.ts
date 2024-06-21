@@ -60,11 +60,18 @@ export interface serverResponseRegister {
   message: string;
 }
 
+interface userInfo {
+  _id:string
+  name:string
+  image:string
+  token:string
+  role:string
+}
 export interface IAuth {
   successMsg: string;
   errorsMsg: string;
   loader: boolean;
-  userInfo: string;
+  userInfo: Partial<userInfo>;
   role: string;
   token: string;
 }

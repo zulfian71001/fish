@@ -36,7 +36,7 @@ const initialState: IAuth = {
   successMsg: "",
   errorsMsg: "",
   loader: false,
-  userInfo: "",
+  userInfo:{},
   role: "",
   token: "",
 };
@@ -233,7 +233,7 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     setUserInfo: (state) => {
-      state.userInfo = ""
+      state.userInfo = {}
     },
     messageClear: (state) => {
       state.errorsMsg = "";

@@ -17,8 +17,10 @@ const Page = () => {
   useAppSelector((state) => state.dashboardUser);
   const { userInfo} = useAppSelector((state) => state.auth);
   useEffect(() => {
-    dispatch(get_dashboard_index_data_seller({userId:userInfo._id}));
-  }, []);
+    if (userInfo?._id) { // Ensure userInfo and userInfo._id are defined
+      dispatch(get_dashboard_index_data_seller({ userId: userInfo._id }));
+    }
+  }, [userInfo, dispatch]);
   return (
     <div className="space-y-8">
       <HeaderDashboard />

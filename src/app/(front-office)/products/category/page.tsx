@@ -42,10 +42,10 @@ const Page = () => {
   }, [errorsMsg, successMsg]);
 
   const add_cart = (id: string) => {
-    if (!userInfo) {
+    if (!userInfo || !userInfo._id) {
       router.push("/login");
     } else {
-      if (userInfo.role == "customer") {
+      if (userInfo.role === "customer") {
         dispatch(
           add_to_cart({
             userId: userInfo._id,
