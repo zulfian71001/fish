@@ -17,8 +17,9 @@ const Navbar = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { userInfo } = useAppSelector((state) => state.auth); 
   const { total_cart_products, userId } = useAppSelector((state) => state.cart);
+  const { token } = useAppSelector((state) => state.auth);
 
-  const token = userInfo.token;
+
   useEffect(() => {
     if (token) {
       localStorage.setItem("accessToken", userInfo.token);
