@@ -13,35 +13,34 @@ import { useDispatch } from "react-redux";
 import { setUserInfo, user_info } from "@/GlobalRedux/features/authReducer";
 import { RiShoppingCartLine } from "react-icons/ri";
 import { hasCookie } from "cookies-next";
-import { setCookie } from 'cookies-next';
+import { setCookie } from "cookies-next";
 
 const Navbar = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { userInfo } = useAppSelector((state) => state.auth); 
+  const { userInfo } = useAppSelector((state) => state.auth);
   const { total_cart_products, userId } = useAppSelector((state) => state.cart);
   const { token } = useAppSelector((state) => state.auth);
-  
-
 
   useEffect(() => {
     if (token) {
-      setCookie('accessToken', token);
+      setCookie("accessToken", token);
       localStorage.setItem("accessToken", token);
       dispatch(user_info(token));
-
     } else {
       dispatch(setUserInfo());
-      localStorage.removeItem("accessToken")
+      localStorage.removeItem("accessToken");
+      deleteCookie("accessToken");
+      router.push("/home");
     }
   }, [token]);
-
 
   const pathname = usePathname();
   const router = useRouter();
   const [searchValue, setSearchValue] = useState<string>("");
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
-  const [openModalBackOffice, setOpenModalBackOffice] = useState<boolean>(false);
+  const [openModalBackOffice, setOpenModalBackOffice] =
+    useState<boolean>(false);
   const [isScroll, setIsScroll] = useState<boolean>(false);
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
@@ -62,9 +61,9 @@ const Navbar = () => {
     }
   }, []);
 
-  const submitSearch = () =>{
-    router.push(`/products?searchValue=${searchValue}`)
-  }
+  const submitSearch = () => {
+    router.push(`/products?searchValue=${searchValue}`);
+  };
 
   const redirectCart = () => {
     if (userInfo.role == "customer") {
@@ -90,16 +89,15 @@ const Navbar = () => {
   ];
   const handleLogout = () => {
     setOpenModal(false);
-    dispatch(setUserInfo())
+    dispatch(setUserInfo());
     localStorage.removeItem("accessToken");
     deleteCookie("accessToken");
-    if(pathname == "/home") {
+    if (pathname == "/home") {
       window?.location?.reload();
     } else {
-      router.push("/home")
+      router.push("/home");
     }
   };
-  
 
   return (
     <nav
@@ -111,19 +109,24 @@ const Navbar = () => {
         <Link href="/home" className="px-4 py-2 text-md  hover:text-cyan-400 ">
           Beranda
         </Link>
-        {userInfo.role == "seller" || userInfo.role == "admin"
-          ?  <Link href="/products" className="px-4 py-2 text-md  hover:text-cyan-400 ">
-         Produk
-        </Link>
-          : Content.map((item: any, i: number) => (
-              <Link
-                key={i}
-                href={item.url}
-                className="px-4 py-2 hover:text-cyan-400 "
-              >
-                {item.name}
-              </Link>
-            ))}
+        {userInfo.role == "seller" || userInfo.role == "admin" ? (
+          <Link
+            href="/products"
+            className="px-4 py-2 text-md  hover:text-cyan-400 "
+          >
+            Produk
+          </Link>
+        ) : (
+          Content.map((item: any, i: number) => (
+            <Link
+              key={i}
+              href={item.url}
+              className="px-4 py-2 hover:text-cyan-400 "
+            >
+              {item.name}
+            </Link>
+          ))
+        )}
       </div>
       <div className="flex flex-col xl:flex-row xl:justify-between xl:items-center px-4 xl:px-10 gap-4 xl:gap-0">
         <div className="flex lg:gap-4 justify-between items-center my-1">
@@ -136,17 +139,21 @@ const Navbar = () => {
             />
           </div>
           <div className="flex items-center justify-center relative w-[92%]">
-          <input
-            type="text"
-            className="p-1 px-10 rounded-lg border-none ring-1 ring-slate-400 focus:outline-none focus:ring-cyan-300 outline-none w-full xl:w-[800px]"
-            placeholder="Cari ikan di fish market"
-            onChange={handleSearch}
-            value={searchValue}
-          />
-          <CiSearch className="absolute left-2 h-7 w-6" />
-          <button onClick={submitSearch} className="absolute bg-cyan-500 text-white -right-1 py-1.5 px-2  rounded-2xl">Search</button>
-
-        </div>
+            <input
+              type="text"
+              className="p-1 px-10 rounded-lg border-none ring-1 ring-slate-400 focus:outline-none focus:ring-cyan-300 outline-none w-full xl:w-[800px]"
+              placeholder="Cari ikan di fish market"
+              onChange={handleSearch}
+              value={searchValue}
+            />
+            <CiSearch className="absolute left-2 h-7 w-6" />
+            <button
+              onClick={submitSearch}
+              className="absolute bg-cyan-500 text-white -right-1 py-1.5 px-2  rounded-2xl"
+            >
+              Search
+            </button>
+          </div>
           <button className={`xl:hidden flex`} onClick={() => setIsOpen(true)}>
             <RxHamburgerMenu />
           </button>
@@ -166,7 +173,7 @@ const Navbar = () => {
               </option>
             ))}
         </select> */}
-       
+
         <div
           className={`hidden xl:flex  p-2 rounded-lg text-white cursor-pointer hover:bg-cyan-500/10  relative ${
             pathname == "/cart" ? "bg-slate-600/5   " : ""
@@ -198,7 +205,6 @@ const Navbar = () => {
               <p>{userInfo?.name}</p>
             </div>
           ) : userInfo?.role == "seller" || userInfo.role == "admin" ? (
-            
             <div
               className="flex items-center justify-between gap-2 hover:bg-cyan-500/10 p-2 rounded-md cursor-pointer"
               onClick={() => setOpenModalBackOffice(!openModalBackOffice)}
@@ -236,10 +242,12 @@ const Navbar = () => {
             <Link
               href="/dashboard"
               className={`flex gap-3 hover:bg-cyan-500 hover:text-white py-2 px-3 rounded-lg mx-1 ${
-                 pathname === '/dashboard'  ? "bg-cyan-500 text-white" : ""
+                pathname === "/dashboard" ? "bg-cyan-500 text-white" : ""
               }`}
             >
-              <div><LayoutDashboard /></div>
+              <div>
+                <LayoutDashboard />
+              </div>
               <p>Dashboard</p>
             </Link>
             <button
@@ -254,7 +262,9 @@ const Navbar = () => {
           </div>
           <div
             className={`bg-white flex flex-col gap-1 shadow-xl text-slate-700 transition-all duration-500 rounded-md p-2 ${
-              openModalBackOffice ? "block absolute top-12 -left-6 z-[60]" : "hidden"
+              openModalBackOffice
+                ? "block absolute top-12 -left-6 z-[60]"
+                : "hidden"
             }`}
           >
             <button
@@ -311,48 +321,48 @@ const Navbar = () => {
               {userInfo?.role == "customer" ? (
                 <div className="flex flex-col">
                   <div className="flex items-center">
-                  <div className="w-10 h-10 rounded-full relative">
-                    {userInfo?.image ? (
-                      <Image src={Logo} alt="profile" fill={true} />
-                    ) : (
-                      <div className="bg-cyan-500 w-full"></div>
-                    )}
+                    <div className="w-10 h-10 rounded-full relative">
+                      {userInfo?.image ? (
+                        <Image src={Logo} alt="profile" fill={true} />
+                      ) : (
+                        <div className="bg-cyan-500 w-full"></div>
+                      )}
+                    </div>
+                    <p>{userInfo?.name}</p>
                   </div>
-                  <p>{userInfo?.name}</p>
-                </div>
                   <button
-              className={`flex gap-3  hover:bg-cyan-500 hover:text-white py-2 px-3 rounded-lg mx-1  `}
-              onClick={handleLogout}
-            >
-              <div>
-                <LogOut />
-              </div>
-              <p>Logout</p>
-            </button>
+                    className={`flex gap-3  hover:bg-cyan-500 hover:text-white py-2 px-3 rounded-lg mx-1  `}
+                    onClick={handleLogout}
+                  >
+                    <div>
+                      <LogOut />
+                    </div>
+                    <p>Logout</p>
+                  </button>
                 </div>
-                
-              ) : userInfo?.role == "seller" || userInfo.role == "admin" ? 
-              ( <div className="flex flex-col">
-                <div className="flex items-center">
-                <div className="w-10 h-10 rounded-full relative">
-                  {userInfo?.image ? (
-                    <Image src={Logo} alt="profile" fill={true} />
-                  ) : (
-                    <div className="bg-cyan-500 w-full"></div>
-                  )}
+              ) : userInfo?.role == "seller" || userInfo.role == "admin" ? (
+                <div className="flex flex-col">
+                  <div className="flex items-center">
+                    <div className="w-10 h-10 rounded-full relative">
+                      {userInfo?.image ? (
+                        <Image src={Logo} alt="profile" fill={true} />
+                      ) : (
+                        <div className="bg-cyan-500 w-full"></div>
+                      )}
+                    </div>
+                    <p>{userInfo?.name}</p>
+                  </div>
+                  <button
+                    className={`flex gap-3  hover:bg-cyan-500 hover:text-white py-2 px-3 rounded-lg mx-1  `}
+                    onClick={handleLogout}
+                  >
+                    <div>
+                      <LogOut />
+                    </div>
+                    <p>Logout</p>
+                  </button>
                 </div>
-                <p>{userInfo?.name}</p>
-              </div>
-                <button
-            className={`flex gap-3  hover:bg-cyan-500 hover:text-white py-2 px-3 rounded-lg mx-1  `}
-            onClick={handleLogout}
-          >
-            <div>
-              <LogOut />
-            </div>
-            <p>Logout</p>
-          </button>
-              </div>):(
+              ) : (
                 <div className="flex flex-col gap-4 px-4">
                   <Link
                     href="/login"
