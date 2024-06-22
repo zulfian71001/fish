@@ -49,7 +49,7 @@ export const seller_register = createAsyncThunk(
           withCredentials: true,
         }
       );
-      localStorage.setItem("accessToken", data.token)
+      localStorage.setItem("accessToken", data.token);
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
       return rejectWithValue(error.response.data.error);
@@ -64,7 +64,7 @@ export const admin_login = createAsyncThunk(
       const { data } = await api.post<serverResponse>("/admin-login", info, {
         withCredentials: true,
       });
-      localStorage.setItem("accessToken", data.token)
+      localStorage.setItem("accessToken", data.token);
 
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
@@ -80,7 +80,7 @@ export const seller_login = createAsyncThunk(
       const { data } = await api.post<serverResponse>("/seller-login", info, {
         withCredentials: true,
       });
-      localStorage.setItem("accessToken", data.token)
+      localStorage.setItem("accessToken", data.token);
 
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
@@ -96,11 +96,11 @@ export const customer_login = createAsyncThunk(
       const { data } = await api.post<serverResponse>("/customer-login", info, {
         withCredentials: true,
       });
-      localStorage.setItem("accessToken", data.token)
+      localStorage.setItem("accessToken", data.token);
 
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
-      console.error("Login error:", error); 
+      console.error("Login error:", error);
       return rejectWithValue(error.response.data.error);
     }
   }
@@ -117,7 +117,7 @@ export const customer_register = createAsyncThunk(
           withCredentials: true,
         }
       );
-      localStorage.setItem("accessToken", data.token)
+      localStorage.setItem("accessToken", data.token);
 
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
@@ -125,12 +125,15 @@ export const customer_register = createAsyncThunk(
     }
   }
 );
-
 export const user_info = createAsyncThunk(
   "auth/user_info",
   async (_, { rejectWithValue, fulfillWithValue }) => {
     try {
+      const token = localStorage.getItem("accessToken");
       const { data } = await api.get(`/get-user`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
         withCredentials: true,
       });
       return fulfillWithValue(data);
@@ -154,7 +157,6 @@ export const logout = createAsyncThunk(
     }
   }
 );
-
 
 export const upload_image_profile = createAsyncThunk(
   "auth/upload_image_profile",
@@ -385,12 +387,13 @@ export const authSlice = createSlice({
       .addCase(change_password_user.rejected, (state, action) => {
         state.loader = false;
         state.errorsMsg = action.payload as string;
-      }).addCase(logout.fulfilled, (state, action) => {
-        state.loader = false;
-        state.userInfo = action.payload.userInfo
-        state.role = "";
-        state.token = ""
       })
+      .addCase(logout.fulfilled, (state, action) => {
+        state.loader = false;
+        state.userInfo = action.payload.userInfo;
+        state.role = "";
+        state.token = "";
+      });
   },
 });
 
