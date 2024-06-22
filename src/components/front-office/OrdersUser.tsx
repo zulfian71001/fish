@@ -64,7 +64,7 @@ const OrdersUser = () => {
 
   useEffect(() => {
     if (transactionToken) {
-      const snapScript = "https://app.midtrans.com/snap/snap.js";
+      const snapScript = "https://app.sandbox.midtrans.com/snap/snap.js";
       const script = document.createElement("script");
       script.src = snapScript;
       script.setAttribute("data-client-key", transactionToken);
