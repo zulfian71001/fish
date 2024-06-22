@@ -106,7 +106,7 @@ const Navbar = () => {
         <Link href="/home" className="px-4 py-2 text-md  hover:text-cyan-400 ">
           Beranda
         </Link>
-        {userInfo.role == "seller" || userInfo.role == "admin" ? (
+        {userInfo?.role == "seller" || userInfo?.role == "admin" ? (
           <Link
             href="/products"
             className="px-4 py-2 text-md  hover:text-cyan-400 "
@@ -178,7 +178,7 @@ const Navbar = () => {
           onClick={redirectCart}
         >
           <RiShoppingCartLine className="w-6 h-6 text-slate-500 font-normal" />
-          {userId == userInfo._id && total_cart_products != 0 ? (
+          {userId == userInfo?._id && total_cart_products != 0 ? (
             <p className="text-xs absolute -top-2 -right-2 p-1 px-2.5 rounded-full bg-red-700 ">
               {total_cart_products}
             </p>
@@ -201,7 +201,7 @@ const Navbar = () => {
               </div>
               <p>{userInfo?.name}</p>
             </div>
-          ) : userInfo?.role == "seller" || userInfo.role == "admin" ? (
+          ) : userInfo?.role == "seller" || userInfo?.role == "admin" ? (
             <div
               className="flex items-center justify-between gap-2 hover:bg-cyan-500/10 p-2 rounded-md cursor-pointer"
               onClick={() => setOpenModalBackOffice(!openModalBackOffice)}
@@ -302,7 +302,7 @@ const Navbar = () => {
               >
                 Home
               </Link>
-              {userInfo.role == "seller" || userInfo.role == "admin"
+              {userInfo?.role == "seller" || userInfo?.role == "admin"
                 ? ""
                 : Content.map((item: any, i: number) => (
                     <Link
@@ -337,7 +337,7 @@ const Navbar = () => {
                     <p>Logout</p>
                   </button>
                 </div>
-              ) : userInfo?.role == "seller" || userInfo.role == "admin" ? (
+              ) : userInfo?.role == "seller" || userInfo?.role == "admin" ? (
                 <div className="flex flex-col">
                   <div className="flex items-center">
                     <div className="w-10 h-10 rounded-full relative">

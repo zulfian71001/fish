@@ -115,7 +115,6 @@ export const customer_register = createAsyncThunk(
           withCredentials: true,
         }
       );
-      setCookie("accessToken", data.token)
 
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
@@ -128,7 +127,7 @@ export const user_info = createAsyncThunk(
   "auth/user_info",
   async (_, { rejectWithValue, fulfillWithValue }) => {
     try {
-      const { data } = await api.get(`/get-user`, {
+      const { data } = await api.post(`/get-user`, {
         withCredentials: true,
       });
       return fulfillWithValue(data);
