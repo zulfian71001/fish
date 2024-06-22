@@ -49,7 +49,6 @@ const SidebarUser = () => {
   const handleLogout = () => {
     dispatch(logout())
     localStorage.removeItem("accessToken")
-  deleteCookie( "accessToken");
     router.push("/home");
   };
   return (

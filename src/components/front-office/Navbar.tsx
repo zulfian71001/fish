@@ -27,7 +27,6 @@ const Navbar = () => {
     } else {
       dispatch(logout())
       localStorage.removeItem("accessToken")
-      deleteCookie("accessToken");
       router.push("/home");
     }
   }, [token]);
