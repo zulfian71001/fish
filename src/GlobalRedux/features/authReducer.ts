@@ -142,7 +142,7 @@ export const logout = createAsyncThunk(
   "auth/logout",
   async (_, { rejectWithValue, fulfillWithValue }) => {
     try {
-      const { data } = await api.get(`/logout`, {
+      const { data } = await api.post(`/logout`, {
         withCredentials: true,
       });
       deleteCookie("accessToken");
