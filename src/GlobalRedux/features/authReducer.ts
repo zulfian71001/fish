@@ -49,7 +49,6 @@ export const seller_register = createAsyncThunk(
           withCredentials: true,
         }
       );
-      setCookie("accessToken", data.token);
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
       return rejectWithValue(error.response.data.error);
@@ -64,7 +63,6 @@ export const admin_login = createAsyncThunk(
       const { data } = await api.post<serverResponse>("/admin-login", info, {
         withCredentials: true,
       });
-      setCookie("accessToken", data.token);
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
       return rejectWithValue(error.response.data.error);
@@ -79,7 +77,6 @@ export const seller_login = createAsyncThunk(
       const { data } = await api.post<serverResponse>("/seller-login", info, {
         withCredentials: true,
       });
-      setCookie("accessToken", data.token);
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
       return rejectWithValue(error.response.data.error);
@@ -94,7 +91,6 @@ export const customer_login = createAsyncThunk(
       const { data } = await api.post<serverResponse>("/customer-login", info, {
         withCredentials: true,
       });
-      setCookie("accessToken", data.token)
 
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
