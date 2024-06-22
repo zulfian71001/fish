@@ -67,8 +67,8 @@ const Sidebar = () => {
   const dispatch = useDispatch<AppDispatch>();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const handleLogout = () => {
-    dispatch(setUserInfo())
     dispatch(logout())
+    localStorage.removeItem("accessToken")
     deleteCookie( "accessToken");
     router.push("/home");
   };

@@ -61,6 +61,7 @@ const Sidebar = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const handleLogout = () => {
     dispatch(logout())
+    localStorage.removeItem("accessToken")
     deleteCookie( "accessToken");
     router.push("/admin-login");
   };

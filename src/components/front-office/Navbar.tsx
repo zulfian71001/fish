@@ -19,13 +19,14 @@ const Navbar = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { userInfo } = useAppSelector((state) => state.auth);
   const { total_cart_products, userId } = useAppSelector((state) => state.cart);
- const token = hasCookie("accessToken");
+ const token = localStorage.getItem("accessToken");
 
   useEffect(() => {
     if (token) {
       dispatch(user_info());
     } else {
       dispatch(logout())
+      localStorage.removeItem("accessToken")
       deleteCookie("accessToken");
       router.push("/home");
     }

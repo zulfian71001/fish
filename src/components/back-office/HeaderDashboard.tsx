@@ -10,7 +10,7 @@ import { hasCookie } from "cookies-next";
 const HeaderDashboard = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { userInfo } = useAppSelector((state) => state.auth);
-  const token = hasCookie("accessToken");
+  const token = localStorage.getItem("accessToken");
   useEffect(() => {
     if (token) {
       dispatch(user_info());
