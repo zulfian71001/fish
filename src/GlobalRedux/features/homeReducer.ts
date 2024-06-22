@@ -19,7 +19,11 @@ export const get_categories = createAsyncThunk(
   "home/get_category",
   async (_, { fulfillWithValue, rejectWithValue }) => {
     try {
-      const { data } = await api.get("/home/get-categories");
+      const { data } = await api.get("/home/get-categories", {
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      });
       console.log(data.categories)
       return fulfillWithValue(data.categories);
     } catch (error: RejectedAction | any) {
@@ -32,7 +36,11 @@ export const get_products = createAsyncThunk(
   "home/get_products",
   async (_, { fulfillWithValue, rejectWithValue }) => {
     try {
-      const { data } = await api.get("/home/get-products");
+      const { data } = await api.get("/home/get-products",{
+        headers: {
+          'Content-Type': 'application/json'
+        },}
+      );
       return fulfillWithValue(data.products);
     } catch (error: RejectedAction | any) {
       return rejectWithValue(error.response.data.error);

@@ -98,7 +98,7 @@ export const customer_login = createAsyncThunk(
 
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
-      console.error("Login error:", error); // Log error
+      console.error("Login error:", error); 
       return rejectWithValue(error.response.data.error);
     }
   }
