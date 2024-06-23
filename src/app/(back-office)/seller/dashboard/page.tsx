@@ -20,12 +20,10 @@ const Page = () => {
   const { userInfo, role} = useAppSelector((state) => state.auth);
   useEffect(() => {
     if (userInfo?._id) {
-      dispatch(get_dashboard_index_data_seller({ userId: userInfo._id }));
+      dispatch(get_dashboard_index_data_seller({ userId: userInfo?._id }));
     }
   }, [userInfo, dispatch]);
-  if(role !== "seller"){
-    router.push("/home")
-  } else{
+
     return (
       <div className="space-y-8">
         <HeaderDashboard />
@@ -38,7 +36,6 @@ const Page = () => {
         <RecentOrderSeller />
       </div>
     );
-  }
   
 };
 

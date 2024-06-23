@@ -481,6 +481,7 @@ const Page = () => {
                   category={data.categoryName}
                   rating={data.ratings}
                   price={data.price}
+                  stock={data.stock}
                   id={data._id}
                   onClickHandle={() => add_cart(data._id)}
                 />

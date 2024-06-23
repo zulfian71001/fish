@@ -526,6 +526,7 @@ const Page = () => {
                   shopName={data.shopName}
                   category={data.categoryName}
                   rating={data.ratings}
+                  stock={data.stock}
                   price={data.price}
                   id={data._id}
                   onClickHandle={() => add_cart(data._id)}
