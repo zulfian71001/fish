@@ -57,6 +57,7 @@ const Products = () => {
               rating={data?.ratings}
               price={data?.price}
               id={data?._id}
+              stock={data?.stock}
               onClickHandle={() => add_cart(data?._id)}
             />
           ))}

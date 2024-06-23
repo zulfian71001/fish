@@ -36,6 +36,7 @@ const storage =
 const persistConfig = {
   key: "root",
   storage: storage,
+  blacklist:['payment']
 };
 
 const rootReducer:any = combineReducers({

@@ -20,6 +20,7 @@ import toast from "react-hot-toast";
 interface IStatus {
   deliveryStatus: string;
   paymentStatus: string;
+  acceptance:string
 }
 
 const DetailOrders = ({ orderId }: { orderId: string }) => {
@@ -29,7 +30,7 @@ const DetailOrders = ({ orderId }: { orderId: string }) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [perPage, setPerPage] = useState<number>(5);
   const [searchValue, setSearchValue] = useState<string>("");
-  const [status, setStatus] = useState<IStatus>({ deliveryStatus: "", paymentStatus: "" });
+  const [status, setStatus] = useState<IStatus>({ deliveryStatus: "", paymentStatus: "", acceptance:"" });
 
 
   useEffect(() => {
@@ -41,6 +42,7 @@ const DetailOrders = ({ orderId }: { orderId: string }) => {
       setStatus({
         deliveryStatus: order.delivery_status,
         paymentStatus: order.payment_status,
+        acceptance: order.customer_acceptance,
       });
     }
   }, [order]);
@@ -62,7 +64,7 @@ const DetailOrders = ({ orderId }: { orderId: string }) => {
 
   const handleUpdateStatus = () => {
     dispatch(
-      admin_order_status_update({ orderId, info: { status: status.deliveryStatus, payment: status.paymentStatus } })
+      admin_order_status_update({ orderId, info: { status: status.deliveryStatus, payment: status.paymentStatus, acceptance:status.acceptance } })
     );
   };
 
@@ -95,6 +97,7 @@ const DetailOrders = ({ orderId }: { orderId: string }) => {
               </select>
             </div>
           </div>
+          
           <div className="space-y-1">
             <p className="text-sm">
               {order?.shippingInfo?.address} {order?.shippingInfo?.city}{" "}
@@ -113,6 +116,21 @@ const DetailOrders = ({ orderId }: { orderId: string }) => {
               </select>
             </div>
             <p>Harga : {convertRupiah(order?.price)}</p>
+          </div>
+          <div className="space-y-1">
+            <div className="flex items-center gap-4">
+              <p className="text-md font-bold">Penerimaan Customer</p>
+              <select
+                className="bg-cyan-500 text-white border-none outline-none"
+                name="acceptance"
+                onChange={update_status}
+                value={status.acceptance}
+              >
+                <option value="unreceived">Belum Diterima</option>
+                <option value="received">Diterima</option>
+              </select>
+            </div>
+          
           </div>
           <div>
             {order?.products &&

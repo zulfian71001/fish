@@ -49,7 +49,6 @@ export const seller_register = createAsyncThunk(
           withCredentials: true,
         }
       );
-      localStorage.setItem("accessToken", data.token);
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
       return rejectWithValue(error.response.data.error);
@@ -117,7 +116,6 @@ export const customer_register = createAsyncThunk(
           withCredentials: true,
         }
       );
-      localStorage.setItem("accessToken", data.token);
 
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {

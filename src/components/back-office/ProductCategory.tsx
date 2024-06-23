@@ -19,6 +19,8 @@ const ProductCategory = () => {
   const { categories, totalCategories } = useAppSelector(
     (state) => state.category
   );
+  const { userInfo} = useAppSelector( (state) => state.auth
+  );
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [perPage, setPerPage] = useState<number>(5);
   const [searchValue, setSearchValue] = useState<string>("");
@@ -39,7 +41,9 @@ const ProductCategory = () => {
   const handleCloseModal = () => {
     setShowModal(false); 
   };
-
+if(userInfo?.role !== "admin"){
+  router.push("/home")
+} else{
   return (
     <>
       <section className="p-8 rounded-xl space-y-4 bg-white w-full lg:w-2/3">
@@ -162,6 +166,8 @@ const ProductCategory = () => {
       </section>
     </>
   );
+}
+  
 };
 
 export default ProductCategory;

@@ -11,28 +11,35 @@ import { useDispatch } from "react-redux";
 import { AppDispatch, useAppSelector } from "@/GlobalRedux/store";
 import { get_dashboard_index_data_seller } from "@/GlobalRedux/features/dashboardReducer";
 import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 const Page = () => {
+  const router = useRouter()
   const dispatch = useDispatch<AppDispatch>();
   const { totalOrders, pendingOrder, recentOrders, cancelledOrder } =
   useAppSelector((state) => state.dashboardUser);
-  const { userInfo} = useAppSelector((state) => state.auth);
+  const { userInfo, role} = useAppSelector((state) => state.auth);
   useEffect(() => {
-    if (userInfo?._id) { // Ensure userInfo and userInfo._id are defined
+    if (userInfo?._id) {
       dispatch(get_dashboard_index_data_seller({ userId: userInfo._id }));
     }
   }, [userInfo, dispatch]);
-  return (
-    <div className="space-y-8">
-      <HeaderDashboard />
-      <SmallCards
-        totalOrders={totalOrders}
-        pendingOrder={pendingOrder}
-        cancelledOrder={cancelledOrder}
-      />
-      {/* <DashboardCharts /> */}
-      <RecentOrderSeller />
-    </div>
-  );
+  if(role !== "seller"){
+    router.push("/home")
+  } else{
+    return (
+      <div className="space-y-8">
+        <HeaderDashboard />
+        <SmallCards
+          totalOrders={totalOrders}
+          pendingOrder={pendingOrder}
+          cancelledOrder={cancelledOrder}
+        />
+        {/* <DashboardCharts /> */}
+        <RecentOrderSeller />
+      </div>
+    );
+  }
+  
 };
 
 export default Page;

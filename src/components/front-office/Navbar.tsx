@@ -10,24 +10,35 @@ import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { AppDispatch, useAppSelector } from "@/GlobalRedux/store";
 import { useDispatch } from "react-redux";
-import { logout, setUserInfo, user_info } from "@/GlobalRedux/features/authReducer";
+import {
+  logout,
+  setUserInfo,
+  user_info,
+} from "@/GlobalRedux/features/authReducer";
 import { RiShoppingCartLine } from "react-icons/ri";
 import { hasCookie } from "cookies-next";
 import { setCookie } from "cookies-next";
+import { get_products_cart } from "@/GlobalRedux/features/cartReducer";
 
 const Navbar = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { userInfo } = useAppSelector((state) => state.auth);
   const { total_cart_products, userId } = useAppSelector((state) => state.cart);
- const token = localStorage.getItem("accessToken");
+  const token = localStorage.getItem("accessToken");
+
+  useEffect(() => {
+    if (userInfo) {
+      dispatch(get_products_cart(userInfo?._id));
+    }
+  }, []);
 
   useEffect(() => {
     if (token) {
       dispatch(user_info());
     } else {
-      dispatch(logout())
-      localStorage.removeItem("accessToken")
+      dispatch(logout());
       router.push("/home");
+      localStorage.removeItem("accessToken");
     }
   }, [token]);
 
@@ -86,13 +97,12 @@ const Navbar = () => {
   ];
   const handleLogout = () => {
     setOpenModal(false);
-    dispatch(setUserInfo());
+    dispatch(logout());
     localStorage.removeItem("accessToken");
     deleteCookie("accessToken");
+    router.push("/home");
     if (pathname == "/home") {
       window?.location?.reload();
-    } else {
-      router.push("/home");
     }
   };
 
@@ -126,7 +136,7 @@ const Navbar = () => {
         )}
       </div>
       <div className="flex flex-col xl:flex-row xl:justify-between xl:items-center px-4 xl:px-10 gap-4 xl:gap-0">
-        <div className="flex lg:gap-4 justify-between items-center my-1">
+        <div className="flex lg:gap-4 gap-2 justify-between items-center my-1">
           <div className={`hidden lg:flex relative w-36 h-16 `}>
             <Image
               src={Logo}
@@ -135,7 +145,22 @@ const Navbar = () => {
               className="rounded-xl object-cover "
             />
           </div>
-          <div className="flex items-center justify-center relative w-[92%]">
+          <div
+            className={`xl:hidden flex  p-2 rounded-lg text-white cursor-pointer hover:bg-cyan-500/10  relative ${
+              pathname == "/cart" ? "bg-slate-600/5   " : ""
+            } `}
+            onClick={redirectCart}
+          >
+            <RiShoppingCartLine className="w-6 h-6 text-slate-500 font-normal" />
+            {userId == userInfo?._id && total_cart_products != 0 ? (
+              <p className="text-xs absolute -top-2 -right-2 p-1 px-2.5 rounded-full bg-red-700 ">
+                {total_cart_products}
+              </p>
+            ) : (
+              ""
+            )}
+          </div>
+          <div className="flex items-center justify-center relative w-[90%]">
             <input
               type="text"
               className="p-1 px-10 rounded-lg border-none ring-1 ring-slate-400 focus:outline-none focus:ring-cyan-300 outline-none w-full xl:w-[800px]"
@@ -151,6 +176,7 @@ const Navbar = () => {
               Search
             </button>
           </div>
+
           <button className={`xl:hidden flex`} onClick={() => setIsOpen(true)}>
             <RxHamburgerMenu />
           </button>

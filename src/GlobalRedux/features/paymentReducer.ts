@@ -1,7 +1,9 @@
 import api from "@/app/api/api";
 import {
 
+  IBankAccount,
   IPayment,
+  IPayout,
   RejectedAction,
 
 } from "@/utils/types";
@@ -15,15 +17,26 @@ const initialState: IPayment = {
 };
 
 export const process_transaction = createAsyncThunk(
-  "payment/process_transaction ",
-  async (id:string,
-    { fulfillWithValue, rejectWithValue }
-  ) => {
+  "payment/process_transaction",
+  async ({ id }: { id: string }, { fulfillWithValue, rejectWithValue }) => {
     try {
-      const { data } = await api.post(`/home/payment/process-transaction`, {id});
+      const { data } = await api.post(`/home/payment/process-transaction`, { id });
       return fulfillWithValue(data);
-    } catch (error: RejectedAction | any) {
-      return rejectWithValue(error.response.data.error);
+    } catch (error: any) {
+      return rejectWithValue(error.response ? error.response.data.error : error.message);
+    }
+  }
+);
+
+export const admin_payout_to_seller = createAsyncThunk(
+  "payment/admin_payout_to_seller",
+  async (info:IPayout, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const { data } = await api.post(`/home/admin/admin-payout-to-seller`, info);
+      console.log(data)
+      return fulfillWithValue(data);
+    } catch (error: any) {
+      return rejectWithValue(error.response ? error.response.data.error : error.message);
     }
   }
 );
@@ -36,6 +49,9 @@ const paymentSlice = createSlice({
       state.errorsMsg = "";
       state.successMsg = "";
     },
+    clearTransactionToken:(state)=>{
+      state.transactionToken=""
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -55,4 +71,4 @@ const paymentSlice = createSlice({
 });
 
 export default paymentSlice.reducer;
-export const { messageClear } = paymentSlice.actions;
+export const { messageClear, clearTransactionToken } = paymentSlice.actions;

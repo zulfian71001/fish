@@ -29,7 +29,7 @@ const CartPage = () => {
   return (
     <div className="min-h-[85vh] w-full bg-slate-100">
       <div className="flex flex-col lg:flex-row gap-2 ">
-        <div className="w-full lg:w-2/3 min-h-[85vh] flex flex-col p-10">
+        <div className="w-full lg:w-2/3 lg:min-h-[85vh] flex flex-col p-10">
           {cart_products?.length > 0 || outOfStockProducts?.length > 0 ? (
             <>
               {/* <div className="w-full lg:w-[800px] rounded-md text-slate-700 border my-1 p-4 bg-white">
@@ -57,25 +57,11 @@ const CartPage = () => {
               </Link>
             </div>
           )}
-          {outOfStockProducts?.length > 0 && (
-            <>
-              <div className="w-full lg:w-[800px] rounded-md text-slate-700 border my-1 p-4 bg-white">
-                <div className="bg-white p-4">
-                  <h2 className="text-md text-cyan-500 font-semibold">
-                    stok produk{" "}
-                    {outOfStockProducts?.length}
-                  </h2>
-                </div>
-              </div>
-              {outOfStockProducts?.map((data: any, i: number) => (
-                <Carts key={i} name={data.shopName} products={data.products} />
-              ))}
-            </>
-          )}
+          
         </div>
         {
           cart_products.length > 0 && (
-            <div className="w-full lg:w-1/3 h-full bg-white p-6 mt-10 mr-10 rounded-md space-y-4">
+            <div className="w-full lg:w-1/3 h-full bg-white mb-6 p-6 lg:mt-10 lg:mr-10 rounded-md space-y-4">
           <p className="text-xl font-semibold">Order</p>
           <div className="flex justify-between">
             <p>{buy_item_product} produk</p>

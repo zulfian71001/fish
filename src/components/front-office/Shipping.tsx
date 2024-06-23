@@ -243,9 +243,9 @@ const Shipping = () => {
 
   return (
     <div className="min-h-[85vh] w-full bg-slate-100">
-      <div className="w-full h-full flex gap-2">
+      <div className="w-full h-full flex flex-col lg:flex-row gap-2">
         <>
-          <div className="w-[60%] flex flex-col items-end mx-8">
+          <div className="w-full lg:w-[60%] flex flex-col items-end lg:mx-8">
             <div className="w-full flex flex-col p-10 bg-white rounded-md my-10 gap-6">
               {!isFull ? (
                 <>
@@ -425,7 +425,7 @@ const Shipping = () => {
               )}
             </div>
           </div>
-          <div className="w-full lg:w-[40%] h-full bg-white p-6 mt-10 mr-10 rounded-md space-y-4">
+          <div className="w-full lg:w-[40%] h-full bg-white p-6 lg:mt-10 lg:mr-10 rounded-md space-y-4 mb-6">
             <p className="text-xl font-semibold">Order</p>
             <div className="flex justify-between">
               <p>Total items</p>

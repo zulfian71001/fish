@@ -46,7 +46,7 @@ function RegisterSellerPage() {
     if (successMsg) {
       toast.success(successMsg, { duration: 3000, position: "top-right" });
       dispatch(messageClear());
-      router.push('/seller/dashboard')
+      router.push('/seller-login')
     }
   }, [errorsMsg, successMsg,dispatch, router]);
   return (

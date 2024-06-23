@@ -46,7 +46,7 @@ function RegisterPage() {
     if (successMsg) {
       toast.success(successMsg, { duration: 3000, position: "top-right" });
       dispatch(messageClear());
-      router.push('/home')
+      router.push('/login')
     }
   }, [errorsMsg, successMsg,dispatch, router]);
   return (

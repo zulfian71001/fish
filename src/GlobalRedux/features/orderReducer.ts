@@ -33,6 +33,7 @@ export const get_orders = createAsyncThunk(
   "order/get_orders", async({customerId, status, page, perPage}:GetOrdersParams, { fulfillWithValue, rejectWithValue }) => {
     try {
       const { data } = await api.get(`/home/order/get-orders/${customerId}/${status}?page=${page}&&perPage=${perPage}`);
+      console.log(data)
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
       return rejectWithValue(error.response.data.error);
@@ -44,6 +45,16 @@ export const get_admin_orders = createAsyncThunk(
   "order/get_admin_orders", async({perPage,page, searchValue }:searchData, { fulfillWithValue, rejectWithValue }) => {
     try {
       const { data } = await api.get(`/admin/get-orders?page=${page}&&perPage=${perPage}&&searchValue=${searchValue}`, {withCredentials:true});
+      return fulfillWithValue(data);
+    } catch (error: RejectedAction | any) {
+      return rejectWithValue(error.response.data.error);
+    }
+  }
+)
+export const get_admin_orders_payment = createAsyncThunk(
+  "order/get_admin_orders_payment", async({perPage,page, searchValue }:searchData, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const { data } = await api.get(`/admin/get-orders-payment?page=${page}&&perPage=${perPage}&&searchValue=${searchValue}`, {withCredentials:true});
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
       return rejectWithValue(error.response.data.error);
@@ -155,6 +166,10 @@ const orderSlice = createSlice({
         state.myOrder = action.payload.order;
       })
       .addCase(get_admin_orders.fulfilled, (state, action) => {
+        state.orders = action.payload.orders;
+        state.totalOrders = action.payload.totalOrders;
+      })
+      .addCase(get_admin_orders_payment.fulfilled, (state, action) => {
         state.orders = action.payload.orders;
         state.totalOrders = action.payload.totalOrders;
       })

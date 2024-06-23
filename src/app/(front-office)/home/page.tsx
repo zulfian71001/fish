@@ -23,7 +23,6 @@ const Page = () => {
     dispatch(get_categories());
   }, [dispatch]);
 
-  console.log(userInfo)
   return (
     <div className="w-full">
       <Navbar />
@@ -59,7 +58,7 @@ const Page = () => {
                   </div>
                 ))}
             </div>
-            <h2 className="font-semibold text-4xl my-10">PRODUK TERBARU</h2>
+            <h2 className="font-semibold text-4xl text-center my-10">PRODUK TERBARU</h2>
             <Products />
           </div>
         </div>

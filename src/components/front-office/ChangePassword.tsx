@@ -52,7 +52,9 @@ const ChangePassword = () => {
     }
   }, [errorsMsg, successMsg]);
 
-
+if(userInfo?.role !== "customer"){
+  router.push("/home")
+} else{
   return (
     <>
       <section className="p-8 rounded-xl space-y-4 bg-white w-full">
@@ -132,6 +134,8 @@ const ChangePassword = () => {
       </section>
     </>
   );
+}
+  
 };
 
 export default ChangePassword;

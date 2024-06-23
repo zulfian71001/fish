@@ -10,6 +10,7 @@ import {
   MapPinned,
   MessageCircle,
   X,
+  DollarSign,
 } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";

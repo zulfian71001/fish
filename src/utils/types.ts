@@ -193,6 +193,7 @@ export interface PropsProduct {
   rating: number;
   price: number;
   shopName: string;
+  stock:number
   id: string;
   onClickHandle: (id: string) => void;
 }
@@ -200,6 +201,17 @@ export interface PropsProduct {
 export interface CartsProps {
   name: string;
   products: [];
+}
+
+export interface IPayout {
+  sellerId: string;
+  price: number;
+}
+
+export interface IBankAccount {
+  account: string;
+  name: string;
+  bank:string
 }
 
 export interface ShippingProps {
