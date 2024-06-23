@@ -20,22 +20,26 @@ const Page = () => {
   const { userInfo, role} = useAppSelector((state) => state.auth);
   useEffect(() => {
     if (userInfo) {
-      dispatch(get_dashboard_index_data_seller({ userId: userInfo?._id }));
+      dispatch(get_dashboard_index_data_seller({ userId: userInfo._id }));
     }
   }, [userInfo, dispatch]);
-
-    return (
-      <div className="space-y-8">
-        <HeaderDashboard />
-        <SmallCards
-          totalOrders={totalOrders}
-          pendingOrder={pendingOrder}
-          cancelledOrder={cancelledOrder}
-        />
-        {/* <DashboardCharts /> */}
-        <RecentOrderSeller />
-      </div>
-    );
+if(role !== "seller"){
+  router.push("/home")
+} else {
+  return (
+    <div className="space-y-8">
+      <HeaderDashboard />
+      <SmallCards
+        totalOrders={totalOrders}
+        pendingOrder={pendingOrder}
+        cancelledOrder={cancelledOrder}
+      />
+      {/* <DashboardCharts /> */}
+      <RecentOrderSeller />
+    </div>
+  );
+}
+    
   
 };
 

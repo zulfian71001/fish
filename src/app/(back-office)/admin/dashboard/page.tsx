@@ -18,18 +18,23 @@ const Page = () => {
   useEffect(() => {
     dispatch(get_dashboard_index_data_admin());
   }, []);
-    return (
-      <div className="space-y-8">
-        <HeaderDashboard />
-        <SmallCards
-          totalOrders={totalOrders}
-          pendingOrder={pendingOrder}
-          cancelledOrder={cancelledOrder}
-        />
-        {/* <DashboardCharts /> */}
-        <RecentOrders/>
-      </div>
-    );
+  if(role !== "admin") {
+    router.push("/home")}
+    else {
+      return (
+        <div className="space-y-8">
+          <HeaderDashboard />
+          <SmallCards
+            totalOrders={totalOrders}
+            pendingOrder={pendingOrder}
+            cancelledOrder={cancelledOrder}
+          />
+          {/* <DashboardCharts /> */}
+          <RecentOrders/>
+        </div>
+      );
+    }
+   
   
 };
 
