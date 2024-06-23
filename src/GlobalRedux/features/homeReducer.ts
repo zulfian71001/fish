@@ -24,7 +24,6 @@ export const get_categories = createAsyncThunk(
           'Content-Type': 'application/json'
         },
       });
-      console.log(data.categories)
       return fulfillWithValue(data.categories);
     } catch (error: RejectedAction | any) {
       return rejectWithValue(error.response.data.error);
