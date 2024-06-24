@@ -33,6 +33,7 @@ export const add_friend = createAsyncThunk(
   "chat/add_friend",
   async (info: any, { rejectWithValue, fulfillWithValue }) => {
     try {
+      const token = localStorage.getItem("accessToken");
       const { data } = await api.post(
         "/chat/customer/add-customer-friend",
         info,
@@ -51,6 +52,7 @@ export const send_message = createAsyncThunk(
   "chat/send_message",
   async (info: any, { rejectWithValue, fulfillWithValue }) => {
     try {
+      const token = localStorage.getItem("accessToken");
       const { data } = await api.post(
         "/chat/customer/send-message-to-seller",
         info,

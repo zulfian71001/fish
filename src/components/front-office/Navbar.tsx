@@ -145,21 +145,10 @@ const Navbar = () => {
               className="rounded-xl object-cover "
             />
           </div>
-          <div
-            className={`xl:hidden flex  p-2 rounded-lg text-white cursor-pointer hover:bg-cyan-500/10  relative ${
-              pathname == "/cart" ? "bg-slate-600/5   " : ""
-            } `}
-            onClick={redirectCart}
-          >
-            <RiShoppingCartLine className="w-6 h-6 text-slate-500 font-normal" />
-            {userId == userInfo?._id && total_cart_products != 0 ? (
-              <p className="text-xs absolute -top-2 -right-2 p-1 px-2.5 rounded-full bg-red-700 ">
-                {total_cart_products}
-              </p>
-            ) : (
-              ""
-            )}
-          </div>
+          <button className={`xl:hidden flex`} onClick={() => setIsOpen(true)}>
+            <RxHamburgerMenu />
+          </button>
+          
           <div className="flex items-center justify-center relative w-[90%]">
             <input
               type="text"
@@ -177,9 +166,21 @@ const Navbar = () => {
             </button>
           </div>
 
-          <button className={`xl:hidden flex`} onClick={() => setIsOpen(true)}>
-            <RxHamburgerMenu />
-          </button>
+          <div
+            className={`xl:hidden flex  p-2 rounded-lg text-white cursor-pointer hover:bg-cyan-500/10  relative ${
+              pathname == "/cart" ? "bg-slate-600/5   " : ""
+            } `}
+            onClick={redirectCart}
+          >
+            <RiShoppingCartLine className="w-6 h-6 text-slate-500 font-normal" />
+            {userId == userInfo?._id && total_cart_products != 0 ? (
+              <p className="text-xs absolute -top-2 -right-2 p-1 px-2.5 rounded-full bg-red-700 ">
+                {total_cart_products}
+              </p>
+            ) : (
+              ""
+            )}
+          </div>
         </div>
         {/* <select
           className="bg-cyan-500 text-white border-none outline-none rounded-md"
@@ -321,38 +322,30 @@ const Navbar = () => {
             >
               <X />
             </button>
-            <div className="flex flex-col">
-              <Link
-                href="/home"
-                className="px-4 py-2 text-md hover:text-cyan-400 "
-              >
-                Home
-              </Link>
-              {userInfo?.role == "seller" || userInfo?.role == "admin"
-                ? ""
-                : Content.map((item: any, i: number) => (
-                    <Link
-                      key={i}
-                      href={item.url}
-                      className="px-4 py-2 text-md hover:text-cyan-400 "
-                    >
-                      {item.name}
-                    </Link>
-                  ))}
-            </div>
             <div className="z-10 flex gap-4">
               {userInfo?.role == "customer" ? (
                 <div className="flex flex-col">
                   <div className="flex items-center">
                     <div className="w-10 h-10 rounded-full relative">
-                      {userInfo?.image ? (
+                      {userInfo?.image.trim() !== "" ? (
                         <Image src={Logo} alt="profile" fill={true} />
                       ) : (
-                        <div className="bg-cyan-500 w-full"></div>
+                        <div className="bg-cyan-500 rounded-full"></div>
                       )}
                     </div>
                     <p>{userInfo?.name}</p>
                   </div>
+                  <Link
+              href="/dashboard"
+              className={`flex gap-3 hover:bg-cyan-500 hover:text-white py-2 px-3 rounded-lg mx-1 ${
+                pathname === "/dashboard" ? "bg-cyan-500 text-white" : ""
+              }`}
+            >
+              <div>
+                <LayoutDashboard />
+              </div>
+              <p>Dashboard</p>
+            </Link>
                   <button
                     className={`flex gap-3  hover:bg-cyan-500 hover:text-white py-2 px-3 rounded-lg mx-1  `}
                     onClick={handleLogout}
@@ -362,6 +355,7 @@ const Navbar = () => {
                     </div>
                     <p>Logout</p>
                   </button>
+                  
                 </div>
               ) : userInfo?.role == "seller" || userInfo?.role == "admin" ? (
                 <div className="flex flex-col">

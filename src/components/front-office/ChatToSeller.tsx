@@ -72,7 +72,6 @@ const ChatToSeller = ({ sellerId }: { sellerId: string }) => {
 
   useEffect(() => {
     socket.on("seller_message", (msg) => {
-      console.log(msg);
       setReceiverMsg(msg);
     });
     socket.on("activeSeller", (sellers) => {

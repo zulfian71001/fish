@@ -65,13 +65,16 @@ export const send_message_to_customer = createAsyncThunk(
   "chat/send_message_to_customer",
   async (info: any, { rejectWithValue, fulfillWithValue }) => {
     try {
+      const token = localStorage.getItem("accessToken");
       const { data } = await api.post(
         "/chat/seller/send-message-to-customer",
         info,
         {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
           withCredentials: true,
-        }
-      );
+        });
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
       return rejectWithValue(error.response.data.error);

@@ -44,6 +44,11 @@ const sidebarContent = [
     url: "/admin/dashboard/sellers-status",
   },
   {
+    name: "Ongkir",
+    icon: <DollarSign />,
+    url: "/admin/dashboard/shipping-fee",
+  },
+  {
     name: "Semua Order",
     icon: <ShoppingBasket />,
     url: "/admin/dashboard/orders",
