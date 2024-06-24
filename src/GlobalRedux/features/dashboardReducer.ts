@@ -67,6 +67,12 @@ const dashboardSlice = createSlice({
         state.cancelledOrder = action.payload.cancelledOrder
         state.totalOrders = action.payload.totalOrders;
       })
+      .addCase(get_dashboard_index_data_seller.fulfilled, (state, action) => {
+        state.recentOrders = action.payload.recentOrders;
+        state.pendingOrder = action.payload.pendingOrder;
+        state.cancelledOrder = action.payload.cancelledOrder
+        state.totalOrders = action.payload.totalOrders;
+      })
   },
 });
 
