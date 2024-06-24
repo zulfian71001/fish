@@ -17,6 +17,7 @@ export const place_order = createAsyncThunk(
   "order/place_order ",
   async ({price, products,shipping_fee,shippingInfo,userId,navigate,items}:orderProps, { fulfillWithValue, rejectWithValue }) => {
     try {
+      
       const { data } = await api.post(`/home/order/place-order`,{
         price, products,shipping_fee,shippingInfo,userId,navigate,items
       });

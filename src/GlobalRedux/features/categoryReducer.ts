@@ -22,6 +22,7 @@ export const add_category = createAsyncThunk(
   async (info: requestDataCategory, { rejectWithValue, fulfillWithValue }) => {
     const { name, image } = info;
     try {
+      const token = localStorage.getItem("accessToken");
       const formData = new FormData();
       formData.append("name", name);
       formData.append("image", image);
@@ -29,9 +30,11 @@ export const add_category = createAsyncThunk(
         "/add-category",
         formData,
         {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
           withCredentials: true,
-        }
-      );
+        });
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
       return rejectWithValue(error.response.data.error);
@@ -43,13 +46,15 @@ export const get_category = createAsyncThunk(
   "category/get_category",
   async (categoryId:string, { rejectWithValue, fulfillWithValue }) => {
     try {
-
+      const token = localStorage.getItem("accessToken");
       const { data } = await api.get(
         `/get-category/${categoryId}`,
         {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
           withCredentials: true,
-        }
-      );
+        });
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
       return rejectWithValue(error.response.data.error);
@@ -61,13 +66,15 @@ export const delete_category = createAsyncThunk(
   "category/delete_category",
   async (categoryId:string, { rejectWithValue, fulfillWithValue }) => {
     try {
-
+      const token = localStorage.getItem("accessToken");
       const { data } = await api.delete(
         `/delete-category/${categoryId}`,
         {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
           withCredentials: true,
-        }
-      );
+        });
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
       return rejectWithValue(error.response.data.error);
@@ -80,13 +87,15 @@ export const get_categories = createAsyncThunk(
   async (info: searchData, { rejectWithValue, fulfillWithValue }) => {
     const { perPage, page, searchValue } = info;
     try {
-
+      const token = localStorage.getItem("accessToken");
       const { data } = await api.get(
         `/get-categories?page=${page}&&searchValue=${searchValue}&&perPage=${perPage}`,
         {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
           withCredentials: true,
-        }
-      );
+        });
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
       return rejectWithValue(error.response.data.error);

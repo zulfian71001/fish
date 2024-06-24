@@ -121,6 +121,20 @@ export const get_reviews = createAsyncThunk(
   }
 )
 
+export const set_shipping_fee = createAsyncThunk(
+  "home/set_shipping_fee",
+  async (info: any, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const { data } = await api.post(`/home/set-shipping-fee`, info);
+      console.log(data);
+      return fulfillWithValue(data);
+    } catch (error: RejectedAction | any) {
+      console.log(error.response.data.error);
+      return rejectWithValue(error.response.data.error);
+    }
+  }
+);
+
 const homeSlice = createSlice({
   name: "home",
   initialState,

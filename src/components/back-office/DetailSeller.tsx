@@ -93,7 +93,6 @@ const DetailSeller = ({ sellerId }: { sellerId: string }) => {
             >
               <option value="active">Aktif</option>
               <option value="nonActive">Tidak Aktif</option>
-              <option value="pending">Tertunda</option>
             </select>
             <button
               type="submit"

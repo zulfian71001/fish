@@ -71,7 +71,7 @@ const Chat = () => {
   
                     >
                       <div className="w-[30px] h-[30px] rounded-full relative">
-                        {activeCustomer.some((c:any) => c.customerId === currentCustomer._id) && (
+                        {activeCustomer?.some((c:any) => c.customerId === currentCustomer?._id) && (
                           <div className="w-[10px] h-[10px] rounded-full bg-green-500 absolute right-0 bottom-0 "></div>
                         )}
                         {data?.image ? (

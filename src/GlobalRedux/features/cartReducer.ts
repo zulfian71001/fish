@@ -77,6 +77,47 @@ export const quantity_dec = createAsyncThunk(
   }
 );
 
+export const make_shipping_fee = createAsyncThunk(
+  "cart/make_shipping_fee",
+  async (info: any, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const { data } = await api.post(`/home/make-shipping-fee`, info);
+      return fulfillWithValue(data);
+    } catch (error: RejectedAction | any) {
+      console.log(error.response.data.error);
+      return rejectWithValue(error.response.data.error);
+    }
+  }
+);
+
+export const change_shipping_fee = createAsyncThunk(
+  "cart/change_shipping_fee",
+  async ({shipping_fee}:{shipping_fee:number}, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const { data } = await api.post(`/home/change-shipping-fee`, {shipping_fee});
+      console.log(data);
+      return fulfillWithValue(data);
+    } catch (error: RejectedAction | any) {
+      console.log(error.response.data.error);
+      return rejectWithValue(error.response.data.error);
+    }
+  }
+);
+
+export const get_shipping_fee = createAsyncThunk(
+  "cart/get_shipping_fee",
+  async (_, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const { data } = await api.get(`/home/get-shipping-fee`);
+      console.log(data)
+      return fulfillWithValue(data);
+    } catch (error: RejectedAction | any) {
+      console.log(error.response.data.error);
+      return rejectWithValue(error.response.data.error);
+    }
+  }
+);
+
 const cartSlice = createSlice({
   name: "cart",
   initialState,
@@ -111,6 +152,12 @@ const cartSlice = createSlice({
     })
     .addCase(quantity_dec.fulfilled, (state, action) => {
       state.successMsg = action.payload.message as string;
+    })
+    .addCase(get_shipping_fee.fulfilled, (state, action) => {
+      state.shipping_fee = action.payload.shipping_fee;
+    })
+    .addCase(change_shipping_fee.fulfilled, (state, action) => {
+      state.shipping_fee = action.payload.shipping_fee;
     })
 },
 });

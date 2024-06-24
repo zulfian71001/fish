@@ -23,13 +23,16 @@ export const add_product = createAsyncThunk(
   "product/add_product",
   async (info: any, { rejectWithValue, fulfillWithValue }) => {
     try {
+      const token = localStorage.getItem("accessToken");
       const { data } = await api.post<responseDataProduct>(
         "/add-product",
         info,
         {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
           withCredentials: true,
-        }
-      );
+        });
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
       return rejectWithValue(error.response.data.error);
@@ -42,12 +45,15 @@ export const get_products = createAsyncThunk(
   async (info: searchData, { rejectWithValue, fulfillWithValue }) => {
     const { perPage, page, searchValue, sellerId } = info;
     try {
+      const token = localStorage.getItem("accessToken");
       const { data } = await api.get(
         `/get-products?page=${page}&&searchValue=${searchValue}&&perPage=${perPage}&&sellerId=${sellerId}`,
         {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
           withCredentials: true,
-        }
-      );
+        });
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
       return rejectWithValue(error.response.data.error);
@@ -59,7 +65,11 @@ export const get_product = createAsyncThunk(
   "product/get_product",
   async (productId: string, { rejectWithValue, fulfillWithValue }) => {
     try {
-      const { data } = await api.get(`/get-product/${productId}`, {
+      const token = localStorage.getItem("accessToken");
+      const { data } = await api.get(`/get-product/${productId}`,  {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
         withCredentials: true,
       });
       return fulfillWithValue(data);
@@ -76,13 +86,16 @@ export const update_product = createAsyncThunk(
     { rejectWithValue, fulfillWithValue }
   ) => {
     try {
+      const token = localStorage.getItem("accessToken");
       const { data } = await api.post<responseUpdateDataProduct>(
         "/update-product",
         product,
         {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
           withCredentials: true,
-        }
-      );
+        });
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
       return rejectWithValue(error.response.data.error);
@@ -98,11 +111,15 @@ export const update_product_image = createAsyncThunk(
   ) => {
     const { oldImage, newImage, productId } = productImage;
     try {
+      const token = localStorage.getItem("accessToken");
       const formData = new FormData();
       formData.append("oldImage", oldImage);
       formData.append("newImage", newImage);
       formData.append("productId", productId);
-      const { data } = await api.post("/update-product-image", formData, {
+      const { data } = await api.post("/update-product-image", formData,  {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
         withCredentials: true,
       });
       return fulfillWithValue(data);

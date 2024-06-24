@@ -21,12 +21,15 @@ export const get_request_seller = createAsyncThunk(
   async (info: searchData, { rejectWithValue, fulfillWithValue }) => {
     const { perPage, page, searchValue } = info;
     try {
+      const token = localStorage.getItem("accessToken");
       const { data } = await api.get(
         `/get-request-seller?page=${page}&&searchValue=${searchValue}&&perPage=${perPage}`,
         {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
           withCredentials: true,
-        }
-      );
+        });
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
       return rejectWithValue(error.response.data.error);
@@ -39,7 +42,11 @@ export const get_sellers = createAsyncThunk(
   async (info:searchData, { fulfillWithValue, rejectWithValue }) => {
     const {searchValue, perPage, page} = info
     try {
-      const { data } = await api.get(`/get-sellers?page=${page}&&searchValue=${searchValue}&&perPage=${perPage}`, {
+      const token = localStorage.getItem("accessToken");
+      const { data } = await api.get(`/get-sellers?page=${page}&&searchValue=${searchValue}&&perPage=${perPage}`,  {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
         withCredentials: true,
       });
       return fulfillWithValue(data);
@@ -53,7 +60,11 @@ export const get_seller = createAsyncThunk(
   "seller/get_seller",
   async (sellerId: string, { fulfillWithValue, rejectWithValue }) => {
     try {
-      const { data } = await api.get(`/get-seller/${sellerId}`, {
+      const token = localStorage.getItem("accessToken");
+      const { data } = await api.get(`/get-seller/${sellerId}`,  {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
         withCredentials: true,
       });
       return fulfillWithValue(data);
@@ -67,7 +78,11 @@ export const update_status_seller = createAsyncThunk(
   "seller/update_status_seller",
   async (info: UpdataStatus, { rejectWithValue, fulfillWithValue }) => {
     try {
-      const { data } = await api.post(`/update-status-seller`, info, {
+      const token = localStorage.getItem("accessToken");
+      const { data } = await api.post(`/update-status-seller`, info,  {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
         withCredentials: true,
       });
       return fulfillWithValue(data);

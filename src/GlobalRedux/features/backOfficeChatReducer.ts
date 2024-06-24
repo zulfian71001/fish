@@ -45,12 +45,15 @@ export const get_customer_message = createAsyncThunk(
   "chat/get_customer_message",
   async (customerId: string, { rejectWithValue, fulfillWithValue }) => {
     try {
+      const token = localStorage.getItem("accessToken");
       const { data } = await api.get(
         `/chat/seller/get-customer-message/${customerId}`,
         {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
           withCredentials: true,
-        }
-      );
+        });
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
       return rejectWithValue(error.response.data.error);
@@ -126,7 +129,11 @@ export const get_seller_message = createAsyncThunk(
   "chat/get_seller_message",
   async (_, { rejectWithValue, fulfillWithValue }) => {
     try {
-      const { data } = await api.get(`/chat/get-seller-message`, {
+      const token = localStorage.getItem("accessToken");
+      const { data } = await api.get(`/chat/get-seller-message`,  {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
         withCredentials: true,
       });
       return fulfillWithValue(data);

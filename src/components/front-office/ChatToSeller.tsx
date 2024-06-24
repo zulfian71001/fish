@@ -201,12 +201,7 @@ const ChatToSeller = ({ sellerId }: { sellerId: string }) => {
                 </div>
               </div>
               <div className="flex p-2 justify-between items-center w-full">
-                <div className="w-[40px] h-[40px] border p-2 justify-center items-center flex rounded-full hover:shadow-xl">
-                  <label className="cursor-pointer">
-                    <Plus />
-                  </label>
-                  <input className="hidden" type="file" />
-                </div>
+              
                 <div className="border h-[40px] ml-2 w-[calc(100%-60px)] rounded-full relative">
                   <input
                     type="text"
@@ -217,11 +212,7 @@ const ChatToSeller = ({ sellerId }: { sellerId: string }) => {
                     }
                     value={text}
                   />
-                  <div className="text-2xl absolute right-2 top-2 cursor-auto">
-                    <span>
-                      <SmilePlus />
-                    </span>
-                  </div>
+  
                 </div>
                 <div className="w-[40px] p-2 flex justify-center items-center rounded-full hover:shadow-xl transition-all duration-150">
                   <div

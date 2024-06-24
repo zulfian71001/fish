@@ -160,7 +160,11 @@ export const upload_image_profile = createAsyncThunk(
   "auth/upload_image_profile",
   async (image: any, { fulfillWithValue, rejectWithValue }) => {
     try {
-      const { data } = await api.post("/upload-image-profile", image, {
+      const token = localStorage.getItem("accessToken");
+      const { data } = await api.post("/upload-image-profile", image,{
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
         withCredentials: true,
       });
       return fulfillWithValue(data);
@@ -173,7 +177,11 @@ export const add_info_profile = createAsyncThunk(
   "auth/add_info_profile",
   async (info: IFormStore, { fulfillWithValue, rejectWithValue }) => {
     try {
+      const token = localStorage.getItem("accessToken");
       const { data } = await api.post("/add-info-profile", info, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
         withCredentials: true,
       });
       return fulfillWithValue(data);
@@ -187,7 +195,11 @@ export const update_info_profile_seller = createAsyncThunk(
   "auth/update_info_profile_seller",
   async (info: IFormSeller, { fulfillWithValue, rejectWithValue }) => {
     try {
+      const token = localStorage.getItem("accessToken");
       const { data } = await api.put(`/update-info-profile-seller`, info, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
         withCredentials: true,
       });
       return fulfillWithValue(data);
@@ -200,7 +212,11 @@ export const update_info_profile_store = createAsyncThunk(
   "auth/update_info_profile_seller",
   async (info: IFormStore, { fulfillWithValue, rejectWithValue }) => {
     try {
+      const token = localStorage.getItem("accessToken");
       const { data } = await api.post(`/update-info-profile-store`, info, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
         withCredentials: true,
       });
       return fulfillWithValue(data);
@@ -211,9 +227,14 @@ export const update_info_profile_store = createAsyncThunk(
 );
 export const change_password_seller = createAsyncThunk(
   "auth/change_password_seller",
+  
   async (info: IFormUpdatePassword, { fulfillWithValue, rejectWithValue }) => {
     try {
+      const token = localStorage.getItem("accessToken");
       const { data } = await api.put(`/change-password-seller`, info, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
         withCredentials: true,
       });
       return fulfillWithValue(data);
@@ -229,7 +250,11 @@ export const change_password_user = createAsyncThunk(
     { fulfillWithValue, rejectWithValue }
   ) => {
     try {
+      const token = localStorage.getItem("accessToken");
       const { data } = await api.put(`/change-password-user`, info, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
         withCredentials: true,
       });
       return fulfillWithValue(data);
