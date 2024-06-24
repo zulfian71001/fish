@@ -22,7 +22,7 @@ const Page = () => {
     if (userInfo) {
       dispatch(get_dashboard_index_data_seller({ userId: userInfo._id }));
     }
-  }, [userInfo, dispatch]);
+  }, []);
 if(role !== "seller"){
   router.push("/home")
 } else {
