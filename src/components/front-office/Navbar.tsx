@@ -116,14 +116,8 @@ const Navbar = () => {
         <Link href="/home" className="px-4 py-2 text-md  hover:text-cyan-400 ">
           Beranda
         </Link>
-        {userInfo?.role == "seller" || userInfo?.role == "admin" ? (
-          <Link
-            href="/products"
-            className="px-4 py-2 text-md  hover:text-cyan-400 "
-          >
-            Produk
-          </Link>
-        ) : (
+        {userInfo?.role !== "customer" ? <>
+        {!userInfo ? (
           Content.map((item: any, i: number) => (
             <Link
               key={i}
@@ -133,7 +127,11 @@ const Navbar = () => {
               {item.name}
             </Link>
           ))
+        ) : (
+          <></>
         )}
+        </> : <></> }
+  
       </div>
       <div className="flex flex-col xl:flex-row xl:justify-between xl:items-center px-4 xl:px-10 gap-4 xl:gap-0">
         <div className="flex lg:gap-4 gap-2 justify-between items-center my-1">
@@ -148,7 +146,7 @@ const Navbar = () => {
           <button className={`xl:hidden flex`} onClick={() => setIsOpen(true)}>
             <RxHamburgerMenu />
           </button>
-          
+
           <div className="flex items-center justify-center relative w-[90%]">
             <input
               type="text"
@@ -336,16 +334,16 @@ const Navbar = () => {
                     <p>{userInfo?.name}</p>
                   </div>
                   <Link
-              href="/dashboard"
-              className={`flex gap-3 hover:bg-cyan-500 hover:text-white py-2 px-3 rounded-lg mx-1 ${
-                pathname === "/dashboard" ? "bg-cyan-500 text-white" : ""
-              }`}
-            >
-              <div>
-                <LayoutDashboard />
-              </div>
-              <p>Dashboard</p>
-            </Link>
+                    href="/dashboard"
+                    className={`flex gap-3 hover:bg-cyan-500 hover:text-white py-2 px-3 rounded-lg mx-1 ${
+                      pathname === "/dashboard" ? "bg-cyan-500 text-white" : ""
+                    }`}
+                  >
+                    <div>
+                      <LayoutDashboard />
+                    </div>
+                    <p>Dashboard</p>
+                  </Link>
                   <button
                     className={`flex gap-3  hover:bg-cyan-500 hover:text-white py-2 px-3 rounded-lg mx-1  `}
                     onClick={handleLogout}
@@ -355,7 +353,6 @@ const Navbar = () => {
                     </div>
                     <p>Logout</p>
                   </button>
-                  
                 </div>
               ) : userInfo?.role == "seller" || userInfo?.role == "admin" ? (
                 <div className="flex flex-col">

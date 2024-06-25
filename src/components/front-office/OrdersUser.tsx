@@ -167,7 +167,7 @@ const OrdersUser = () => {
                           </button>
                           </>
                         ) : data?.delivery_status !== "cancelled" &&
-                          data?.payment_status == "unpaid" && data?.payment_method == "transfer" ? (
+                          data?.payment_status == "unpaid" && data?.payment_method !== "cod" ? (
                           <button
                             className=" py-1 px-2 flex justify-center items-center  bg-green-400 hover:bg-green-600"
                             onClick={() =>

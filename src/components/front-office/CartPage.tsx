@@ -29,7 +29,7 @@ const CartPage = () => {
   return (
     <div className="min-h-[85vh] w-full bg-slate-100">
       <div className="flex flex-col lg:flex-row gap-2 ">
-        <div className="w-full lg:w-2/3 lg:min-h-[85vh] flex flex-col p-10">
+        <div className="w-full lg:w-2/3 lg:min-h-[85vh] flex flex-col p-2 lg:p-10">
           {cart_products?.length > 0 || outOfStockProducts?.length > 0 ? (
             <>
               {/* <div className="w-full lg:w-[800px] rounded-md text-slate-700 border my-1 p-4 bg-white">

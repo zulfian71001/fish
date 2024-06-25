@@ -29,8 +29,8 @@ const Page = () => {
       <main className="w-full px-2 lg:px-10 flex flex-col">
         <Banner />
         <div>
-          <div className="w-full flex flex-col items-center md:items-start">
-            <div className="w-full flex gap-4 justify-center items-center">
+          <div className="w-full flex flex-col items-center md:items-start ">
+            <div className="w-full flex gap-4 justify-center items-center ">
               {categories.length > 0 &&
                 categories.map((data: any, i: number) => (
                   <div
@@ -58,7 +58,7 @@ const Page = () => {
                   </div>
                 ))}
             </div>
-            <h2 className="font-semibold text-4xl text-center my-10">PRODUK TERBARU</h2>
+            <h2 className="font-semibold text-4xl text-center my-10 w-full">PRODUK TERBARU</h2>
             <Products />
           </div>
         </div>

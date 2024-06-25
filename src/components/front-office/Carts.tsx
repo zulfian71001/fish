@@ -49,18 +49,18 @@ const Carts = (props:CartsProps) => {
     }
    }
   return (
-    <div className="w-full lg:w-[800px] rounded-md text-slate-700 border my-1 p-4 bg-white">
+    <div className="w-full lg:w-[800px] rounded-md text-slate-700 border my-1 p-2 lg:p-4 bg-white">
       <p className="font-semibold">{name}</p>
       {
         products?.map((data:any, i:number) => (
           <div className="w-full flex flex-col lg:flex-row lg:justify-between justify-center items-center my-2" key={i}>
-          <div className="w-full flex items-center justify-between px-10">
+          <div className="w-full flex items-center justify-between px-4 lg:px-10">
           <div className=" flex gap-6 items-center">
           <Image src={data?.productInfo?.images[0]} alt="image" className="w-36 h-32 object-contain" width={800} height={800}/>
         </div>
         <p>{data?.productInfo?.name}</p>
           </div>
-        <div className="w-full flex items-center justify-between px-10">
+        <div className="w-full flex items-center justify-between px-4 lg:px-10">
         <p>{convertRupiah(data?.productInfo?.price)}</p>
         <div className="space-y-2 mt-4 lg:mt-0">
           <div className="w-full flex bg-slate-100 justify-between items-center p-2 rounded-md text-black">
