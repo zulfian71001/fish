@@ -132,7 +132,7 @@ const pathname = usePathname()
                       )}
 
                       {data?.image ? (
-                        <Image src={data.image} alt="gambar" />
+                        <Image src={data.image} alt="gambar" className="w-[10px] h-[10px] rounded-full"/>
                       ) : (
                         <Image src={User} alt="gambar" />
                       )}
@@ -152,7 +152,7 @@ const pathname = usePathname()
                         <div className="w-[10px] h-[10px] rounded-full bg-green-500 absolute right-0 bottom-0 "></div>
                       )}
                   {currentCustomer?.image ? (
-                    <Image src={currentCustomer.image} alt="gambar" />
+                    <Image src={currentCustomer.image} alt="gambar" className="w-[10px] h-[10px] rounded-full"/>
                   ) : (
                     <Image src={User} alt="gambar" />
                   )}
@@ -174,6 +174,7 @@ const pathname = usePathname()
                                 <Image
                                   src={currentCustomer.image}
                                   alt="gambar"
+                                  className="w-[10px] h-[10px] rounded-full"
                                 />
                               ) : (
                                 <Image src={User} alt="gambar" />
@@ -195,7 +196,7 @@ const pathname = usePathname()
                             </div>
                             <div className="w-[30px] h-[30px] rounded-full relative">
                               {userInfo?.image ? (
-                                <Image src={userInfo.image} alt="gambar" />
+                                <Image src={userInfo.image} alt="gambar" className="w-[10px] h-[10px] rounded-full"/>
                               ) : (
                                 <Image src={User} alt="gambar" />
                               )}

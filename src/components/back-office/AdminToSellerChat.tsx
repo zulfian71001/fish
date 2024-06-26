@@ -169,7 +169,7 @@ if (receiverMsg) {
                       )}
 
                       {data?.image ? (
-                        <Image src={data.image} alt="gambar" />
+                        <Image src={data.image} alt="gambar" className="w-[10px] h-[10px] rounded-full" />
                       ) : (
                         <Image src={User} alt="gambar" />
                       )}
@@ -189,7 +189,7 @@ if (receiverMsg) {
                     <div className="w-[10px] h-[10px] rounded-full bg-green-500 absolute right-0 bottom-0 "></div>
                   )}
                   {currentSeller?.image ? (
-                    <Image src={currentSeller?.image} alt="gambar" />
+                    <Image src={currentSeller?.image} alt="gambar" className="w-[10px] h-[10px] rounded-full"/>
                   ) : (
                     <Image src={User} alt="gambar" />
                   )}
@@ -212,6 +212,7 @@ if (receiverMsg) {
                                 <Image
                                   src={currentSeller?.image}
                                   alt="gambar"
+                                  className="w-[10px] h-[10px] rounded-full"
                                 />
                               ) : (
                                 <Image src={User} alt="gambar" />
@@ -234,7 +235,7 @@ if (receiverMsg) {
                             </div>
                             <div className="w-[30px] h-[30px] rounded-full relative">
                               {userInfo?.image ? (
-                                <Image src={userInfo.image} alt="gambar" />
+                                <Image src={userInfo.image} alt="gambar" className="w-[10px] h-[10px] rounded-full"/>
                               ) : (
                                 <Image src={User} alt="gambar" />
                               )}

@@ -128,7 +128,7 @@ const ChatToSeller = ({ sellerId }: { sellerId: string }) => {
                       }
                      
                       {data?.image ? (
-                        <Image src={data?.image} alt="gambar" />
+                        <Image src={data?.image} alt="gambar" className="w-[10px] h-[10px] rounded-full"/>
                       ) : (
                         <Image src={User} alt="gambar" />
                       )}
@@ -148,7 +148,7 @@ const ChatToSeller = ({ sellerId }: { sellerId: string }) => {
                         activeSellers?.some((f:any)=>f.sellerId === currentFd.fdId) &&  <div className="w-[10px] h-[10px] rounded-full bg-green-500 absolute right-0 bottom-0 "></div>
                       }
                   {currentFd?.image ? (
-                    <Image src={currentFd?.image} alt="gambar" />
+                    <Image src={currentFd?.image} alt="gambar" className="w-[10px] h-[10px] rounded-full"/>
                   ) : (
                     <Image src={User} alt="gambar" />
                   )}
@@ -167,7 +167,7 @@ const ChatToSeller = ({ sellerId }: { sellerId: string }) => {
                           >
                             <div className="w-[30px] h-[30px] rounded-full relative">
                               {currentFd?.image ? (
-                                <Image src={currentFd?.image} alt="gambar" />
+                                <Image src={currentFd?.image} alt="gambar" className="w-[10px] h-[10px] rounded-full"/>
                               ) : (
                                 <Image src={User} alt="gambar" />
                               )}
@@ -188,7 +188,7 @@ const ChatToSeller = ({ sellerId }: { sellerId: string }) => {
                             </div>
                             <div className="w-[30px] h-[30px] rounded-full relative">
                               {userInfo?.image ? (
-                                <Image src={userInfo.image} alt="gambar" />
+                                <Image src={userInfo.image} alt="gambar" className="w-[10px] h-[10px] rounded-full"/>
                               ) : (
                                 <Image src={User} alt="gambar" />
                               )}

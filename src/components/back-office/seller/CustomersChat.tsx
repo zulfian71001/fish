@@ -75,7 +75,7 @@ const Chat = () => {
                           <div className="w-[10px] h-[10px] rounded-full bg-green-500 absolute right-0 bottom-0 "></div>
                         )}
                         {data?.image ? (
-                          <Image src={data.image} alt="gambar" />
+                          <Image src={data.image} alt="gambar" className="w-[10px] h-[10px] rounded-full"/>
                         ) : (
                           <Image src={User} alt="gambar" />
                         )}

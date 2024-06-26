@@ -80,7 +80,7 @@ const pathname = usePathname()
                       )}
 
                       {data?.image ? (
-                        <Image src={data.image} alt="gambar" />
+                        <Image src={data.image} alt="gambar" className="w-[10px] h-[10px] rounded-full"/>
                       ) : (
                         <Image src={User} alt="gambar" />
                       )}

@@ -130,7 +130,12 @@ const Navbar = () => {
         ) : (
           <></>
         )}
-        </> : <></> }
+        </> : 
+        <>
+        <Link href="/products" className="px-4 py-2 text-md  hover:text-cyan-400 ">
+          Produk
+        </Link> 
+        </> }
   
       </div>
       <div className="flex flex-col xl:flex-row xl:justify-between xl:items-center px-4 xl:px-10 gap-4 xl:gap-0">
