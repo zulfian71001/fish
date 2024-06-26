@@ -5,9 +5,7 @@ import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { AppDispatch, useAppSelector } from "@/GlobalRedux/store";
 import {
-  change_shipping_fee,
-  get_shipping_fee,
-  make_shipping_fee,
+
   messageClear,
 } from "@/GlobalRedux/features/cartReducer";
 import toast from "react-hot-toast";
@@ -21,9 +19,7 @@ const OrdersUser = () => {
     shipping_fee
   );
 
-  useEffect(() => {
-    dispatch(get_shipping_fee());
-  }, [dispatch]);
+
 
   useEffect(() => {
     setShipping_feeState(shipping_fee);
@@ -41,7 +37,6 @@ const OrdersUser = () => {
 
   const handleOngkir = (e: FormEvent) => {
     e.preventDefault();
-    dispatch(change_shipping_fee({ shipping_fee: shipping_feeState }));
   };
   if (role !== "admin") {
     router.push("/home");
