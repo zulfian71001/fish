@@ -92,34 +92,6 @@ export const update_status_seller = createAsyncThunk(
   }
 );
 
-export const change_shipping_fee = createAsyncThunk(
-  "seller/change_shipping_fee",
-  async ({shipping_fee}:{shipping_fee:number}, { fulfillWithValue, rejectWithValue }) => {
-    try {
-      const { data } = await api.post(`/change-shipping-fee/${sellerId}`, {shipping_fee});
-      console.log(data);
-      return fulfillWithValue(data);
-    } catch (error: RejectedAction | any) {
-      console.log(error.response.data.error);
-      return rejectWithValue(error.response.data.error);
-    }
-  }
-);
-
-
-export const get_shipping_fee = createAsyncThunk(
-  "seller/get_shipping_fee",
-  async (_, { fulfillWithValue, rejectWithValue }) => {
-    try {
-      const { data } = await api.get(`/home/get-shipping-fee/${sellerId}`);
-      console.log(data)
-      return fulfillWithValue(data);
-    } catch (error: RejectedAction | any) {
-      console.log(error.response.data.error);
-      return rejectWithValue(error.response.data.error);
-    }
-  }
-);
 
 const sellerReducer = createSlice({
   name: "seller",
