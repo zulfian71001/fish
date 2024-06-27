@@ -18,7 +18,7 @@ const Product = (props: PropsProduct) => {
     onClickHandle,
   } = props;
   return (
-    <div className="transition-all duration-300 hover:scale-105 h-[380px] md:w-[250px] md:h-96 border-2 border-slate-300 hover:shadow-2xl rounded-lg pb-8 ease-in">
+    <div className="transition-all duration-300 hover:scale-105 h-[380px] md:w-[240px] md:h-96 border-2 border-slate-300 hover:shadow-2xl rounded-lg pb-8 ease-in">
       <div className="w-full h-2/3 relative">
         {Array.isArray(images) && (
           <Image

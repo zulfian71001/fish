@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, ChangeEvent, useEffect } from "react";
+import React, { useState, ChangeEvent, useEffect, FormEvent } from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { CiSearch } from "react-icons/ci";
 import { LayoutDashboard, LogOut, X } from "lucide-react";
@@ -19,6 +19,7 @@ import { RiShoppingCartLine } from "react-icons/ri";
 import { hasCookie } from "cookies-next";
 import { setCookie } from "cookies-next";
 import { get_products_cart } from "@/GlobalRedux/features/cartReducer";
+import { getFirstCharacter } from "@/utils/convert";
 
 const Navbar = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -69,7 +70,8 @@ const Navbar = () => {
     }
   }, []);
 
-  const submitSearch = () => {
+  const submitSearch = (e:FormEvent) => {
+    e.preventDefault()
     router.push(`/products?searchValue=${searchValue}`);
   };
 
@@ -116,9 +118,6 @@ const Navbar = () => {
         <Link href="/home" className="px-4 py-2 text-md  hover:text-cyan-400 ">
           Beranda
         </Link>
-        <Link href="/products" className="px-4 py-2 text-md  hover:text-cyan-400 ">
-          Produk
-        </Link> 
         {userInfo?.role !== "customer" ? <>
         {!userInfo ? (
           Content.map((item: any, i: number) => (
@@ -131,11 +130,15 @@ const Navbar = () => {
             </Link>
           ))
         ) : (
-          <></>
+          <>
+       
+          </>
         )}
         </> : 
         <>
-        
+           <Link href="/products" className="px-4 py-2 text-md  hover:text-cyan-400 ">
+          Produk
+        </Link>
         </> }
       </div>
       <div className="flex flex-col xl:flex-row xl:justify-between xl:items-center px-4 xl:px-10 gap-4 xl:gap-0">
@@ -163,7 +166,7 @@ const Navbar = () => {
             <CiSearch className="absolute left-2 h-7 w-6" />
             <button
               onClick={submitSearch}
-              className="absolute bg-cyan-500 text-white -right-1 py-1.5 px-2  rounded-2xl"
+              className="absolute bg-cyan-500 text-white -right-1 py-1.5 px-2  rounded-md hover:bg-cyan-600"
             >
               Search
             </button>
@@ -222,11 +225,11 @@ const Navbar = () => {
               className="flex items-center justify-between gap-2 hover:bg-cyan-500/10 p-2 rounded-md cursor-pointer"
               onClick={() => setOpenModal(!openModal)}
             >
-              <div className="w-8 h-8 rounded-full relative">
+              <div className="w-10 h-10 rounded-full flex justify-center items-center relative">
                 {userInfo?.image ? (
                   <Image src={Logo} alt="profile" fill={true} />
                 ) : (
-                  <div className="bg-cyan-500 w-8 h-8 rounded-full"></div>
+                  <div className="w-10 h-10 bg-cyan-500  text-white flex justify-center items-center rounded-full">{getFirstCharacter(userInfo?.name)}</div>
                 )}
               </div>
               <p>{userInfo?.name}</p>
@@ -236,11 +239,12 @@ const Navbar = () => {
               className="flex items-center justify-between gap-2 hover:bg-cyan-500/10 p-2 rounded-md cursor-pointer"
               onClick={() => setOpenModalBackOffice(!openModalBackOffice)}
             >
-              <div className="w-8 h-8 rounded-full relative">
+              <div className="w-8 h-10 flex justify-center items-center rounded-full relative">
                 {userInfo?.image ? (
                   <Image src={Logo} alt="profile" fill={true} />
                 ) : (
-                  <div className="bg-cyan-500 w-8 h-8 rounded-full"></div>
+                  <div className="bg-cyan-500 w-10 h-10 text-white flex justify-center items-center rounded-full">{getFirstCharacter(userInfo?.name)}</div>
+
                 )}
               </div>
               <p>{userInfo?.name}</p>
@@ -344,7 +348,7 @@ const Navbar = () => {
                       {userInfo?.image.trim() !== "" ? (
                         <Image src={Logo} alt="profile" fill={true} />
                       ) : (
-                        <div className="bg-cyan-500 rounded-full"></div>
+                        <div className="bg-cyan-500 w-10 h-10 text-white flex justify-center items-center">{getFirstCharacter(userInfo?.name)}</div>
                       )}
                     </div>
                     <p>{userInfo?.name}</p>
@@ -373,11 +377,11 @@ const Navbar = () => {
               ) : userInfo?.role == "seller" || userInfo?.role == "admin" ? (
                 <div className="flex flex-col">
                   <div className="flex items-center">
-                    <div className="w-10 h-10 rounded-full relative">
+                    <div className="w-8 h-10 rounded-full flex justify-center items-center relative">
                       {userInfo?.image ? (
                         <Image src={Logo} alt="profile" fill={true} />
                       ) : (
-                        <div className="bg-cyan-500 w-full"></div>
+                        <div className="bg-cyan-500 text-white flex justify-center items-center w-10 h-10">{getFirstCharacter(userInfo?.name)}</div>
                       )}
                     </div>
                     <p>{userInfo?.name}</p>

@@ -58,7 +58,9 @@ const Page = () => {
           })
         );
       } else {
+        toast.error("Silahkan login terlebih dahulu");
         router.push("/login");
+
       }
     }
   };

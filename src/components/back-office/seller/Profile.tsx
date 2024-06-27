@@ -638,10 +638,10 @@ const Profile = () => {
                     <p>Kota: {userInfo.shopInfo?.city}</p>
                     <p>Kecamatan : {userInfo.shopInfo?.district}</p>
                     <p>Desa : {userInfo.shopInfo?.subDistrict}</p>
+                    <p>Alamat Spesifik : {userInfo.shopInfo?.spesificAddress}</p>
                     <p>No Wa : {userInfo.shopInfo?.noWa}</p>
                     <p>No Gopay : {userInfo.shopInfo?.noGopay}</p>
                     <p>No Rek BRI : {userInfo.shopInfo?.noRek}</p>
-                    <p>Alamat Spesifik : {userInfo.shopInfo?.spesificAddress}</p>
                   </div>
                 </div>
               )}

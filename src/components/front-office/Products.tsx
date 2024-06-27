@@ -32,7 +32,9 @@ const Products = () => {
 
   const add_cart = (id: string) => {
     if (!userInfo) {
+      toast.error("Silahkan login terlebih dahulu");
       router.push("/login");
+
     } else {
       dispatch(
         add_to_cart({

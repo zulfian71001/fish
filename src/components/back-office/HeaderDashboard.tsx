@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import Image from "next/image";
 import { hasCookie } from "cookies-next";
+import { getFirstCharacter } from "@/utils/convert";
 
 const HeaderDashboard = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -21,7 +22,7 @@ const HeaderDashboard = () => {
      
       <div>
         {userInfo?.image?.trim() !== "" ? (
-          <div className="w-10 h-10 rounded-full bg-cyan-400">
+          <div className="w-10 h-10 rounded-full flex justify-center items-center bg-cyan-400 ">
             <Image
               src={userInfo?.image}
               alt="image"
@@ -30,7 +31,7 @@ const HeaderDashboard = () => {
             />
           </div>
         ) : (
-          <div className="w-10 h-10 rounded-full bg-cyan-400"></div>
+          <div className="w-10 h-10 bg-cyan-500  text-white flex justify-center items-center rounded-full p-1">{getFirstCharacter(userInfo?.name)}</div>
         )}
       </div>
       <div>
