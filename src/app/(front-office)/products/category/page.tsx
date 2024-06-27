@@ -1,9 +1,7 @@
 "use client";
-import dynamic from "next/dynamic";
 import Navbar from "@/components/front-office/Navbar";
 import { CiStar } from "react-icons/ci";
 import { ChangeEvent, useEffect, useState } from "react";
-const Footer = dynamic(() => import("@/components/front-office/Footer"));
 import { get_categories } from "@/GlobalRedux/features/homeReducer";
 import { AppDispatch, useAppSelector } from "@/GlobalRedux/store";
 import { useDispatch } from "react-redux";
@@ -511,7 +509,7 @@ const Page = () => {
           </div>
         </div>
       </main>
-      <Footer />
+      
     </div>
   );
 };
