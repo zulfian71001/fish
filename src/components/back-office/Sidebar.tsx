@@ -144,7 +144,7 @@ const Sidebar = () => {
         </div>
       </div>
       <button
-        className={`lg:hidden h-[88px] w-20 z-20 flex justify-center items-center fixed top-0 left-0 bg-cyan-500 text-white cursor-pointer hover:bg-cyan-600`}
+        className={`lg:hidden h-[72px]  w-20 z-20 flex justify-center items-center fixed top-0 left-0 bg-cyan-500 text-white cursor-pointer hover:bg-cyan-600`}
         onClick={() => setIsOpen(true)}
       >
         <RxHamburgerMenu className="font-bold text-lg"/>

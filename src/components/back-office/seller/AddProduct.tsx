@@ -19,7 +19,9 @@ const AddProduct = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [perPage, setPerPage] = useState<number>(5);
   const [searchValue, setSearchValue] = useState<string>("");
-  const { errorsMsg, successMsg, loader } = useAppSelector((state) => state.product);
+  const { errorsMsg, successMsg, loader } = useAppSelector(
+    (state) => state.product
+  );
   const { categories } = useAppSelector((state) => state.category);
   const { userInfo } = useAppSelector((state) => state.auth);
   const router = useRouter();
@@ -37,7 +39,7 @@ const AddProduct = () => {
   const handleChange = (e: React.ChangeEvent<any>) => {
     setDataProduct({ ...dataProduct, [e.target.name]: e.target.value });
   };
-  
+
   const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files: FileList | null = e.target.files;
     if (files && files.length > 0) {
@@ -132,6 +134,11 @@ const AddProduct = () => {
     return (
       <>
         <section className="p-8 rounded-xl space-y-4 bg-white w-full">
+          {userInfo.status != "active" ? (
+            <div className="w-full flex justify-center items-center text-slate-700">
+              Akun belum teraktivasi
+            </div>
+          ) : (
             <>
               <div className="flex items-center justify-between">
                 <Heading title={"Tambah Produk"} />
@@ -278,8 +285,10 @@ const AddProduct = () => {
                             />
                           </svg>
                           <p className="mb-2 text-sm text-gray-400">
-                            <span className="font-semibold">klik untuk upload</span> atau
-                            drag dan drop
+                            <span className="font-semibold">
+                              klik untuk upload
+                            </span>{" "}
+                            atau drag dan drop
                           </p>
                           <p className="ml-2 text-xs text-gray-400">
                             SVG, PNG, JPG or GIF (MAX. 800x400px)
@@ -324,6 +333,7 @@ const AddProduct = () => {
                 </form>
               </div>
             </>
+          )}
         </section>
       </>
     );

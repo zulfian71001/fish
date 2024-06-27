@@ -186,6 +186,11 @@ export interface UpdataStatus {
   status: string;
 }
 
+export interface UpdataShipping {
+  sellerId: string;
+  shipping_fee: number;
+}
+
 export interface PropsProduct {
   images: string | StaticImport;
   category: string;

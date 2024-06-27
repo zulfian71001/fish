@@ -13,7 +13,7 @@ import { convertRupiah } from "@/utils/convert";
 const Products = () => {
   const router = useRouter()
   const dispatch = useDispatch<AppDispatch>();
-  const { userInfo } = useAppSelector((state) => state.auth);
+  const { userInfo,status } = useAppSelector((state) => state.auth);
   const { products, totalProducts } = useAppSelector((state) => state.product);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [perPage, setPerPage] = useState<number>(5);
@@ -35,7 +35,7 @@ const Products = () => {
       <>
         <section className="p-8 rounded-xl space-y-4 bg-white">
                 {
-            userInfo?.status !== "active" ? (
+            userInfo.status != "active" ? (
               <div className="w-full flex justify-center items-center text-slate-700">Akun belum teraktivasi</div>
             ) : (
             <>

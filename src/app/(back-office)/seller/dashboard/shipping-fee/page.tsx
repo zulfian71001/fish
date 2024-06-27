@@ -5,25 +5,25 @@ import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { AppDispatch, useAppSelector } from "@/GlobalRedux/store";
 import {
-
   messageClear,
-} from "@/GlobalRedux/features/cartReducer";
+} from "@/GlobalRedux/features/sellerReducer";
 import toast from "react-hot-toast";
+import { change_shipping_fee } from "@/GlobalRedux/features/sellerReducer";
 
 const OrdersUser = () => {
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
   const { userInfo, role } = useAppSelector((state) => state.auth);
-  const { shipping_fee, successMsg, errorsMsg } = useAppSelector((state) => state.cart);
+  const { shipping_fee, successMsg, errorsMsg } = useAppSelector((state) => state.seller);
   const [shipping_feeState, setShipping_feeState] = useState<number>(
-    shipping_fee
+    userInfo?.shipping_fee || 0
   );
 
-
-
   useEffect(() => {
-    setShipping_feeState(shipping_fee);
+    setShipping_feeState(userInfo?.shipping_fee);
   }, [shipping_fee]);
+
+
   useEffect(() => {
     if (errorsMsg) {
       toast.error(errorsMsg, { position: "top-right" });
@@ -37,8 +37,12 @@ const OrdersUser = () => {
 
   const handleOngkir = (e: FormEvent) => {
     e.preventDefault();
+    dispatch(change_shipping_fee({
+      sellerId:userInfo._id,
+      shipping_fee:shipping_feeState
+    }))
   };
-  if (role !== "admin") {
+  if (role !== "seller") {
     router.push("/home");
     return null;
   } 

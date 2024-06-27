@@ -150,7 +150,7 @@ const Profile = () => {
   };
   const handleFormStore = (e: React.FormEvent) => {
     e.preventDefault();
-
+    console.log(formStore)
     dispatch(update_info_profile_store(formStore));
     setShowFormStore(!showFormStore);
   };
@@ -634,8 +634,13 @@ const Profile = () => {
                   </button>
                   <div className="space-y-4 ">
                     <p>Nama Toko : {userInfo.shopInfo?.shopName}</p>
+                    <p>Provinsi : {userInfo.shopInfo?.province}</p>
                     <p>Kota: {userInfo.shopInfo?.city}</p>
                     <p>Kecamatan : {userInfo.shopInfo?.district}</p>
+                    <p>Desa : {userInfo.shopInfo?.subDistrict}</p>
+                    <p>No Wa : {userInfo.shopInfo?.noWa}</p>
+                    <p>No Gopay : {userInfo.shopInfo?.noGopay}</p>
+                    <p>No Rek BRI : {userInfo.shopInfo?.noRek}</p>
                     <p>Alamat Spesifik : {userInfo.shopInfo?.spesificAddress}</p>
                   </div>
                 </div>

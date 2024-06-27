@@ -36,7 +36,7 @@ const Orders = () => {
       <>
         <section className="p-8 rounded-xl space-y-4 bg-slate-50 ">
           {
-            userInfo?.status !== "active"  ? (
+            userInfo?.status != "active"  ? (
               <div className="w-full flex justify-center items-center text-slate-700">Akun belum teraktivasi</div>
             ) :(<>
              <div className="flex w-full items-center justify-between">

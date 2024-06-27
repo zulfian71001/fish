@@ -3,6 +3,7 @@ import {
   ISeller,
   RejectedAction,
   searchData,
+  UpdataShipping,
   UpdataStatus,
 } from "@/utils/types";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
@@ -92,6 +93,24 @@ export const update_status_seller = createAsyncThunk(
   }
 );
 
+export const change_shipping_fee = createAsyncThunk(
+  "seller/change_shipping_fee",
+  async (info: UpdataShipping, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      const token = localStorage.getItem("accessToken");
+      const { data } = await api.post(`/change-shipping-fee/${info.sellerId}`, info,  {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        withCredentials: true,
+      });
+      return fulfillWithValue(data);
+    } catch (error: RejectedAction | any) {
+      return rejectWithValue(error.response.data.error);
+    }
+  }
+);
+
 
 const sellerReducer = createSlice({
   name: "seller",
@@ -130,7 +149,11 @@ const sellerReducer = createSlice({
         state.loader = false
         state.sellers = action.payload.sellers
         state.totalSellers = action.payload.totalSellers
+      }).addCase(change_shipping_fee.fulfilled, (state, action)=>{
+        state.loader = false
+        state.successMsg = action.payload.message as string
       })
+      
   },
 });
 
