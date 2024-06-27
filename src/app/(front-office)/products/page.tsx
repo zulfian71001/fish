@@ -64,6 +64,7 @@ const Page = () => {
       }
     }
   };
+
   useEffect(() => {
     dispatch(get_categories());
   }, []);
@@ -89,7 +90,6 @@ const Page = () => {
   }, [dataCategory, searchValue, rating, currentPage, sortPrice]);
   return (
     <div className="w-full ">
-      <Navbar />
       <main className="w-full px-2 md:px-6 py-4 lg:px-10 flex gap-2 lg:gap-10 lg:py-10 bg-white relative min-h-screen">
         <div className={`hidden md:w-1/5 md:flex flex-col gap-10 border `}>
           <div>
