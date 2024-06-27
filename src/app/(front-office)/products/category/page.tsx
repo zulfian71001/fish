@@ -1,5 +1,5 @@
 import React from 'react'
-import SearchCategory from '@/components/front-office/SearchCategoy'
+import SearchCategory from '@/components/front-office/SearchCategory'
 const page = () => {
   return (
     <>
