@@ -4,8 +4,10 @@ import Image from "next/image";
 import Link from "next/link";
 import Ratings from "./Ratings";
 import { convertRupiah } from "@/utils/convert";
+import {useRouter} from "next/navigation"
 
 const Product = (props: PropsProduct) => {
+  const router = useRouter()
   const {
     images,
     name,
@@ -18,7 +20,7 @@ const Product = (props: PropsProduct) => {
     onClickHandle,
   } = props;
   return (
-    <div className="transition-all duration-300 hover:scale-105 h-[380px] md:w-[240px] md:h-96 border-2 border-slate-300 hover:shadow-2xl rounded-lg pb-8 ease-in">
+    <Link className="transition-all duration-300 hover:scale-105 h-[380px] md:w-[240px] md:h-96 border-2 border-slate-300 hover:shadow-2xl rounded-lg pb-8 ease-in" href={`/detail-product/${id}`}>
       <div className="w-full h-2/3 relative">
         {Array.isArray(images) && (
           <Image
@@ -39,7 +41,7 @@ const Product = (props: PropsProduct) => {
             <Ratings ratings={rating} />
           </div>
           <p className="text-slate-400 text-xs">
-            By <span className="text-cyan-500">{shopName}</span>
+            <span className="text-cyan-500 font-semibold">{shopName}</span>
           </p>
         </div>
         <div className="flex justify-between items-center text-cyan-500">
@@ -47,7 +49,7 @@ const Product = (props: PropsProduct) => {
             <>
               <p>{convertRupiah(price)}</p>
               <button
-                className="p-2 bg-cyan-500/20  rounded-md"
+                className="p-2 bg-cyan-500/20  rounded-md z-[100]"
                 onClick={() => onClickHandle(id)}
               >
                 <ShoppingCart />
@@ -58,7 +60,7 @@ const Product = (props: PropsProduct) => {
           )}
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 
