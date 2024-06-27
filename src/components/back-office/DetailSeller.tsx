@@ -19,6 +19,7 @@ const DetailSeller = ({ sellerId }: { sellerId: string }) => {
 
   const updateStatus = (e: React.FormEvent) => {
     e.preventDefault();
+    console.log(sellerId, status)
     dispatch(
       update_status_seller({
         sellerId,
@@ -75,9 +76,14 @@ const DetailSeller = ({ sellerId }: { sellerId: string }) => {
               <h4>Alamat</h4>
               <div className="p-4 lg:pr-24 bg-cyan-500 text-white space-y-4 rounded-xl">
                 <p>Nama Toko : {seller?.shopInfo?.shopName}</p>
+                <p>Provinsi: {seller?.shopInfo?.proince}</p>
                 <p>Kota: {seller?.shopInfo?.city}</p>
                 <p>Kecamatan : {seller?.shopInfo?.district}</p>
+                <p>Desa : {seller?.shopInfo?.subDistrict}</p>
                 <p>Alamat Spesifik : {seller?.shopInfo?.spesificAddress}</p>
+                <p>Nomer Whatshapp : {seller?.shopInfo?.noWa}</p>
+                <p>Nomer Akun Gopay : {seller?.shopInfo?.noGopay}</p>
+                <p>Nomer Rekening BRI : {seller?.shopInfo?.noRek}</p>
               </div>
             </div>
           </div>
@@ -92,7 +98,7 @@ const DetailSeller = ({ sellerId }: { sellerId: string }) => {
               }
             >
               <option value="active">Aktif</option>
-              <option value="nonActive">Tidak Aktif</option>
+              <option value="pending">Pending</option>
             </select>
             <button
               type="submit"
