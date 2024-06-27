@@ -19,7 +19,6 @@ const DetailSeller = ({ sellerId }: { sellerId: string }) => {
 
   const updateStatus = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(sellerId, status)
     dispatch(
       update_status_seller({
         sellerId,
