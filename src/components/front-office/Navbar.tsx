@@ -38,7 +38,6 @@ const Navbar = () => {
       dispatch(user_info());
     } else {
       dispatch(logout());
-      router.push("/home");
       localStorage.removeItem("accessToken");
     }
   }, [token]);
