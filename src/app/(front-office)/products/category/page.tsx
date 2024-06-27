@@ -1,7 +1,7 @@
 "use client";
 import dynamic from "next/dynamic";
 import Navbar from "@/components/front-office/Navbar";
-import {  CiStar } from "react-icons/ci";
+import { CiStar } from "react-icons/ci";
 import { ChangeEvent, useEffect, useState } from "react";
 const Footer = dynamic(() => import("@/components/front-office/Footer"));
 import { get_categories } from "@/GlobalRedux/features/homeReducer";
@@ -22,7 +22,9 @@ const Page = () => {
   const searchParams = useSearchParams();
   const dataCategory = searchParams.get("category");
   const dispatch = useDispatch<AppDispatch>();
-  const { products,totalProducts,perPage } = useAppSelector((state) => state.home);
+  const { products, totalProducts, perPage } = useAppSelector(
+    (state) => state.home
+  );
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [rating, setRating] = useState<number>(0);
   const [sortPrice, setSortPrice] = useState<string>("");
@@ -77,7 +79,7 @@ const Page = () => {
   return (
     <div className="w-full ">
       <main className="w-full px-2 md:px-6 py-4 lg:px-10 flex gap-2 lg:gap-10 lg:py-10 bg-white relative min-h-screen">
-        <div className={`hidden md:w-1/5 md:flex flex-col gap-10  `}>
+        <div className={`hidden md:w-1/6 md:flex flex-col gap-10  `}>
           <div className="">
             <h3 className="font-bold">Harga</h3>
             <select
@@ -260,7 +262,10 @@ const Page = () => {
             </div>
           </div>
         </div>
-        <button className={`md:hidden flex bg-cyan-500 hover:bg-cyan-600 text-white h-full p-2`} onClick={() => setIsOpen(true)}>
+        <button
+          className={`md:hidden flex bg-cyan-500 hover:bg-cyan-600 text-white h-full p-2`}
+          onClick={() => setIsOpen(true)}
+        >
           <RxHamburgerMenu />
         </button>
         <div
@@ -284,193 +289,193 @@ const Page = () => {
               <X />
             </button>
             <div className={`flex flex-col gap-10  `}>
-          <div className="">
-            <h3 className="font-bold">Harga</h3>
-            <select
-              name=""
-              id=""
-              onChange={(e: ChangeEvent<HTMLSelectElement>) =>
-                setSortPrice(e.target.value)
-              }
-            >
-              <option value="">Sort By</option>
-              <option value="Low-to-High">Low to High</option>
-              <option value="High-to-Low">High to Low</option>
-            </select>
-          </div>
-          <div>
-            <h3 className="font-bold">Rating</h3>
-            <div className="flex flex-col gap-3">
-              <div
-                className={`text-yellow-300 gap-2 flex text-xl cursor-pointer hover:text-yellow-400 ${
-                  rating === 5 && "text-yellow-500"
-                }`}
-                onClick={() => setRating(5)}
-              >
-                <span>
-                  {" "}
-                  <FaStar />
-                </span>
-                <span>
-                  {" "}
-                  <FaStar />
-                </span>
-                <span>
-                  {" "}
-                  <FaStar />
-                </span>
-                <span>
-                  {" "}
-                  <FaStar />
-                </span>
-                <span>
-                  {" "}
-                  <FaStar />
-                </span>
+              <div className="">
+                <h3 className="font-bold">Harga</h3>
+                <select
+                  name=""
+                  id=""
+                  onChange={(e: ChangeEvent<HTMLSelectElement>) =>
+                    setSortPrice(e.target.value)
+                  }
+                >
+                  <option value="">Sort By</option>
+                  <option value="Low-to-High">Low to High</option>
+                  <option value="High-to-Low">High to Low</option>
+                </select>
               </div>
-              <div
-                className={`text-yellow-300 gap-2 flex text-xl cursor-pointer hover:text-yellow-400 ${
-                  rating === 4 && "text-yellow-500"
-                }`}
-                onClick={() => setRating(4)}
-              >
-                <span>
-                  {" "}
-                  <FaStar />
-                </span>
-                <span>
-                  {" "}
-                  <FaStar />
-                </span>
-                <span>
-                  {" "}
-                  <FaStar />
-                </span>
-                <span>
-                  {" "}
-                  <FaStar />
-                </span>
-                <span>
-                  {" "}
-                  <CiStar />
-                </span>
-              </div>
-              <div
-                className={`text-yellow-300 gap-2 flex text-xl cursor-pointer hover:text-yellow-400 ${
-                  rating === 3 && "text-yellow-500"
-                }`}
-                onClick={() => setRating(3)}
-              >
-                <span>
-                  {" "}
-                  <FaStar />
-                </span>
-                <span>
-                  {" "}
-                  <FaStar />
-                </span>
-                <span>
-                  {" "}
-                  <FaStar />
-                </span>
-                <span>
-                  {" "}
-                  <CiStar />
-                </span>
-                <span>
-                  {" "}
-                  <CiStar />
-                </span>
-              </div>
-              <div
-                className={`text-yellow-300 gap-2 flex text-xl cursor-pointer hover:text-yellow-400 ${
-                  rating === 2 && "text-yellow-500"
-                }`}
-                onClick={() => setRating(2)}
-              >
-                <span>
-                  {" "}
-                  <FaStar />
-                </span>
-                <span>
-                  {" "}
-                  <FaStar />
-                </span>
-                <span>
-                  {" "}
-                  <CiStar />
-                </span>
-                <span>
-                  {" "}
-                  <CiStar />
-                </span>
-                <span>
-                  {" "}
-                  <CiStar />
-                </span>
-              </div>
-              <div
-                className={`text-yellow-300 gap-2 flex text-xl cursor-pointer hover:text-yellow-400 ${
-                  rating === 1 && "text-yellow-500"
-                }`}
-                onClick={() => setRating(1)}
-              >
-                <span>
-                  {" "}
-                  <FaStar />
-                </span>
-                <span>
-                  {" "}
-                  <CiStar />
-                </span>
-                <span>
-                  {" "}
-                  <CiStar />
-                </span>
-                <span>
-                  {" "}
-                  <CiStar />
-                </span>
-                <span>
-                  {" "}
-                  <CiStar />
-                </span>
-              </div>
-              <div
-                className={`text-yellow-300 gap-2 flex text-xl cursor-pointer hover:text-yellow-400 ${
-                  rating === 0 && "text-yellow-500"
-                }`}
-                onClick={() => setRating(0)}
-              >
-                <span>
-                  {" "}
-                  <CiStar />
-                </span>
-                <span>
-                  {" "}
-                  <CiStar />
-                </span>
-                <span>
-                  {" "}
-                  <CiStar />
-                </span>
-                <span>
-                  {" "}
-                  <CiStar />
-                </span>
-                <span>
-                  {" "}
-                  <CiStar />
-                </span>
+              <div>
+                <h3 className="font-bold">Rating</h3>
+                <div className="flex flex-col gap-3">
+                  <div
+                    className={`text-yellow-300 gap-2 flex text-xl cursor-pointer hover:text-yellow-400 ${
+                      rating === 5 && "text-yellow-500"
+                    }`}
+                    onClick={() => setRating(5)}
+                  >
+                    <span>
+                      {" "}
+                      <FaStar />
+                    </span>
+                    <span>
+                      {" "}
+                      <FaStar />
+                    </span>
+                    <span>
+                      {" "}
+                      <FaStar />
+                    </span>
+                    <span>
+                      {" "}
+                      <FaStar />
+                    </span>
+                    <span>
+                      {" "}
+                      <FaStar />
+                    </span>
+                  </div>
+                  <div
+                    className={`text-yellow-300 gap-2 flex text-xl cursor-pointer hover:text-yellow-400 ${
+                      rating === 4 && "text-yellow-500"
+                    }`}
+                    onClick={() => setRating(4)}
+                  >
+                    <span>
+                      {" "}
+                      <FaStar />
+                    </span>
+                    <span>
+                      {" "}
+                      <FaStar />
+                    </span>
+                    <span>
+                      {" "}
+                      <FaStar />
+                    </span>
+                    <span>
+                      {" "}
+                      <FaStar />
+                    </span>
+                    <span>
+                      {" "}
+                      <CiStar />
+                    </span>
+                  </div>
+                  <div
+                    className={`text-yellow-300 gap-2 flex text-xl cursor-pointer hover:text-yellow-400 ${
+                      rating === 3 && "text-yellow-500"
+                    }`}
+                    onClick={() => setRating(3)}
+                  >
+                    <span>
+                      {" "}
+                      <FaStar />
+                    </span>
+                    <span>
+                      {" "}
+                      <FaStar />
+                    </span>
+                    <span>
+                      {" "}
+                      <FaStar />
+                    </span>
+                    <span>
+                      {" "}
+                      <CiStar />
+                    </span>
+                    <span>
+                      {" "}
+                      <CiStar />
+                    </span>
+                  </div>
+                  <div
+                    className={`text-yellow-300 gap-2 flex text-xl cursor-pointer hover:text-yellow-400 ${
+                      rating === 2 && "text-yellow-500"
+                    }`}
+                    onClick={() => setRating(2)}
+                  >
+                    <span>
+                      {" "}
+                      <FaStar />
+                    </span>
+                    <span>
+                      {" "}
+                      <FaStar />
+                    </span>
+                    <span>
+                      {" "}
+                      <CiStar />
+                    </span>
+                    <span>
+                      {" "}
+                      <CiStar />
+                    </span>
+                    <span>
+                      {" "}
+                      <CiStar />
+                    </span>
+                  </div>
+                  <div
+                    className={`text-yellow-300 gap-2 flex text-xl cursor-pointer hover:text-yellow-400 ${
+                      rating === 1 && "text-yellow-500"
+                    }`}
+                    onClick={() => setRating(1)}
+                  >
+                    <span>
+                      {" "}
+                      <FaStar />
+                    </span>
+                    <span>
+                      {" "}
+                      <CiStar />
+                    </span>
+                    <span>
+                      {" "}
+                      <CiStar />
+                    </span>
+                    <span>
+                      {" "}
+                      <CiStar />
+                    </span>
+                    <span>
+                      {" "}
+                      <CiStar />
+                    </span>
+                  </div>
+                  <div
+                    className={`text-yellow-300 gap-2 flex text-xl cursor-pointer hover:text-yellow-400 ${
+                      rating === 0 && "text-yellow-500"
+                    }`}
+                    onClick={() => setRating(0)}
+                  >
+                    <span>
+                      {" "}
+                      <CiStar />
+                    </span>
+                    <span>
+                      {" "}
+                      <CiStar />
+                    </span>
+                    <span>
+                      {" "}
+                      <CiStar />
+                    </span>
+                    <span>
+                      {" "}
+                      <CiStar />
+                    </span>
+                    <span>
+                      {" "}
+                      <CiStar />
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-          </div>
-        </div>
-        <div className="w-full lg:w-4/5 flex flex-col gap-6 ">
+        <div className="w-full lg:w-5/6 flex flex-col gap-6 ">
           {totalProducts > 0 ? (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {products.map((data: any, i: number) => (
                 <Product
                   name={data.name}
@@ -489,7 +494,7 @@ const Page = () => {
           ) : (
             <div className="flex justify-center pt-10 w-full h-full">
               <h3 className=" font-semibold text-slate-700">
-                produk tidak ada 
+                produk tidak ada
               </h3>
             </div>
           )}
