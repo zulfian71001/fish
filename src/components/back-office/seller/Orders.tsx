@@ -9,9 +9,13 @@ import { searchData } from "@/utils/types";
 import { useDispatch } from "react-redux";
 import { AppDispatch, useAppSelector } from "@/GlobalRedux/store";
 import { get_seller_orders } from "@/GlobalRedux/features/orderReducer";
-import { convertRupiah, convertStatus, convertStatusDelivery } from "@/utils/convert";
+import {
+  convertRupiah,
+  convertStatus,
+  convertStatusDelivery,
+} from "@/utils/convert";
 const Orders = () => {
-  const router = useRouter()
+  const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
   const { userInfo } = useAppSelector((state) => state.auth);
   const { orders, totalOrders } = useAppSelector((state) => state.order);
@@ -29,23 +33,30 @@ const Orders = () => {
     };
     dispatch(get_seller_orders(obj));
   }, [perPage, searchValue, currentPage, dispatch]);
-  if(userInfo?.role !== "seller"){
-    router.push("/home")
-  } else{
+  if (userInfo?.role !== "seller") {
+    router.push("/home");
+  } else {
     return (
       <>
         <section className="p-8 rounded-xl space-y-4 bg-slate-50 ">
-          {
-            userInfo?.status != "active"  ? (
-              <div className="w-full flex justify-center items-center text-slate-700">Akun belum teraktivasi</div>
-            ) :(<>
-             <div className="flex w-full items-center justify-between">
-            <select className="bg-cyan-500 text-white border-none">
-              <option value="5">5</option>
-              <option value="10">10</option>
-              <option value="15">15</option>
-            </select>
-            {/* <form className="max-w-md ">
+          {userInfo?.status != "active" ? (
+            <div className="w-full flex flex-col justify-center items-center text-slate-700">
+              {" "}
+              <p className="font-semibold">Akun belum teraktivasi</p>
+              <p>
+                Silahkan lengkapi data profil anda dan menunggu aktivasi dari
+                admin
+              </p>
+            </div>
+          ) : (
+            <>
+              <div className="flex w-full items-center justify-between">
+                <select className="bg-cyan-500 text-white border-none">
+                  <option value="5">5</option>
+                  <option value="10">10</option>
+                  <option value="15">15</option>
+                </select>
+                {/* <form className="max-w-md ">
               <label
                 htmlFor="default-search"
                 className="mb-2 text-sm font-medium text-slate-700 sr-only dark:text-white"
@@ -81,97 +92,97 @@ const Orders = () => {
                 />
               </div>
             </form> */}
-          </div>
-          <div className="relative overflow-x-auto">
-            <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 rounded-md">
-              <thead className="text-xs uppercase bg-cyan-600 text-white   dark:bg-gray-700 dark:text-gray-400">
-                <tr>
-                  <th scope="col" className="px-6 py-3">
-                    Order Id
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Harga
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Status Pembayaran
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Status Order
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Metode Pembayaran
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Aksi
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-              {orders?.length > 0 ? (
-                orders?.map((data: any, i: number) => (
-                  <React.Fragment key={i}>
-                    <tr className="bg-cyan-500 border-b dark:bg-gray-800 text-slate-100 dark:border-gray-700">
-                      <th
-                        scope="row"
-                        className="px-6 py-4 font-medium text-slate-100 whitespace-nowrap dark:text-white"
-                      >
-                        {data._id}
+              </div>
+              <div className="relative overflow-x-auto">
+                <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 rounded-md">
+                  <thead className="text-xs uppercase bg-cyan-600 text-white   dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                      <th scope="col" className="px-6 py-3">
+                        Order Id
                       </th>
-                      <td className="px-6 py-4">{convertRupiah(data.price)}</td>
-                      <td className="px-6 py-4">
-                        {convertStatus(data.payment_status)}
-                      </td>
-                
-                      <td className="px-6 py-4">
-                        {convertStatusDelivery(data.delivery_status)}
-                      </td>
-                      <td className="px-6 py-4">
-                        {data.payment_method}
-                      </td>
-                      <td className="px-6 py-4 items-center">
-                        <div className="flex items-center gap-4">
-                          <button
-                            className="py-1 px-2 flex justify-center items-center bg-green-400 hover:bg-green-600"
-                            onClick={() =>
-                              router.push(`/seller/dashboard/orders/detail-orders/${data._id}`)
-                            }
-                          >
-                            Lihat
-                          </button>
-                        </div>
-                      </td>
+                      <th scope="col" className="px-6 py-3">
+                        Harga
+                      </th>
+                      <th scope="col" className="px-6 py-3">
+                        Status Pembayaran
+                      </th>
+                      <th scope="col" className="px-6 py-3">
+                        Status Order
+                      </th>
+                      <th scope="col" className="px-6 py-3">
+                        Metode Pembayaran
+                      </th>
+                      <th scope="col" className="px-6 py-3">
+                        Aksi
+                      </th>
                     </tr>
-                  </React.Fragment>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan={6} className="text-center py-4">
-                    Tidak ada order.
-                  </td>
-                </tr>
-              )}
-              </tbody>
-            </table>
-          </div>
-          <div>
-          {totalOrders > perPage && (
-            <Pagination
-              pageNumber={currentPage}
-              setPageNumber={setCurrentPage}
-              totalItems={totalOrders}
-              perPage={perPage}
-              showItems={3}
-            />
+                  </thead>
+                  <tbody>
+                    {orders?.length > 0 ? (
+                      orders?.map((data: any, i: number) => (
+                        <React.Fragment key={i}>
+                          <tr className="bg-cyan-500 border-b dark:bg-gray-800 text-slate-100 dark:border-gray-700">
+                            <th
+                              scope="row"
+                              className="px-6 py-4 font-medium text-slate-100 whitespace-nowrap dark:text-white"
+                            >
+                              {data._id}
+                            </th>
+                            <td className="px-6 py-4">
+                              {convertRupiah(data.price)}
+                            </td>
+                            <td className="px-6 py-4">
+                              {convertStatus(data.payment_status)}
+                            </td>
+
+                            <td className="px-6 py-4">
+                              {convertStatusDelivery(data.delivery_status)}
+                            </td>
+                            <td className="px-6 py-4">{data.payment_method}</td>
+                            <td className="px-6 py-4 items-center">
+                              <div className="flex items-center gap-4">
+                                <button
+                                  className="py-1 px-2 flex justify-center items-center bg-green-400 hover:bg-green-600"
+                                  onClick={() =>
+                                    router.push(
+                                      `/seller/dashboard/orders/detail-orders/${data._id}`
+                                    )
+                                  }
+                                >
+                                  Lihat
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        </React.Fragment>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan={6} className="text-center py-4">
+                          Tidak ada order.
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+              <div>
+                {totalOrders > perPage && (
+                  <Pagination
+                    pageNumber={currentPage}
+                    setPageNumber={setCurrentPage}
+                    totalItems={totalOrders}
+                    perPage={perPage}
+                    showItems={3}
+                  />
+                )}
+              </div>
+            </>
           )}
-          </div>
-            </>)
-          }
-         
         </section>
       </>
     );
   }
- 
 };
 
 export default Orders;

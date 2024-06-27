@@ -15,6 +15,7 @@ import Bri from "@/assets/bri.png";
 import Bni from "@/assets/bni.png";
 import Bca from "@/assets/bca.png";
 import Gopay from "@/assets/gopay.png";
+import { CircleAlert } from "lucide-react";
 
 const Page = ({ params }: { params: { id: string } }) => {
   const router = useRouter();
@@ -74,6 +75,10 @@ const Page = ({ params }: { params: { id: string } }) => {
         </div>
       </div>
       <div className="flex flex-col w-full justify-center">
+        <div className="flex items-center gap-4 p-2 bg-red-200 text-red-700 rounded-md">
+          <CircleAlert />
+          <p>Waktu untuk membayar 10 menit, jika lebih dari 10 menit maka order gagal</p>
+        </div>
         <div className="mt-3 text-slate-700">
           <p className=" flex justify-center items-center mb-2 font-bold">Produk yang dibeli</p>
           <div className="flex flex-col gap-4">

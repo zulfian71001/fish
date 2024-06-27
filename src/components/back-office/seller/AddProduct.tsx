@@ -135,8 +135,9 @@ const AddProduct = () => {
       <>
         <section className="p-8 rounded-xl space-y-4 bg-white w-full">
           {userInfo.status != "active" ? (
-            <div className="w-full flex justify-center items-center text-slate-700">
-              Akun belum teraktivasi
+            <div className="w-full flex flex-col justify-center items-center text-slate-700">
+              <p className="font-semibold">Akun belum teraktivasi</p>
+              <p>Silahkan lengkapi data profil anda dan menunggu aktivasi dari admin</p>
             </div>
           ) : (
             <>
