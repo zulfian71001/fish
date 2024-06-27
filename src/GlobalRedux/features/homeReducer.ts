@@ -10,20 +10,16 @@ const initialState: IHome = {
   perPage: 4,
   errorsMsg: "",
   successMsg: "",
-  reviews:[],
-  rating_review:[],
-  totalReviews:0
+  reviews: [],
+  rating_review: [],
+  totalReviews: 0,
 };
 
 export const get_categories = createAsyncThunk(
   "home/get_category",
   async (_, { fulfillWithValue, rejectWithValue }) => {
     try {
-      const { data } = await api.get("/home/get-categories", {
-        headers: {
-          'Content-Type': 'application/json'
-        },
-      });
+      const { data } = await api.get("/home/get-categories");
       return fulfillWithValue(data.categories);
     } catch (error: RejectedAction | any) {
       return rejectWithValue(error.response.data.error);
@@ -35,11 +31,7 @@ export const get_products = createAsyncThunk(
   "home/get_products",
   async (_, { fulfillWithValue, rejectWithValue }) => {
     try {
-      const { data } = await api.get("/home/get-products",{
-        headers: {
-          'Content-Type': 'application/json'
-        },}
-      );
+      const { data } = await api.get("/home/get-products", );
       return fulfillWithValue(data.products);
     } catch (error: RejectedAction | any) {
       return rejectWithValue(error.response.data.error);
@@ -67,7 +59,10 @@ export const query_products = createAsyncThunk(
           query.searchValue ? query.searchValue : ""
         }&&rating=${query.rating}&&sortPrice=${query.sortPrice}&&pageNumber=${
           query.currentPage
-        }`
+        }`,
+        {
+          withCredentials: true,
+        }
       );
       console.log(data);
       return fulfillWithValue(data);
@@ -111,15 +106,21 @@ export const customer_review = createAsyncThunk(
 );
 
 export const get_reviews = createAsyncThunk(
-  "review/get_reviews", async({productId, pageNumber}:{productId:string, pageNumber:number}, {fulfillWithValue, rejectWithValue})=>{
+  "review/get_reviews",
+  async (
+    { productId, pageNumber }: { productId: string; pageNumber: number },
+    { fulfillWithValue, rejectWithValue }
+  ) => {
     try {
-      const {data} = await api.get(`/home/customer/get-reviews/${productId}?pageNumber=${pageNumber}`)
+      const { data } = await api.get(
+        `/home/customer/get-reviews/${productId}?pageNumber=${pageNumber}`
+      );
       return fulfillWithValue(data);
     } catch (error: RejectedAction | any) {
       return rejectWithValue(error.response.data.error);
     }
   }
-)
+);
 
 export const set_shipping_fee = createAsyncThunk(
   "home/set_shipping_fee",
@@ -166,10 +167,10 @@ const homeSlice = createSlice({
         state.perPage = action.payload.perPage;
       })
       .addCase(customer_review.fulfilled, (state, action) => {
-        state.successMsg= action.payload.message as string;
+        state.successMsg = action.payload.message as string;
       })
       .addCase(customer_review.rejected, (state, action) => {
-        state.errorsMsg= action.payload as string;
+        state.errorsMsg = action.payload as string;
       })
       .addCase(get_reviews.fulfilled, (state, action) => {
         state.reviews = action.payload.reviews;

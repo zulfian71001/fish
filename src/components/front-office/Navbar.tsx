@@ -70,8 +70,7 @@ const Navbar = () => {
     }
   }, []);
 
-  const submitSearch = (e:FormEvent) => {
-    e.preventDefault()
+  const submitSearch = () => {
     router.push(`/products?searchValue=${searchValue}`);
   };
 
@@ -188,21 +187,6 @@ const Navbar = () => {
             )}
           </div>
         </div>
-        {/* <select
-          className="bg-cyan-500 text-white border-none outline-none rounded-md"
-          name="categoryName"
-          defaultValue=""
-        >
-          <option value="" disabled>
-            All Category
-          </option>
-          {categories &&
-            categories.map((data: { name: string }, i: number) => (
-              <option key={i} value={data.name} className="text-base py-20">
-                {data.name}
-              </option>
-            ))}
-        </select> */}
 
         <div
           className={`hidden xl:flex  p-2 rounded-lg text-white cursor-pointer hover:bg-cyan-500/10  relative ${

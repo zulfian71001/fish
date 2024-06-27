@@ -75,7 +75,6 @@ const Page = () => {
       setDataCategory("");
     }
   };
-  useEffect(() => {}, []);
 
   useEffect(() => {
     dispatch(
@@ -519,7 +518,7 @@ const Page = () => {
         </div>
         <div className="w-full lg:w-4/5 flex flex-col gap-6 border">
           {totalProducts > 0 ? (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {products.map((data: any, i: number) => (
                 <Product
                   name={data.name}
