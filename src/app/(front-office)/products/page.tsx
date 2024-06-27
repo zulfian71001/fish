@@ -91,7 +91,7 @@ const Page = () => {
   return (
     <div className="w-full ">
       <main className="w-full px-2 md:px-6 py-4 lg:px-10 flex gap-2 lg:gap-10 lg:py-10 bg-white relative min-h-screen">
-        <div className={`hidden md:w-1/5 md:flex flex-col gap-10 border `}>
+        <div className={`hidden md:w-1/6 md:flex flex-col gap-10 border `}>
           <div>
             <h3 className="font-bold">Kategori</h3>
             {categories.map((category: any, i: number) => (
@@ -516,7 +516,7 @@ const Page = () => {
         </div>
           </div>
         </div>
-        <div className="w-full lg:w-4/5 flex flex-col gap-6 border">
+        <div className="w-full lg:w-5/6 flex flex-col gap-6 border">
           {totalProducts > 0 ? (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {products.map((data: any, i: number) => (
