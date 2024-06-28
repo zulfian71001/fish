@@ -21,7 +21,7 @@ const Product = (props: PropsProduct) => {
   } = props;
   return (
     <div className="transition-all duration-300 hover:scale-105 h-[380px] md:w-[240px] md:h-96 border-2 border-slate-300 hover:shadow-2xl rounded-lg pb-8 ease-in" >
-      <Link className="w-full h-2/3 relative" href={`/detail-product/${id}`}>
+      <div className="w-full h-2/3 relative" onClick={() => router.push(`/detail-product/${id}`)}>
         {Array.isArray(images) && (
           <Image
             src={images[0]}
@@ -30,7 +30,7 @@ const Product = (props: PropsProduct) => {
             className="w-32 h-32 object-cover"
           />
         )}
-      </Link>
+      </div>
       <div className="h-1/3 px-4 space-y-2">
         <p className="text-xs text-slate-400 mt-2">{category}</p>
         <div>
