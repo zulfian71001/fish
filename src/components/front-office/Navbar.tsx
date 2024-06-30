@@ -3,7 +3,7 @@ import React, { useState, ChangeEvent, useEffect, FormEvent } from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { CiSearch } from "react-icons/ci";
 import { LayoutDashboard, LogOut, X } from "lucide-react";
-import Logo from "@/assets/logo.png";
+import Logo from "@/assets/iwakmart.png";
 import Image from "next/image";
 import { deleteCookie } from "cookies-next";
 import { usePathname, useRouter } from "next/navigation";
@@ -74,7 +74,7 @@ const Navbar = () => {
   };
 
   const redirectCart = () => {
-    if (userInfo.role == "customer") {
+    if (userInfo?.role == "customer") {
       router.push("/cart");
     } else {
       router.push("/login");
@@ -146,7 +146,7 @@ const Navbar = () => {
               src={Logo}
               alt="logo"
               fill={true}
-              className="rounded-xl object-cover "
+              className="rounded-xl object-contain "
             />
           </div>
           <button className={`xl:hidden flex`} onClick={() => setIsOpen(true)}>

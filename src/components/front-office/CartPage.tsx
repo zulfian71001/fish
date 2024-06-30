@@ -2,7 +2,6 @@
 import Link from "next/link";
 import Carts from "./Carts";
 import Navbar from "./Navbar";
-import Logo from "@/assets/logo.png";
 import { useDispatch } from "react-redux";
 import { AppDispatch, useAppSelector } from "@/GlobalRedux/store";
 import { useEffect } from "react";

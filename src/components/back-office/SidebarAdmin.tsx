@@ -16,7 +16,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { deleteCookie } from "cookies-next";
-import Logo from "@/assets/logo.png";
+import Logo from "@/assets/iwakmart.png";
 import Image from "next/image";
 import { logout, setUserInfo } from "@/GlobalRedux/features/authReducer";
 import { useDispatch } from "react-redux";
